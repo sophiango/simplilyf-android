@@ -18,6 +18,7 @@
         android:layout_weight="0.30" />
 
     <!-- Email Label -->
+
     <LinearLayout
 
         android:layout_width="wrap_content"
@@ -84,18 +85,20 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:text="@string/forgotLink"
-        android:textColorLink="#1E90FF"
-        android:gravity="center"
-        android:textSize="16dip"/>
 
-    <TextView android:id="@+id/link_signup"
+        android:gravity="center"
+        android:textSize="16dip"
+        android:textColor="#1E90FF"/>
+
+    <TextView android:id="@+id/link_register"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:text="@string/signupLink"
-        android:textColorLink="#1E90FF"
+
         android:gravity="center"
-        android:textSize="16dip"/>
+        android:textSize="16dip"
+        android:textColor="#1E90FF"/>
 
 
 </LinearLayout>

@@ -1,42 +1,40 @@
 package org.sadhana.simplilyf;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
 
 
-public class NestdevicesActivity extends ActionBarActivity {
-
-    private ImageButton mLivingrm;
-    private ImageButton mBedrm;
-    private ImageButton mKitchen;
+public class NestLivingrmActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nestdevices);
+        setContentView(R.layout.activity_nest_livingrm);
 
-        mLivingrm=(ImageButton)findViewById(R.id.livingroombtn);
-        mLivingrm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i=new Intent(NestdevicesActivity.this,NestLivingrmActivity.class);
-                String roomName="livingroom";
-                i.putExtra("VALUE_SENT",roomName);
-                startActivity(i);
+        String retrievedStr;
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                retrievedStr= null;
+                System.out.println("VALUE OF RETRIEVED STRING1"+retrievedStr);
+            } else {
+                retrievedStr= (String)extras.get("VALUE_SENT");
+                System.out.println("VALUE OF RETRIEVED STRING2"+retrievedStr);
             }
-        });
+        } else {
+            retrievedStr= (String) savedInstanceState.getSerializable("VALUE_SENT");
+        }
+        System.out.println("VALUE OF RETRIEVED STRING"+retrievedStr);
+
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_nest, menu);
+        getMenuInflater().inflate(R.menu.menu_nest_livingrm, menu);
         return true;
     }
 

@@ -11,9 +11,15 @@
 <string name="action_settings">Settings</string>
 <string name="title_activity_showdevices">ShowdevicesActivity</string>
 
-<string name="hello_world">Hello world!</string>
+    <string name="hello_world">Hello world!</string>
     <string name="hello_voice">Hello, How can I help you today?</string>
     <string name="title_activity_nest">NestActivity</string>
     <string name="title_activity_philips">PhilipsActivity</string>
     <string name="title_activity_voicemodule">VoicemoduleActivity</string>
+    <string name="nest_title">nest</string>
+    <string name="livingroom">Living Room</string>
+    <string name="bedroom">Bed Room</string>
+    <string name="kitchen">Kitchen</string>
+    <string name="title_activity_nest_livingrm">NestLivingrmActivity</string>
+    <string name="title_activity_user_registration">UserRegistrationActivity</string>
 </resources>

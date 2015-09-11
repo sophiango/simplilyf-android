@@ -32,6 +32,14 @@
             android:name=".VoicemoduleActivity"
             android:label="@string/title_activity_voicemodule" >
         </activity>
+        <activity
+            android:name=".NestLivingrmActivity"
+            android:label="@string/title_activity_nest_livingrm" >
+        </activity>
+        <activity
+            android:name=".UserRegistrationActivity"
+            android:label="@string/title_activity_user_registration" >
+        </activity>
     </application>
 
 </manifest>

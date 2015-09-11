@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -15,6 +16,7 @@ public class LoginActivity extends ActionBarActivity {
     private Button mLoginBtn;
     private EditText mUserName;
     private EditText mPassword;
+    private TextView mRegisterlink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +27,16 @@ public class LoginActivity extends ActionBarActivity {
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(LoginActivity.this,ShowdevicesActivity.class);
+                Intent i = new Intent(LoginActivity.this, ShowdevicesActivity.class);
+                startActivity(i);
+            }
+        });
+
+        mRegisterlink=(TextView)findViewById(R.id.link_register);
+        mRegisterlink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this, UserRegistrationActivity.class);
                 startActivity(i);
             }
         });
