@@ -27,10 +27,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_weight="0.30" />
 
-    <TextView
-        android:id="@+id/structure_name"
-        android:layout_alignParentTop="true"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
     <RelativeLayout
         android:id="@+id/thermostat_view"
@@ -43,10 +39,6 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/ambient_temp"
-        android:layout_alignParentRight="true"
-        android:layout_width="100dp" android:layout_height="wrap_content" />
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:text="Current temp:"
@@ -54,11 +46,19 @@
         android:layout_above="@+id/thermostat_view"
         />
     <TextView
+        android:id="@+id/temp_value"
+        android:text="@string/content_value"
+        android:layout_above="@+id/thermostat_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/thermostat_view"
+         />
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Thermostat mode:"
         android:layout_above="@+id/hvac_mode_control_container"
-        android:layout_toLeftOf="@+id/thermostat_view"
+
          />
 
     <LinearLayout

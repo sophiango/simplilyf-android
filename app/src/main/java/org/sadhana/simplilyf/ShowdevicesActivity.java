@@ -24,6 +24,7 @@ public class ShowdevicesActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ShowdevicesActivity.this, VoicemoduleActivity.class);
+                i.putExtra("MICPH_ID",R.id.micBtn);
                 startActivity(i);
             }
         });
