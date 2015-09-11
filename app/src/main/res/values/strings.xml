@@ -12,4 +12,8 @@
 <string name="title_activity_showdevices">ShowdevicesActivity</string>
 
 <string name="hello_world">Hello world!</string>
+    <string name="hello_voice">Hello, How can I help you today?</string>
+    <string name="title_activity_nest">NestActivity</string>
+    <string name="title_activity_philips">PhilipsActivity</string>
+    <string name="title_activity_voicemodule">VoicemoduleActivity</string>
 </resources>

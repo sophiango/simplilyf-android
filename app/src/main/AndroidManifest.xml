@@ -20,6 +20,18 @@
             android:name=".ShowdevicesActivity"
             android:label="@string/title_activity_showdevices" >
         </activity>
+        <activity
+            android:name=".NestdevicesActivity"
+            android:label="@string/title_activity_nest" >
+        </activity>
+        <activity
+            android:name=".PhilipsdevicesActivity"
+            android:label="@string/title_activity_philips" >
+        </activity>
+        <activity
+            android:name=".VoicemoduleActivity"
+            android:label="@string/title_activity_voicemodule" >
+        </activity>
     </application>
 
 </manifest>
