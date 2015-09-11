@@ -23,4 +23,8 @@
     <string name="kitchen">Kitchen</string>
     <string name="title_activity_nest_livingrm">NestLivingrmActivity</string>
     <string name="title_activity_user_registration">UserRegistrationActivity</string>
+
+    <string name="speech_prompt">Hello, How can I help you today?</string>
+    <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
+    <string name="tap_on_mic">Tap on mic to speak</string>
 </resources>
