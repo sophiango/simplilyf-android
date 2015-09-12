@@ -2,25 +2,18 @@
 <items version="2" >
 
     <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-a73a5ab787cb71f5da19218bcc44e8e17b54996d.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="/Users/Saikrishna/Documents/androidws/SimpliLyf/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-d00c8677287ffe1a8cf4518374f6710b44b1cb2b.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Documents/androidws/SimpliLyf/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/libs/internal_impl-21.0.3.jar"
+        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/libs/internal_impl-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="/Users/Saikrishna/Documents/androidws/SimpliLyf/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-2075bb78c48952d505ff4875da8fedbe881c5ba6.jar" />
+        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-059ac7c18be197e22f982a461ac50e863dca4a9c.jar" />
+    </item>
+    <item
+        jar="/Users/Saikrishna/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.3.2/c75edc740a6d8cb1cef6fa82fa594e0bce561916/jackson-databind-2.3.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="c75edc740a6d8cb1cef6fa82fa594e0bce561916">
+        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/jackson-databind-2.3.2-54ec4b0e112f8a8adaa5f8827610ee3b8bf3b694.jar" />
     </item>
     <item
         jar="/Users/Saikrishna/Documents/androidws/SimpliLyf/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/jars/classes.jar"
@@ -37,11 +30,32 @@
         <dex dex="/Users/Saikrishna/Documents/androidws/SimpliLyf/app/build/intermediates/pre-dexed/debug/classes-43088fafa76b1025df0b538ff4e7951b35fe4397.jar" />
     </item>
     <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/libs/internal_impl-21.0.3.jar"
+        jar="/Users/Saikrishna/.gradle/caches/modules-2/files-2.1/org.springframework.android/spring-android-core/1.0.1.RELEASE/e68f0e8e4b636ee30c4de58953be38d9b72a5e3b/spring-android-core-1.0.1.RELEASE.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-059ac7c18be197e22f982a461ac50e863dca4a9c.jar" />
+        sha1="e68f0e8e4b636ee30c4de58953be38d9b72a5e3b">
+        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/spring-android-core-1.0.1.RELEASE-2b76f17269a85d2199e081f66120fbe4b359ce16.jar" />
+    </item>
+    <item
+        jar="/Users/Saikrishna/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.3.0/f5e853a20b60758922453d56f9ae1e64af5cb3da/jackson-annotations-2.3.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="f5e853a20b60758922453d56f9ae1e64af5cb3da">
+        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/jackson-annotations-2.3.0-7861c02abf81abcdc4bb9f41a9146b7ecf497a44.jar" />
+    </item>
+    <item
+        jar="/Users/Saikrishna/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/Saikrishna/Documents/androidws/SimpliLyf/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-d00c8677287ffe1a8cf4518374f6710b44b1cb2b.jar" />
+    </item>
+    <item
+        jar="/Users/Saikrishna/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.3.2/559b70ac8a0d5cad611da4223137a920147201ba/jackson-core-2.3.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="559b70ac8a0d5cad611da4223137a920147201ba">
+        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/jackson-core-2.3.2-75399dd9f6fbb6e43a2958505a0db22401964a37.jar" />
     </item>
     <item
         jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/jars/classes.jar"
@@ -49,6 +63,27 @@
         revision="21.1.2"
         sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
         <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-fa7551f2eeb894e38e1821384e7491ce280f011a.jar" />
+    </item>
+    <item
+        jar="/Users/Saikrishna/Documents/androidws/SimpliLyf/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/Saikrishna/Documents/androidws/SimpliLyf/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-2075bb78c48952d505ff4875da8fedbe881c5ba6.jar" />
+    </item>
+    <item
+        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-a73a5ab787cb71f5da19218bcc44e8e17b54996d.jar" />
+    </item>
+    <item
+        jar="/Users/Saikrishna/.gradle/caches/modules-2/files-2.1/org.springframework.android/spring-android-rest-template/1.0.1.RELEASE/e132d929bd181941f79b0d63edafb8a86ae6fd33/spring-android-rest-template-1.0.1.RELEASE.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e132d929bd181941f79b0d63edafb8a86ae6fd33">
+        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/spring-android-rest-template-1.0.1.RELEASE-25052a90d371aa27df96f7ebe453ae91163bf571.jar" />
     </item>
 
 </items>
