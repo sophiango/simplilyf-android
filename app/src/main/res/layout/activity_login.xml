@@ -19,8 +19,7 @@
 
     <!-- Email Label -->
 
-    <LinearLayout
-
+    <LinearLayout  android:id="@+id/emailLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -38,7 +37,7 @@
     </LinearLayout>
 
     <!-- Password Label -->
-    <LinearLayout
+    <LinearLayout  android:id="@+id/pwdLayout"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -56,7 +55,7 @@
             android:hint="Password"/>
     </LinearLayout>
 
-    <LinearLayout
+    <LinearLayout  android:id="@+id/btnLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -100,13 +99,53 @@
         android:textSize="16dip"
         android:textColor="#1E90FF"/>
 
+    <!-- Facebook login-->
     <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
+        android:id="@+id/FBlogin_button"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginBottom="30dp"
+         />
+
+    <LinearLayout
+        android:id="@+id/gmailLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/imgProfilePic"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical"
+            android:layout_weight="2" >
+
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/txtEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textSize="18dp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/btn_sign_in"
