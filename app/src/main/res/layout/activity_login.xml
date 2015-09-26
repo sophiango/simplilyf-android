@@ -107,7 +107,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
-         />
+        />
 
     <LinearLayout
         android:id="@+id/gmailLayout"
@@ -167,5 +167,12 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_revoke_access"
         android:visibility="gone" />
+    <Button
+        android:id="@+id/myDevices"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="My Devices"
+        android:visibility="gone" />
+
 
 </LinearLayout>

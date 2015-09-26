@@ -22,6 +22,8 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
@@ -78,6 +80,8 @@ public class LoginActivity extends Activity implements
     private LinearLayout pwdLayout;
     private LinearLayout btnLayout;
     private Button fbLoginLayout;
+    private Button btnMydevices;
+    private ProfileTracker mProfileTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,19 +92,14 @@ public class LoginActivity extends Activity implements
         setContentView(R.layout.activity_login);
         loginButton = (LoginButton)findViewById(R.id.FBlogin_button);
        // loginButton.setReadPermissions("user_friends");
-        loginButton.setReadPermissions(Arrays.asList("public_profile, email, user_birthday,user_friends,name"));
+        loginButton.setReadPermissions(Arrays.asList("public_profile, email,user_friends"));
         // Callback registration
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
             @Override
             public void onSuccess(LoginResult loginResult) {
-                // App code
-                System.out.println("Facebook Login Successful!");
-                System.out.println("Logged in user Details : ");
-                System.out.println("--------------------------");
-                System.out.println("User ID  : " + loginResult.getAccessToken().getUserId());
-                loginResult.getAccessToken().
                 System.out.println("Authentication Token : " + loginResult.getAccessToken().getToken());
-                Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_LONG).show();
+
             }
 
             @Override
@@ -113,6 +112,17 @@ public class LoginActivity extends Activity implements
                 // App code
             }
         });
+        mProfileTracker = new ProfileTracker() {
+            @Override
+            protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
+                Log.v("facebook - profile", profile2.getFirstName());
+                Log.v("facebook-profile", profile2.getName());
+                profile2.getProfilePictureUri(50,50);
+                mProfileTracker.stopTracking();
+            }
+        };
+        mProfileTracker.startTracking();
+
 
         mLoginBtn =(Button)findViewById(R.id.btn_login);
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +157,14 @@ public class LoginActivity extends Activity implements
         fbLoginLayout=(Button)findViewById(R.id.FBlogin_button);
         btnLayout=(LinearLayout)findViewById(R.id.btnLayout);
         mForgotLink=(TextView)findViewById(R.id.link_forgotDetails);
+        btnMydevices=(Button)findViewById(R.id.myDevices);
+        btnMydevices.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this, ShowdevicesActivity.class);
+                startActivity(i);
+            }
+        });
 
         // Button click listeners
         btnSignIn.setOnClickListener(new View.OnClickListener() {
@@ -234,6 +252,7 @@ public class LoginActivity extends Activity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == RC_SIGN_IN) {
             if (resultCode != RESULT_OK) {
                 mSignInClicked = false;
@@ -269,6 +288,7 @@ public class LoginActivity extends Activity implements
             btnSignIn.setVisibility(View.GONE);
             btnSignOut.setVisibility(View.VISIBLE);
             btnRevokeAccess.setVisibility(View.VISIBLE);
+            btnMydevices.setVisibility(View.VISIBLE);
             llProfileLayout.setVisibility(View.VISIBLE);
             emailLayout.setVisibility(View.GONE);
             pwdLayout.setVisibility(View.GONE);
@@ -280,6 +300,7 @@ public class LoginActivity extends Activity implements
         } else {
             btnSignIn.setVisibility(View.VISIBLE);
             btnSignOut.setVisibility(View.GONE);
+            btnMydevices.setVisibility(View.GONE);
             btnRevokeAccess.setVisibility(View.GONE);
             llProfileLayout.setVisibility(View.GONE);
             emailLayout.setVisibility(View.VISIBLE);
@@ -418,3 +439,51 @@ public class LoginActivity extends Activity implements
         }
     }
 }
+
+
+// App code
+             /*   System.out.println("Facebook Login Successful!");
+                System.out.println("Logged in user Details : ");
+                System.out.println("--------------------------");
+                System.out.println("User ID  : " + loginResult.getAccessToken().getUserId());
+                System.out.println("USER FIREST NAME"+Profile.getCurrentProfile().getFirstName());
+                System.out.println("USER  NAME" + Profile.getCurrentProfile().getName());
+               // System.out.println("USER email"+Profile.getCurrentProfile().);
+                System.out.println("Authentication Token : " + loginResult.getAccessToken().getToken());
+                Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_LONG).show();
+                Intent i=new Intent(LoginActivity.this,UserProfileActivity.class);
+                String token=loginResult.getAccessToken().getToken();
+                i.putExtra("TOKEN_VALUE",token);
+                startActivity(i);
+
+
+                GraphRequest request = GraphRequest.newMeRequest(
+                        AccessToken.getCurrentAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object,
+                                                    GraphResponse response) {
+
+                                if (BuildConfig.DEBUG) {
+                                    FacebookSdk.setIsDebugEnabled(true);
+                                    FacebookSdk
+                                            .addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
+
+                                    System.out
+                                            .println("AccessToken.getCurrentAccessToken()"
+                                                    + AccessToken
+                                                    .getCurrentAccessToken()
+                                                    .toString());
+                                    System.out.println("value of profile"+Profile.getCurrentProfile());
+                                    if(Profile.getCurrentProfile()!=null) {
+                                        Profile.getCurrentProfile().getId();
+                                        Profile.getCurrentProfile().getFirstName();
+                                        Profile.getCurrentProfile().getLastName();
+                                        Profile.getCurrentProfile().getProfilePictureUri(50, 50);
+                                    }
+                                    //String email=UserManager.asMap().get(“email”).toString();
+                                }
+                            }
+                        });
+                request.executeAsync();
+                */

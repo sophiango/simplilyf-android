@@ -104,22 +104,5 @@ public class NestdevicesActivity extends ActionBarActivity {
 
    }
 
-    /*public ThermoDO obtainTemp() {
-        final String url = "http://10.189.113.41:8080/thermo/TB36giw8Mpqza4S-9dphVWRJTWVz7JnV";
-        try {
-            HttpHeaders requestHeaders = new HttpHeaders();
-            requestHeaders.setAccept(Collections.singletonList(new MediaType("application", "json")));
-            HttpEntity<?> requestEntity = new HttpEntity<Object>(requestHeaders);
-            RestTemplate restTemplate = new RestTemplate();
-            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-            ResponseEntity<ThermoDO> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, ThermoDO.class);
-            ThermoDO users = responseEntity.getBody();
-            System.out.println("Value of content in onPostExecute()...." + users.getTarget_temperature_f());
-            return users;
-        }
-        catch (Exception e) {
-            System.out.println("Error: " + e);
-            return null;
-        }
-    }*/
+
 }

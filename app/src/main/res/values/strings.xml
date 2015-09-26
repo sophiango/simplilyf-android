@@ -30,4 +30,5 @@
     <string name="tap_on_mic">Tap on mic to speak</string>
     <string name="btn_logout_from_google">Logout from Google</string>
     <string name="btn_revoke_access">Revoke Access</string>
+    <string name="title_activity_user_profile">UserProfileActivity</string>
 </resources>
