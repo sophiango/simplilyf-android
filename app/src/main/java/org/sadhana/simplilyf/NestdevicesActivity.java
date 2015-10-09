@@ -4,20 +4,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Collections;
 
 public class NestdevicesActivity extends ActionBarActivity {
 
@@ -39,7 +33,7 @@ public class NestdevicesActivity extends ActionBarActivity {
                 String roomName="livingroom";
                 i.putExtra("VALUE_SENT", roomName);
                 //obtainTemp();
-                new HttpRequestTask().execute();
+               new HttpRequestTask().execute();
                 System.out.print("Starting Intent");
                 startActivity(i);
             }
@@ -69,40 +63,68 @@ public class NestdevicesActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private class HttpRequestTask extends AsyncTask<Void, Void, String> {
+        @Override
+        protected String doInBackground(Void... params) {
+            System.out.println("DoInBackground method");
+            try {
+                final String url = "http://10.189.114.192:3000/hello";
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+                content = restTemplate.getForObject(url, String.class);
+                System.out.println("after hitting URL");
+                System.out.println("Value of greeting...."+content);
+                return content;
+            } catch (Exception e) {
+                Log.e("LoginActivity", e.getMessage(), e);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String greeting) {
+
+            //TextView greetingContentText = (TextView) findViewById(R.id.content_value);
+            System.out.println("Value of CONTENT...." + content);
+           // greetingContentText.setText(content);
+        }
+
+    }
 
 
-   private class HttpRequestTask extends AsyncTask<Void, Void, String> {
-       @Override
-       protected String doInBackground(Void... params) {
-           System.out.println("DoInBackground method");
-           final String url = "http://10.189.113.41:8080/thermo/TB36giw8Mpqza4S-9dphVWRJTWVz7JnV";
-           try {
-               HttpHeaders requestHeaders = new HttpHeaders();
-               requestHeaders.setAccept(Collections.singletonList(new MediaType("application", "json")));
-               HttpEntity<?> requestEntity = new HttpEntity<Object>(requestHeaders);
-               RestTemplate restTemplate = new RestTemplate();
-               restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-               ResponseEntity<ThermoDO> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, ThermoDO.class);
-               ThermoDO users = responseEntity.getBody();
-               System.out.println("Value of content in onPostExecute()...." + users.getTarget_temperature_f());
-               return users.getTarget_temperature_f();
-           }
-           catch (Exception e) {
-               System.out.println("Error: " + e);
-               return null;
-           }
-
-       }
-
-       @Override
-       protected void onPostExecute(String greeting) {
-
-           //  TextView greetingContentText = (TextView) findViewById(R.id.content_value);
-           System.out.println("Value of content in onPostExecute()...." + greeting);
-           //greetingContentText.setText(content);
-       }
-
-   }
+//   private class HttpRequestTask extends AsyncTask<Void, Void, Void> {
+//       @Override
+//       protected void doInBackground(Void... params) {
+//           System.out.println("DoInBackground method");
+//           final String url = "http://10.189.114.192:3000/thermo/addNew";
+//           try {
+//               HttpHeaders requestHeaders = new HttpHeaders();
+//               requestHeaders.setAccept(Collections.singletonList(new MediaType("application", "json")));
+//               HttpEntity<?> requestEntity = new HttpEntity<Object>(requestHeaders);
+//               RestTemplate restTemplate = new RestTemplate();
+//               restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//               ResponseEntity<ThermoDO> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, ThermoDO.class);
+//               ThermoDO users = responseEntity.getBody();
+//               System.out.println("Value of content in onPostExecute()...." + users.getTarget_temperature_f());
+//              // return users;
+//           }
+//           catch (Exception e) {
+//               System.out.println("Error: " + e);
+//              // return null;
+//           }
+//
+//       }
+//
+//       @Override
+//       protected void onPostExecute(Void thermoDO) {
+//
+//           //  TextView greetingContentText = (TextView) findViewById(R.id.content_value);
+//           System.out.println("Value of content in onPostExecute()...." );
+//           //greetingContentText.setText(content);
+//       }
+//
+//   }
 
 
 }

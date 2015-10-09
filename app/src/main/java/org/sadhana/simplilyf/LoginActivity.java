@@ -91,7 +91,6 @@ public class LoginActivity extends Activity implements
 
         setContentView(R.layout.activity_login);
         loginButton = (LoginButton)findViewById(R.id.FBlogin_button);
-       // loginButton.setReadPermissions("user_friends");
         loginButton.setReadPermissions(Arrays.asList("public_profile, email,user_friends"));
         // Callback registration
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -99,7 +98,24 @@ public class LoginActivity extends Activity implements
             @Override
             public void onSuccess(LoginResult loginResult) {
                 System.out.println("Authentication Token : " + loginResult.getAccessToken().getToken());
+                mProfileTracker = new ProfileTracker() {
+                    @Override
+                    protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
+                        Log.v("facebook - profile", profile2.getFirstName());
+                        Log.v("facebook-profile", profile2.getName());
+                        profile2.getProfilePictureUri(50, 50);
+                        mProfileTracker.stopTracking();
+                    }
 
+                };
+                Intent i=new Intent(LoginActivity.this,UserProfileActivity.class);
+                //mProfileTracker.g
+                String token=loginResult.getAccessToken().getToken();
+
+               System.out.println("donno" + mProfileTracker.getClass().getName());
+                i.putExtra("TOKEN_VALUE",token);
+                startActivity(i);
+                mProfileTracker.startTracking();
             }
 
             @Override
@@ -112,16 +128,7 @@ public class LoginActivity extends Activity implements
                 // App code
             }
         });
-        mProfileTracker = new ProfileTracker() {
-            @Override
-            protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
-                Log.v("facebook - profile", profile2.getFirstName());
-                Log.v("facebook-profile", profile2.getName());
-                profile2.getProfilePictureUri(50,50);
-                mProfileTracker.stopTracking();
-            }
-        };
-        mProfileTracker.startTracking();
+
 
 
         mLoginBtn =(Button)findViewById(R.id.btn_login);
@@ -252,6 +259,7 @@ public class LoginActivity extends Activity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+      //  resultCode.
 
         if (requestCode == RC_SIGN_IN) {
             if (resultCode != RESULT_OK) {
