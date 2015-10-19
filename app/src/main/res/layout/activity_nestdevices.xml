@@ -20,65 +20,85 @@ android:layout_height="match_parent"
         android:layout_centerHorizontal="true" />
 
 
-    <ImageButton
-        android:id="@+id/livingroombtn"
-        android:layout_width="175dp"
+    <!--<ImageButton-->
+        <!--android:id="@+id/livingroombtn"-->
+        <!--android:layout_width="175dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Vertical Center"-->
+        <!--android:src="@mipmap/number70"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:layout_below="@+id/nestlogo"-->
+        <!--android:layout_alignBottom="@+id/bedroombtn"-->
+         <!--/>-->
+
+    <!--<TextView android:text="@string/livingroom"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/livingroom"-->
+        <!--android:layout_below="@+id/livingroombtn"-->
+        <!--android:textStyle="bold"-->
+        <!--android:textSize="20sp"-->
+        <!--/>-->
+
+    <!--<ImageButton-->
+        <!--android:id="@+id/bedroombtn"-->
+        <!--android:src="@mipmap/number70"-->
+        <!--android:layout_width="175dp"-->
+        <!--android:layout_height="145dp"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:layout_below="@+id/nestlogo"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignRight="@+id/livingroombtn"-->
+       <!--/>-->
+    <!--<TextView android:text="@string/bedroom"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/bedroom"-->
+        <!--android:layout_below="@+id/bedroombtn"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:textStyle="bold"-->
+        <!--android:textSize="20sp"-->
+        <!--/>-->
+
+    <!--<ImageButton-->
+        <!--android:id="@+id/kitchenbtn"-->
+        <!--android:text="Below Button 4 + Margin Left 50dp"-->
+        <!--android:layout_below="@+id/livingroom"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:src="@mipmap/number70"-->
+        <!--android:layout_width="175dp"-->
+        <!--android:layout_height="150dp"-->
+
+        <!--/>-->
+
+    <!--<TextView android:text="@string/kitchen"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/kitchen"-->
+        <!--android:layout_below="@+id/kitchenbtn"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:textStyle="bold"-->
+        <!--android:textSize="20sp"-->
+        <!--/>-->
+
+    <Button
+        android:id="@+id/addDevice"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Vertical Center"
-        android:src="@mipmap/number70"
-        android:layout_marginTop="15dp"
+        android:text="Add New Device"
+        android:layout_below="@+id/viewDevices"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/viewDevices"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="View Devices"
         android:layout_below="@+id/nestlogo"
-        android:layout_alignBottom="@+id/bedroombtn"
-         />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="111dp" />
 
-    <TextView android:text="@string/livingroom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/livingroom"
-        android:layout_below="@+id/livingroombtn"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        />
-
-    <ImageButton
-        android:id="@+id/bedroombtn"
-        android:src="@mipmap/number70"
-        android:layout_width="175dp"
-        android:layout_height="145dp"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/nestlogo"
-        android:layout_alignParentRight="true"
-        android:layout_alignRight="@+id/livingroombtn"
-       />
-    <TextView android:text="@string/bedroom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/bedroom"
-        android:layout_below="@+id/bedroombtn"
-        android:layout_alignParentRight="true"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        />
-
-    <ImageButton
-        android:id="@+id/kitchenbtn"
-        android:text="Below Button 4 + Margin Left 50dp"
-        android:layout_below="@+id/livingroom"
-        android:layout_centerHorizontal="true"
-        android:src="@mipmap/number70"
-        android:layout_width="175dp"
-        android:layout_height="150dp"
-
-        />
-
-    <TextView android:text="@string/kitchen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/kitchen"
-        android:layout_below="@+id/kitchenbtn"
-        android:layout_centerHorizontal="true"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        />
 
 </RelativeLayout>
