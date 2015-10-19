@@ -68,7 +68,7 @@ public class NestdevicesActivity extends ActionBarActivity {
         protected String doInBackground(Void... params) {
             System.out.println("DoInBackground method");
             try {
-                final String url = "http://10.189.114.192:3000/hello";
+                final String url = "http://10.189.146.141:3000/hello";
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
                 content = restTemplate.getForObject(url, String.class);
