@@ -5,6 +5,12 @@
       <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res" />
     </CLASSES>
     <JAVADOC />
+<<<<<<< HEAD
     <SOURCES />
+=======
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/appcompat-v7/23.0.1/appcompat-v7-23.0.1-sources.jar!/" />
+    </SOURCES>
+>>>>>>> d9f713e3c1f348e64620d534496be323b5062233
   </library>
 </component>

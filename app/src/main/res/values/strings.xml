@@ -32,4 +32,14 @@
     <string name="btn_logout_from_google">Logout from Google</string>
     <string name="btn_revoke_access">Revoke Access</string>
     <string name="title_activity_user_profile">UserProfileActivity</string>
+    <string name="title_activity_add_new_device">AddNewDevice</string>
+    <string name="vendor_prompt">Choose a vendor</string>
+
+    <string-array name="vendor_array">
+        <item>Select a vendor</item>
+        <item>Nest</item>
+        <item>Philips</item>
+        <item>August</item>
+        <item>Kiwi</item>
+    </string-array>
 </resources>

@@ -20,14 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.Profile;
-import com.facebook.ProfileTracker;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
@@ -38,7 +30,6 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,13 +39,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import javax.net.ssl.HttpsURLConnection;
 
 public class LoginActivity extends Activity implements
-        ConnectionCallbacks, OnConnectionFailedListener{
+        ConnectionCallbacks, OnConnectionFailedListener {
 
     // endpoints
     final String SERVER = "http://10.189.48.204:3000";
@@ -64,8 +52,6 @@ public class LoginActivity extends Activity implements
     private EditText mPassword;
     private TextView mRegisterlink;
     private TextView mForgotLink;
-    private CallbackManager callbackManager;
-    private LoginButton loginButton;
     private static final int RC_SIGN_IN = 0;
     // Logcat tag
     private static final String TAG = "MainActivity";
@@ -94,71 +80,26 @@ public class LoginActivity extends Activity implements
     private LinearLayout emailLayout;
     private LinearLayout pwdLayout;
     private LinearLayout btnLayout;
-    private Button fbLoginLayout;
+
     private Button btnMydevices;
-    private ProfileTracker mProfileTracker;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
-
         setContentView(R.layout.activity_login);
-        loginButton = (LoginButton)findViewById(R.id.FBlogin_button);
-        loginButton.setReadPermissions(Arrays.asList("public_profile, email,user_friends"));
-        // Callback registration
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                System.out.println("Authentication Token : " + loginResult.getAccessToken().getToken());
-                mProfileTracker = new ProfileTracker() {
-                    @Override
-                    protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
-                        Log.v("facebook - profile", profile2.getFirstName());
-                        Log.v("facebook-profile", profile2.getName());
-                        profile2.getProfilePictureUri(50, 50);
-                        mProfileTracker.stopTracking();
-                    }
-
-                };
-                Intent i=new Intent(LoginActivity.this,UserProfileActivity.class);
-                //mProfileTracker.g
-                String token=loginResult.getAccessToken().getToken();
-
-               System.out.println("donno" + mProfileTracker.getClass().getName());
-                i.putExtra("TOKEN_VALUE",token);
-                startActivity(i);
-                mProfileTracker.startTracking();
-            }
-
-            @Override
-            public void onCancel() {
-                // App code
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                // App code
-            }
-        });
-
-
-
-        mLoginBtn =(Button)findViewById(R.id.btn_login);
+        mLoginBtn = (Button) findViewById(R.id.btn_login);
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View v) {
-                    //System.out.println("name: " + mUserName.getText().toString() + " , " + mPassword.getText().toString());
-                    new PostUserInfoAsync().execute(mUserName.getText().toString(),mPassword.getText().toString());
-                    Intent i = new Intent(LoginActivity.this, ShowdevicesActivity.class);
-                    startActivity(i);
+            @Override
+            public void onClick(View v) {
+                new PostUserInfoAsync().execute(mUserName.getText().toString(), mPassword.getText().toString());
+                Intent i = new Intent(LoginActivity.this, ShowdevicesActivity.class);
+                startActivity(i);
             }
         });
 
-        mRegisterlink=(TextView)findViewById(R.id.link_register);
+        mRegisterlink = (TextView) findViewById(R.id.link_register);
         mRegisterlink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,8 +107,8 @@ public class LoginActivity extends Activity implements
                 startActivity(i);
             }
         });
-        mUserName=(EditText)findViewById(R.id.input_username);
-        mPassword=(EditText) findViewById(R.id.input_password);
+        mUserName = (EditText) findViewById(R.id.input_username);
+        mPassword = (EditText) findViewById(R.id.input_password);
         SharedPreferences pref = getSharedPreferences("AppPref", MODE_PRIVATE);
 
 
@@ -179,12 +120,12 @@ public class LoginActivity extends Activity implements
         txtName = (TextView) findViewById(R.id.txtName);
         txtEmail = (TextView) findViewById(R.id.txtEmail);
         llProfileLayout = (LinearLayout) findViewById(R.id.gmailLayout);
-        emailLayout=(LinearLayout)findViewById(R.id.emailLayout);
-        pwdLayout=(LinearLayout)findViewById(R.id.pwdLayout);
-        fbLoginLayout=(Button)findViewById(R.id.FBlogin_button);
-        btnLayout=(LinearLayout)findViewById(R.id.btnLayout);
-        mForgotLink=(TextView)findViewById(R.id.link_forgotDetails);
-        btnMydevices=(Button)findViewById(R.id.myDevices);
+        emailLayout = (LinearLayout) findViewById(R.id.emailLayout);
+        pwdLayout = (LinearLayout) findViewById(R.id.pwdLayout);
+
+        btnLayout = (LinearLayout) findViewById(R.id.btnLayout);
+        mForgotLink = (TextView) findViewById(R.id.link_forgotDetails);
+        btnMydevices = (Button) findViewById(R.id.myDevices);
         btnMydevices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -230,9 +171,10 @@ public class LoginActivity extends Activity implements
             mGoogleApiClient.disconnect();
         }
     }
+
     /**
      * Method to resolve any signin errors
-     * */
+     */
     private void resolveSignInError() {
         if (mConnectionResult.hasResolution()) {
             try {
@@ -266,6 +208,7 @@ public class LoginActivity extends Activity implements
         }
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -276,8 +219,7 @@ public class LoginActivity extends Activity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-      //  resultCode.
+        //  resultCode.
 
         if (requestCode == RC_SIGN_IN) {
             if (resultCode != RESULT_OK) {
@@ -308,7 +250,7 @@ public class LoginActivity extends Activity implements
 
     /**
      * Updating the UI, showing/hiding buttons and profile layout
-     * */
+     */
     private void updateUI(boolean isSignedIn) {
         if (isSignedIn) {
             btnSignIn.setVisibility(View.GONE);
@@ -318,7 +260,7 @@ public class LoginActivity extends Activity implements
             llProfileLayout.setVisibility(View.VISIBLE);
             emailLayout.setVisibility(View.GONE);
             pwdLayout.setVisibility(View.GONE);
-            fbLoginLayout.setVisibility(View.GONE);
+
             mRegisterlink.setVisibility(View.GONE);
             mForgotLink.setVisibility(View.GONE);
             btnLayout.setVisibility(View.GONE);
@@ -331,7 +273,7 @@ public class LoginActivity extends Activity implements
             llProfileLayout.setVisibility(View.GONE);
             emailLayout.setVisibility(View.VISIBLE);
             pwdLayout.setVisibility(View.VISIBLE);
-            fbLoginLayout.setVisibility(View.VISIBLE);
+
             mRegisterlink.setVisibility(View.VISIBLE);
             mForgotLink.setVisibility(View.VISIBLE);
             btnLayout.setVisibility(View.VISIBLE);
@@ -340,7 +282,7 @@ public class LoginActivity extends Activity implements
 
     /**
      * Fetching user's information name, email, profile pic
-     * */
+     */
     private void getProfileInformation() {
         try {
             if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
@@ -381,6 +323,7 @@ public class LoginActivity extends Activity implements
         mGoogleApiClient.connect();
         updateUI(false);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -398,7 +341,7 @@ public class LoginActivity extends Activity implements
 
     /**
      * Sign-in into google
-     * */
+     */
     private void signInWithGplus() {
         if (!mGoogleApiClient.isConnecting()) {
             mSignInClicked = true;
@@ -408,7 +351,7 @@ public class LoginActivity extends Activity implements
 
     /**
      * Sign-out from google
-     * */
+     */
     private void signOutFromGplus() {
         if (mGoogleApiClient.isConnected()) {
             Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
@@ -420,7 +363,7 @@ public class LoginActivity extends Activity implements
 
     /**
      * Revoking access from google
-     * */
+     */
     private void revokeGplusAccess() {
         if (mGoogleApiClient.isConnected()) {
             Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
@@ -439,7 +382,7 @@ public class LoginActivity extends Activity implements
 
     /**
      * Background Async task to load user profile picture from url
-     * */
+     */
     private class LoadProfileImage extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
@@ -465,7 +408,7 @@ public class LoginActivity extends Activity implements
         }
     }
 
-    private class PostUserInfoAsync extends AsyncTask<String,Void,Void> {
+    private class PostUserInfoAsync extends AsyncTask<String, Void, Void> {
 
         @Override
         protected Void doInBackground(String... params) {
@@ -521,21 +464,15 @@ public class LoginActivity extends Activity implements
 //                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 //                response = httpclient.execute(httppost);
 //                //Log.d("Http Post Response:", response.toString());
-//            } catch (ClientProtocolException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
-            System.out.println("Value of content in onPostExecute()...." );
+            System.out.println("Value of content in onPostExecute()....");
         }
     }
 }
-
 
 
 
@@ -587,3 +524,4 @@ public class LoginActivity extends Activity implements
                         });
                 request.executeAsync();
                 */
+
