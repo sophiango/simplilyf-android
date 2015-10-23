@@ -18,14 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.Profile;
-import com.facebook.ProfileTracker;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
@@ -38,7 +30,6 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
 import java.io.InputStream;
-import java.util.Arrays;
 
 
 public class LoginActivity extends Activity implements
@@ -49,8 +40,6 @@ public class LoginActivity extends Activity implements
     private EditText mPassword;
     private TextView mRegisterlink;
     private TextView mForgotLink;
-    private CallbackManager callbackManager;
-    private LoginButton loginButton;
     private static final int RC_SIGN_IN = 0;
     // Logcat tag
     private static final String TAG = "MainActivity";
@@ -79,58 +68,14 @@ public class LoginActivity extends Activity implements
     private LinearLayout emailLayout;
     private LinearLayout pwdLayout;
     private LinearLayout btnLayout;
-    private Button fbLoginLayout;
+
     private Button btnMydevices;
-    private ProfileTracker mProfileTracker;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
-
         setContentView(R.layout.activity_login);
-        loginButton = (LoginButton)findViewById(R.id.FBlogin_button);
-        loginButton.setReadPermissions(Arrays.asList("public_profile, email,user_friends"));
-        // Callback registration
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                System.out.println("Authentication Token : " + loginResult.getAccessToken().getToken());
-                mProfileTracker = new ProfileTracker() {
-                    @Override
-                    protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
-                        Log.v("facebook - profile", profile2.getFirstName());
-                        Log.v("facebook-profile", profile2.getName());
-                        profile2.getProfilePictureUri(50, 50);
-                        mProfileTracker.stopTracking();
-                    }
-
-                };
-                Intent i=new Intent(LoginActivity.this,UserProfileActivity.class);
-                //mProfileTracker.g
-                String token=loginResult.getAccessToken().getToken();
-
-               System.out.println("donno" + mProfileTracker.getClass().getName());
-                i.putExtra("TOKEN_VALUE",token);
-                startActivity(i);
-                mProfileTracker.startTracking();
-            }
-
-            @Override
-            public void onCancel() {
-                // App code
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                // App code
-            }
-        });
-
-
-
         mLoginBtn =(Button)findViewById(R.id.btn_login);
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,7 +106,7 @@ public class LoginActivity extends Activity implements
         llProfileLayout = (LinearLayout) findViewById(R.id.gmailLayout);
         emailLayout=(LinearLayout)findViewById(R.id.emailLayout);
         pwdLayout=(LinearLayout)findViewById(R.id.pwdLayout);
-        fbLoginLayout=(Button)findViewById(R.id.FBlogin_button);
+
         btnLayout=(LinearLayout)findViewById(R.id.btnLayout);
         mForgotLink=(TextView)findViewById(R.id.link_forgotDetails);
         btnMydevices=(Button)findViewById(R.id.myDevices);
@@ -258,7 +203,6 @@ public class LoginActivity extends Activity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
       //  resultCode.
 
         if (requestCode == RC_SIGN_IN) {
@@ -300,7 +244,7 @@ public class LoginActivity extends Activity implements
             llProfileLayout.setVisibility(View.VISIBLE);
             emailLayout.setVisibility(View.GONE);
             pwdLayout.setVisibility(View.GONE);
-            fbLoginLayout.setVisibility(View.GONE);
+
             mRegisterlink.setVisibility(View.GONE);
             mForgotLink.setVisibility(View.GONE);
             btnLayout.setVisibility(View.GONE);
@@ -313,7 +257,7 @@ public class LoginActivity extends Activity implements
             llProfileLayout.setVisibility(View.GONE);
             emailLayout.setVisibility(View.VISIBLE);
             pwdLayout.setVisibility(View.VISIBLE);
-            fbLoginLayout.setVisibility(View.VISIBLE);
+
             mRegisterlink.setVisibility(View.VISIBLE);
             mForgotLink.setVisibility(View.VISIBLE);
             btnLayout.setVisibility(View.VISIBLE);
@@ -448,50 +392,3 @@ public class LoginActivity extends Activity implements
     }
 }
 
-
-// App code
-             /*   System.out.println("Facebook Login Successful!");
-                System.out.println("Logged in user Details : ");
-                System.out.println("--------------------------");
-                System.out.println("User ID  : " + loginResult.getAccessToken().getUserId());
-                System.out.println("USER FIREST NAME"+Profile.getCurrentProfile().getFirstName());
-                System.out.println("USER  NAME" + Profile.getCurrentProfile().getName());
-               // System.out.println("USER email"+Profile.getCurrentProfile().);
-                System.out.println("Authentication Token : " + loginResult.getAccessToken().getToken());
-                Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_LONG).show();
-                Intent i=new Intent(LoginActivity.this,UserProfileActivity.class);
-                String token=loginResult.getAccessToken().getToken();
-                i.putExtra("TOKEN_VALUE",token);
-                startActivity(i);
-
-
-                GraphRequest request = GraphRequest.newMeRequest(
-                        AccessToken.getCurrentAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object,
-                                                    GraphResponse response) {
-
-                                if (BuildConfig.DEBUG) {
-                                    FacebookSdk.setIsDebugEnabled(true);
-                                    FacebookSdk
-                                            .addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
-
-                                    System.out
-                                            .println("AccessToken.getCurrentAccessToken()"
-                                                    + AccessToken
-                                                    .getCurrentAccessToken()
-                                                    .toString());
-                                    System.out.println("value of profile"+Profile.getCurrentProfile());
-                                    if(Profile.getCurrentProfile()!=null) {
-                                        Profile.getCurrentProfile().getId();
-                                        Profile.getCurrentProfile().getFirstName();
-                                        Profile.getCurrentProfile().getLastName();
-                                        Profile.getCurrentProfile().getProfilePictureUri(50, 50);
-                                    }
-                                    //String email=UserManager.asMap().get(“email”).toString();
-                                }
-                            }
-                        });
-                request.executeAsync();
-                */

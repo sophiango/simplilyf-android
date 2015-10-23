@@ -1,23 +1,29 @@
-<RelativeLayout
-xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-    >
-    <TextView android:text="@string/nest_title"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@android:color/white">
+
+    <TextView android:text="List of Thermostat Devices"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#DC2525"
         android:textStyle="bold"
-        android:textSize="30sp"
+        android:textSize="20sp"
+        android:layout_marginTop="15dp"
+       android:layout_centerHorizontal="true"
         android:id="@+id/textView" />
 
-    <ImageView
-        android:id="@+id/nestlogo"
-        android:layout_width="300dp"
-        android:layout_height="150dp"
-        android:text="Center In Parent"
-        android:src="@mipmap/nest"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true" />
+    <!--<ImageView-->
+        <!--android:id="@+id/nestlogo"-->
+        <!--android:layout_width="300dp"-->
+        <!--android:layout_height="150dp"-->
+        <!--android:text="Center In Parent"-->
+        <!--android:src="@mipmap/nest"-->
+        <!--android:layout_below="@+id/textView"-->
+        <!--android:layout_centerHorizontal="true" />-->
 
 
     <!--<ImageButton-->
@@ -80,25 +86,45 @@ android:layout_height="match_parent"
         <!--android:textStyle="bold"-->
         <!--android:textSize="20sp"-->
         <!--/>-->
-
-    <Button
-        android:id="@+id/addDevice"
+    <ListView
+        android:id="@+id/list"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Add New Device"
-        android:layout_below="@+id/viewDevices"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_height="fill_parent"
+        android:cacheColorHint="#00000000"
+        android:transcriptMode="alwaysScroll"
+        android:layout_marginTop="40dp"/>
 
-    <Button
-        android:id="@+id/viewDevices"
-        android:layout_width="fill_parent"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Devices"
-        android:layout_below="@+id/nestlogo"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="111dp" />
+        android:src="@mipmap/fab_ic_add"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/fab_button_margin_bottom"
+        android:layout_marginRight="@dimen/fab_button_margin_right"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        app:borderWidth="0dp"/>
+
+    <!--<Button-->
+        <!--android:id="@+id/addDevice"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Add New Device"-->
+        <!--android:layout_below="@+id/viewDevices"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/viewDevices"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="View Devices"-->
+        <!--android:layout_below="@+id/nestlogo"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_marginTop="111dp" />-->
 
 
 </RelativeLayout>

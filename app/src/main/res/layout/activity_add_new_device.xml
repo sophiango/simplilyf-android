@@ -1,0 +1,144 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:background="#fff">
+
+
+        <TextView android:text="Add New Device" android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:textColor="#DC2525"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_weight="0.30" />
+
+
+        <!-- Add device Form -->
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:layout_marginTop="90dp"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView android:text="@string/username"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <EditText android:id="@+id/add_usrname"
+                    android:layout_width="248dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:layout_marginLeft="15dp"
+                    android:hint="UserName" />
+            </LinearLayout>
+            <!--  Email Label -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView android:text="Email:"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText android:id="@+id/add_email"
+                android:layout_width="248dp"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:layout_marginLeft="50dp"
+                android:hint="Email" />
+
+            </LinearLayout>
+
+            <!-- Password Label -->
+            <LinearLayout  android:id="@+id/pwdLayout"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView android:text="@string/pwd"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+                <EditText android:id="@+id/input_password"
+                    android:layout_width="251dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:layout_marginLeft="25dp"
+                    android:password="true"
+                    android:hint="Password"/>
+            </LinearLayout>
+
+
+            <!-- Device Name -->
+            <LinearLayout  android:id="@+id/deviceLayout"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView android:text="Device Name:"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+                <EditText android:id="@+id/add_devicename"
+                    android:layout_width="251dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:layout_marginLeft="10dp"
+
+                    />
+            </LinearLayout>
+
+            <!-- Device Vendor-->
+
+            <LinearLayout android:id="@+id/vendorLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                >
+            <TextView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Device Vendor:"/>
+            <Spinner
+                android:id="@+id/spinner1"
+
+                android:layout_height="wrap_content"
+                android:entries="@array/vendor_array"
+                android:prompt="@string/vendor_prompt"
+                android:layout_width="251dp"/>
+            </LinearLayout>
+            <!-- Add Button -->
+            <Button android:id="@+id/btnAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Add "
+                android:layout_gravity="center_horizontal"/>
+
+
+
+        </LinearLayout>
+        <!-- Registration Form Ends -->
+    </RelativeLayout>
+</ScrollView>
