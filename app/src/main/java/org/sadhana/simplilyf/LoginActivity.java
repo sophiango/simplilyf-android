@@ -6,6 +6,7 @@ import android.content.IntentSender.SendIntentException;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,28 +39,25 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class LoginActivity extends Activity implements
         ConnectionCallbacks, OnConnectionFailedListener{
+
+    // endpoints
+    final String SERVER = "http://10.189.48.204:3000";
 
     private Button mLoginBtn;
     private EditText mUserName;
@@ -153,7 +151,7 @@ public class LoginActivity extends Activity implements
 
                 @Override
                 public void onClick(View v) {
-                    System.out.println("name: " + mUserName.getText().toString() + " , " + mPassword.getText().toString());
+                    //System.out.println("name: " + mUserName.getText().toString() + " , " + mPassword.getText().toString());
                     new PostUserInfoAsync().execute(mUserName.getText().toString(),mPassword.getText().toString());
                     Intent i = new Intent(LoginActivity.this, ShowdevicesActivity.class);
                     startActivity(i);
@@ -471,21 +469,63 @@ public class LoginActivity extends Activity implements
 
         @Override
         protected Void doInBackground(String... params) {
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://10.189.48.204:3000/user/register");
-            HttpResponse response = null;
-            List<NameValuePair> nameValuePairs = new ArrayList();
-            nameValuePairs.add(new BasicNameValuePair("username", params[0]));
-            nameValuePairs.add(new BasicNameValuePair("password", params[1]));
-            try{
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                response = httpclient.execute(httppost);
-                Log.d("Http Post Response:", response.toString());
-            } catch (ClientProtocolException e) {
+            String endpoint = SERVER + "/register";
+            URL url = null;
+            HttpsURLConnection conn = null;
+            try {
+                url = new URL(endpoint);
+                conn = (HttpsURLConnection) url.openConnection();
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            Uri.Builder builder = new Uri.Builder()
+                    .appendQueryParameter("username", params[0])
+                    .appendQueryParameter("password", params[1]);
+            String query = builder.build().getEncodedQuery();
+//            List<NameValuePairs> nameValuePairs = new ArrayList();
+//            nameValuePairs.add(new BasicNameValuePair("username", params[0]));
+//            nameValuePairs.add(new BasicNameValuePair("password", params[1]));
+
+            OutputStream os = null;
+            try {
+                os = conn.getOutputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            BufferedWriter writer = null;
+            try {
+                writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            try {
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            try{
+//                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+//                response = httpclient.execute(httppost);
+//                //Log.d("Http Post Response:", response.toString());
+//            } catch (ClientProtocolException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
             return null;
         }
 
