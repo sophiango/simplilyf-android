@@ -3,6 +3,7 @@ package org.sadhana.simplilyf;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -29,8 +30,29 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
-import java.io.InputStream;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+<<<<<<< HEAD
+
+=======
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+>>>>>>> c5661e1049d1a63c46e8dcbb1ed3e8b787bf72fe
 
 public class LoginActivity extends Activity implements
         ConnectionCallbacks, OnConnectionFailedListener{
@@ -78,10 +100,13 @@ public class LoginActivity extends Activity implements
         setContentView(R.layout.activity_login);
         mLoginBtn =(Button)findViewById(R.id.btn_login);
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, ShowdevicesActivity.class);
-                startActivity(i);
+
+                @Override
+                public void onClick(View v) {
+                    System.out.println("name: " + mUserName.getText().toString() + " , " + mPassword.getText().toString());
+                    new PostUserInfoAsync().execute(mUserName.getText().toString(),mPassword.getText().toString());
+                    Intent i = new Intent(LoginActivity.this, ShowdevicesActivity.class);
+                    startActivity(i);
             }
         });
 
@@ -95,6 +120,8 @@ public class LoginActivity extends Activity implements
         });
         mUserName=(EditText)findViewById(R.id.input_username);
         mPassword=(EditText) findViewById(R.id.input_password);
+        SharedPreferences pref = getSharedPreferences("AppPref", MODE_PRIVATE);
+
 
         // for G+
         btnSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
@@ -122,8 +149,6 @@ public class LoginActivity extends Activity implements
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Intent i=new Intent(LoginActivity.this,UserProfile.class);
-
                 signInWithGplus();
             }
         });
@@ -390,5 +415,87 @@ public class LoginActivity extends Activity implements
             bmImage.setImageBitmap(result);
         }
     }
+
+    private class PostUserInfoAsync extends AsyncTask<String,Void,Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://10.189.48.204:3000/user/register");
+            HttpResponse response = null;
+            List<NameValuePair> nameValuePairs = new ArrayList();
+            nameValuePairs.add(new BasicNameValuePair("username", params[0]));
+            nameValuePairs.add(new BasicNameValuePair("password", params[1]));
+            try{
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                response = httpclient.execute(httppost);
+                Log.d("Http Post Response:", response.toString());
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            System.out.println("Value of content in onPostExecute()...." );
+        }
+    }
 }
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+// App code
+             /*   System.out.println("Facebook Login Successful!");
+                System.out.println("Logged in user Details : ");
+                System.out.println("--------------------------");
+                System.out.println("User ID  : " + loginResult.getAccessToken().getUserId());
+                System.out.println("USER FIREST NAME"+Profile.getCurrentProfile().getFirstName());
+                System.out.println("USER  NAME" + Profile.getCurrentProfile().getName());
+               // System.out.println("USER email"+Profile.getCurrentProfile().);
+                System.out.println("Authentication Token : " + loginResult.getAccessToken().getToken());
+                Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_LONG).show();
+                Intent i=new Intent(LoginActivity.this,UserProfileActivity.class);
+                String token=loginResult.getAccessToken().getToken();
+                i.putExtra("TOKEN_VALUE",token);
+                startActivity(i);
+
+
+                GraphRequest request = GraphRequest.newMeRequest(
+                        AccessToken.getCurrentAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object,
+                                                    GraphResponse response) {
+
+                                if (BuildConfig.DEBUG) {
+                                    FacebookSdk.setIsDebugEnabled(true);
+                                    FacebookSdk
+                                            .addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
+
+                                    System.out
+                                            .println("AccessToken.getCurrentAccessToken()"
+                                                    + AccessToken
+                                                    .getCurrentAccessToken()
+                                                    .toString());
+                                    System.out.println("value of profile"+Profile.getCurrentProfile());
+                                    if(Profile.getCurrentProfile()!=null) {
+                                        Profile.getCurrentProfile().getId();
+                                        Profile.getCurrentProfile().getFirstName();
+                                        Profile.getCurrentProfile().getLastName();
+                                        Profile.getCurrentProfile().getProfilePictureUri(50, 50);
+                                    }
+                                    //String email=UserManager.asMap().get(“email”).toString();
+                                }
+                            }
+                        });
+                request.executeAsync();
+                */
+>>>>>>> c5661e1049d1a63c46e8dcbb1ed3e8b787bf72fe

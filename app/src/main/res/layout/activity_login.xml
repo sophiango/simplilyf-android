@@ -99,7 +99,19 @@
         android:textSize="16dip"
         android:textColor="#1E90FF"/>
 
+<<<<<<< HEAD
     <!-- Gmail login and layout-->
+=======
+    <!-- Facebook login-->
+  /*  <com.facebook.login.widget.LoginButton
+        android:id="@+id/FBlogin_button"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        />*/
+>>>>>>> c5661e1049d1a63c46e8dcbb1ed3e8b787bf72fe
 
     <LinearLayout
         android:id="@+id/gmailLayout"

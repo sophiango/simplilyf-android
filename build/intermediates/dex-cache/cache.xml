@@ -2,165 +2,235 @@
 <items version="2" >
 
     <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/7.5.0/jars/classes.jar"
+        jar="C:\Users\abc\AppData\Local\Android\sdk1\extras\android\m2repository\com\android\support\support-annotations\22.2.1\support-annotations-22.2.1.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="8e3a972f28b8bae817e382257ba177a31bcadbbc">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-e30beb0d8364f705d6bb8f203ac792d594ae4e69.jar" />
+        sha1="61a0ff5c29295ec56d7e0bd3d25d95dbf71b4b2b">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\support-annotations-22.2.1-c002322fc49bdb68eae3d44af5e296325132348c.jar" />
     </item>
     <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="29ebc7e04d877062317c8cc0e68b20f0c1fcda66">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-e7d5f383eef9f60a20540287003100be153bd7df.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-panorama/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="ba207be21987c11b37d9f8faa08ed6e722569f30">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-feec004fb5f87876fad3a34687988a94fac12c11.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="8d736fefa22d896e84a268354b3ed48a42663150">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-3ec5c8a4ffe35ca79ae2cfbb141c805077054021.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="1e98ef3f124bb7a11f8575f9ff5dfea330b61b6f">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-026ac7beb74a827e82c0aee2e37f722ec5f55968.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appinvite/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="63ec6e9f4fe5482a7447d0f3091b8e543a02554c">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-49dcf99263114b1a33dcf185e585960f7dd20230.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-drive/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="f44d03c138cb6488fdbaa65e3a7e5878861a56d8">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-4054f3b67f971a214cbdf5bc9e659d766d91ba3f.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-identity/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="d405025c600055237c171a0bbabaa49d69696573">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-f17998552115f29ecee2800d58721a63ba794b1d.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.0.0/jars/libs/internal_impl-22.0.0.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="ba3df4eb0a630d7de294f0e48d3f9267d279b784">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/internal_impl-22.0.0-9b4d23ef039792e79227d0e5763bf7fa6782e51c.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appstate/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="68c140702c7242d914655bcb3164d9e8c45b84cb">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-c9a73e5f0462e3fe1c69bd802e0ad123f51379fc.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-plus/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="272bc5d7063f24bc3a33ea1d318cde8f31f5ec4c">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-c7a06c531c74ee1cc7723da514aff6af39c2956e.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="f02127a85abd52a2cd526d4c2409f21969f80ee8">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-f81abf53fe23e5bacacc0be17e9c20a1756e1cfa.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-2f8a6fcf2c4af13b08c91d2f2b45906f9e9105d8.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="69dd177337ead693c408c8dddc9546bb6f1244fa">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-026d7c7255c869039f3e4399233b602288583a1d.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-games/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="02bac2dc792d78241077861566f2c82da955e7fa">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-371d5935e23fcc2e86c5bc4f257e5de66f55a155.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-safetynet/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="1a6411087ab88ce5542f593e63a2752b6b0d6f1a">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-dab9acf42f1f628b236314d8876e26325af9b6f0.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="6836d188602ec5382d1967c58b00960eb8ff8773">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-43d496ad73850d157f997eb0e00d32811a4dc9bd.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="06a42becc33232ec0ee125161da68c1829c9f8fd">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-017ee919e11d2890dd5bd935de88fe17856b968c.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="a78183f30e769a98ab4820794f597763088d3065">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-11755667a0d4fea3239b11d3c6f7c4daf214dd55.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="e7b35244f50663b3f8d150714bca9ecd7a290da1">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-763a4fe6dfcc8e087135e775e70347d91565160b.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-nearby/7.5.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="6440e5e5cfe368f9bff3c537fb8988048069cb33">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-b7b3143c309f6abd4658bee3fa58bb624a6b7131.jar" />
-    </item>
-    <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-fitness/7.5.0/jars/classes.jar"
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\7.5.0\jars\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="a172852a35ff919e85b9b7f14bbc15c5bee25520">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-c482795af0e274024597d9cf8d96f635772b8702.jar" />
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-caf7f25e0b457103c3fc170686d17232968ba4f5.jar" />
     </item>
     <item
-        jar="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.0.0/jars/classes.jar"
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8d736fefa22d896e84a268354b3ed48a42663150">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-06d5a17558fd23ddb387d57260fc2a3a167b1bcd.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\22.0.0\jars\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="a1372c17fccacca753d3951d3ad820571cbce075">
-        <dex dex="/Users/Saikrishna/Desktop/cmpe295/295B/simplilyf-android/app/build/intermediates/pre-dexed/debug/classes-46edcc0a1e587b57b8b40d3eb2840d86f8a68ea4.jar" />
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-d37693765a1be5488d8b0b66d0a08e5caad60fde.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e7b35244f50663b3f8d150714bca9ecd7a290da1">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-9892e6e2ed1e3594812bb3d8e74b67aba473f5a9.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="272bc5d7063f24bc3a33ea1d318cde8f31f5ec4c">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-86e5227594b6ec8edbf86218798fd99b2f6c4a32.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="69dd177337ead693c408c8dddc9546bb6f1244fa">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-00d61c3c1b54284f6716c23311daceedae50c05e.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="1e98ef3f124bb7a11f8575f9ff5dfea330b61b6f">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-7692104cea7ca86cb64e121876f73e2267075aab.jar" />
+    </item>
+    <item
+        jar="C:\Users\abc\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-android\1.2.0\6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd\bolts-android-1.2.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\bolts-android-1.2.0-4a989a91a3ebe927e1ccd1aa15271459f90278b6.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="f8efd0096475e0daf054267b61544e10dc776503">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-7d516341a050f4e2f12cfc4a24f550dfe9954324.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="02bac2dc792d78241077861566f2c82da955e7fa">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-59aee20cb472df287b048702bf83e71e3a98cb18.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="6836d188602ec5382d1967c58b00960eb8ff8773">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-3b317795a0135697837dc62739592c5e23321a65.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="f02127a85abd52a2cd526d4c2409f21969f80ee8">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-c8fc4fc33b0556931d034926567f1f6e980e3cf7.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="f44d03c138cb6488fdbaa65e3a7e5878861a56d8">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-cc92351ebc27011f2b9f0f3815de3f23714e8e64.jar" />
+    </item>
+    <item
+        jar="C:\Users\abc\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-annotations\2.3.0\f5e853a20b60758922453d56f9ae1e64af5cb3da\jackson-annotations-2.3.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="f5e853a20b60758922453d56f9ae1e64af5cb3da">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\jackson-annotations-2.3.0-3ee9a2a03c1eaace0710681a0e0c9a581436a247.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appstate\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="68c140702c7242d914655bcb3164d9e8c45b84cb">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-0e554984ef5a7eab33479c977538ef572270194e.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d405025c600055237c171a0bbabaa49d69696573">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-436875ab0c4238ea7d55ec1f74df5fac86d8d8d5.jar" />
+    </item>
+    <item
+        jar="C:\Users\abc\.gradle\caches\modules-2\files-2.1\org.springframework.android\spring-android-core\1.0.1.RELEASE\e68f0e8e4b636ee30c4de58953be38d9b72a5e3b\spring-android-core-1.0.1.RELEASE.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e68f0e8e4b636ee30c4de58953be38d9b72a5e3b">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\spring-android-core-1.0.1.RELEASE-96587bb054964d2441aeb6b8a93b62ed29a5a280.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="63ec6e9f4fe5482a7447d0f3091b8e543a02554c">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-5b0bc0807bdc89f2ec628c63591e1c5bbcdc63cb.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\jars\libs\internal_impl-22.2.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\internal_impl-22.2.1-90ef83491e73a985d2861dac9fd65be5c38c96b4.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8e3a972f28b8bae817e382257ba177a31bcadbbc">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-6975fc5a4d87966e97db821c0e4a40478e004429.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="29ebc7e04d877062317c8cc0e68b20f0c1fcda66">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-094939ef09fa6f7896b2087dfba5d01db606eac0.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="1a6411087ab88ce5542f593e63a2752b6b0d6f1a">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-c2e61af4a6261e1b3248daa2f4adc70ce161cbff.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="a78183f30e769a98ab4820794f597763088d3065">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-95e6761d1e7e335f72e4a6531392e8a958d1140e.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-2e9aedd262f1bdd4cb07641469c3393245ef4314.jar" />
+    </item>
+    <item
+        jar="C:\Users\abc\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-core\2.3.2\559b70ac8a0d5cad611da4223137a920147201ba\jackson-core-2.3.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="559b70ac8a0d5cad611da4223137a920147201ba">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\jackson-core-2.3.2-38928126c825073f1e78168f44d2b9e6d82a1d9c.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\22.0.0\jars\libs\internal_impl-22.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ba3df4eb0a630d7de294f0e48d3f9267d279b784">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\internal_impl-22.0.0-89b70dc31914a2b222d24bdc9aeea0956dc54219.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ba207be21987c11b37d9f8faa08ed6e722569f30">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-e95199926ebb336e0f40b6a601e518629292838e.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.6.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="1c1afa0ab2a8197a5da1b36c4167a9e479cb74d9">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-7051ef6b2bcf04551d675f64b4cbbec740c004c7.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="06a42becc33232ec0ee125161da68c1829c9f8fd">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-e88bb519b3e29e504c99c17581f8f2fa75678a61.jar" />
+    </item>
+    <item
+        jar="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="6440e5e5cfe368f9bff3c537fb8988048069cb33">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\classes-786e7953623e556272f1f85319318fc6ade7f9f9.jar" />
+    </item>
+    <item
+        jar="C:\Users\abc\.gradle\caches\modules-2\files-2.1\org.springframework.android\spring-android-rest-template\1.0.1.RELEASE\e132d929bd181941f79b0d63edafb8a86ae6fd33\spring-android-rest-template-1.0.1.RELEASE.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e132d929bd181941f79b0d63edafb8a86ae6fd33">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\spring-android-rest-template-1.0.1.RELEASE-b256fe48aeaa521cf789022c54783cb1e15fe45a.jar" />
+    </item>
+    <item
+        jar="C:\Users\abc\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-databind\2.3.2\c75edc740a6d8cb1cef6fa82fa594e0bce561916\jackson-databind-2.3.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="c75edc740a6d8cb1cef6fa82fa594e0bce561916">
+        <dex dex="Q:\Fall2015\295B\simplilyf-android\app\build\intermediates\pre-dexed\debug\jackson-databind-2.3.2-9518d515e504d30e757c20d0edad6e61a8e36fc8.jar" />
     </item>
 
 </items>

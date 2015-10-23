@@ -3,8 +3,13 @@ package org.sadhana.simplilyf;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+=======
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+>>>>>>> c5661e1049d1a63c46e8dcbb1ed3e8b787bf72fe
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +41,13 @@ public class NestdevicesActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(NestdevicesActivity.this, "Row " + position + " clicked", Toast.LENGTH_SHORT).show();
                 Intent i=new Intent(NestdevicesActivity.this,NestLivingrmActivity.class);
+<<<<<<< HEAD
+=======
+                String roomName="livingroom";
+                i.putExtra("VALUE_SENT", roomName);
+                //obtainTemp();
+//               new AsyncHttpTask().execute();
+>>>>>>> c5661e1049d1a63c46e8dcbb1ed3e8b787bf72fe
                 System.out.print("Starting Intent");
                 startActivity(i);
             }
@@ -87,6 +99,7 @@ public class NestdevicesActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+<<<<<<< HEAD
 
 
 
@@ -128,28 +141,53 @@ public class NestdevicesActivity extends AppCompatActivity {
             }
             return null;
         }
+=======
+   private class HttpRequestTask extends AsyncTask<Void, Void, String> {
+       @Override
+       protected String doInBackground(Void... params) {
+           System.out.println("DoInBackground method");
+           try {
+               final String url = "http://10.189.114.192:3000/hello";
+               //RestTemplate restTemplate = new RestTemplate();
+               //restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+               //content = restTemplate.getForObject(url, String.class);
+               System.out.println("after hitting URL");
+               System.out.println("Value of greeting...." + content);
+               return content;
+           } catch (Exception e) {
+               Log.e("LoginActivity", e.getMessage(), e);
+           }
 
-        @Override
-        protected void onPostExecute(String result) {
-            System.out.println("Value of content in onPostExecute()...." +result);
-        }
-    }
+           return null;
+       }
 
-    private String convertInputStreamToString(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-        String line = "";
-        String result = "";
-        while((line = bufferedReader.readLine()) != null){
-            result += line;
-        }
+       @Override
+       protected void onPostExecute(String greeting) {
+
+//            //TextView greetingContentText = (TextView) findViewById(R.id.content_value);
+//            System.out.println("Value of CONTENT...." + content);
+//           // greetingContentText.setText(content);
+//        }
+//
+       }
+>>>>>>> c5661e1049d1a63c46e8dcbb1ed3e8b787bf72fe
+
+
+       private String convertInputStreamToString(InputStream inputStream) throws IOException {
+           BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+           String line = "";
+           String result = "";
+           while ((line = bufferedReader.readLine()) != null) {
+               result += line;
+           }
 
             /* Close Stream */
-        if(null!=inputStream){
-            inputStream.close();
-        }
-        System.out.println("result value"+result );
-        return result;
-    }
+           if (null != inputStream) {
+               inputStream.close();
+           }
+           System.out.println("result value" + result);
+           return result;
+       }
 
 //    private void parseResult(String result) {
 //        try{
@@ -201,6 +239,7 @@ public class NestdevicesActivity extends AppCompatActivity {
 //
 //   }
 
+<<<<<<< HEAD
     //        mViewDevice=(Button)findViewById(R.id.viewDevices);
 //        mViewDevice.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -247,4 +286,7 @@ public class NestdevicesActivity extends AppCompatActivity {
 //    }
 
 
+=======
+   }
+>>>>>>> c5661e1049d1a63c46e8dcbb1ed3e8b787bf72fe
 }
