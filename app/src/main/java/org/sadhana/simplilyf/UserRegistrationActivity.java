@@ -1,17 +1,66 @@
 package org.sadhana.simplilyf;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 
 public class UserRegistrationActivity extends ActionBarActivity {
+
+    private EditText mFullName;
+    private EditText mEmail;
+    private EditText mUsrName;
+    private EditText mPwd;
+    private Button mRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_registration);
+
+        mFullName=(EditText)findViewById(R.id.reg_fullname);
+        mFullName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        mEmail=(EditText)findViewById(R.id.reg_email);
+        mEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        mUsrName=(EditText)findViewById(R.id.user_name);
+        mUsrName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        mPwd=(EditText)findViewById(R.id.reg_password);
+        mPwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        mRegister=(Button)findViewById(R.id.btnRegister);
+        mRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
