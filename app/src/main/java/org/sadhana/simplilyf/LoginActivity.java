@@ -30,29 +30,8 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-<<<<<<< HEAD
 
-=======
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
->>>>>>> c5661e1049d1a63c46e8dcbb1ed3e8b787bf72fe
 
 public class LoginActivity extends Activity implements
         ConnectionCallbacks, OnConnectionFailedListener{
@@ -104,7 +83,7 @@ public class LoginActivity extends Activity implements
                 @Override
                 public void onClick(View v) {
                     System.out.println("name: " + mUserName.getText().toString() + " , " + mPassword.getText().toString());
-                    new PostUserInfoAsync().execute(mUserName.getText().toString(),mPassword.getText().toString());
+                   // new PostUserInfoAsync().execute(mUserName.getText().toString(),mPassword.getText().toString());
                     Intent i = new Intent(LoginActivity.this, ShowdevicesActivity.class);
                     startActivity(i);
             }
@@ -416,37 +395,35 @@ public class LoginActivity extends Activity implements
         }
     }
 
-    private class PostUserInfoAsync extends AsyncTask<String,Void,Void> {
-
-        @Override
-        protected Void doInBackground(String... params) {
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://10.189.48.204:3000/user/register");
-            HttpResponse response = null;
-            List<NameValuePair> nameValuePairs = new ArrayList();
-            nameValuePairs.add(new BasicNameValuePair("username", params[0]));
-            nameValuePairs.add(new BasicNameValuePair("password", params[1]));
-            try{
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                response = httpclient.execute(httppost);
-                Log.d("Http Post Response:", response.toString());
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            System.out.println("Value of content in onPostExecute()...." );
-        }
-    }
+//    private class PostUserInfoAsync extends AsyncTask<String,Void,Void> {
+//
+//        @Override
+//        protected Void doInBackground(String... params) {
+//            HttpClient httpclient = new DefaultHttpClient();
+//            HttpPost httppost = new HttpPost("http://10.189.48.204:3000/user/register");
+//            HttpResponse response = null;
+//            List<NameValuePair> nameValuePairs = new ArrayList();
+//            nameValuePairs.add(new BasicNameValuePair("username", params[0]));
+//            nameValuePairs.add(new BasicNameValuePair("password", params[1]));
+//            try{
+//                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+//                response = httpclient.execute(httppost);
+//                Log.d("Http Post Response:", response.toString());
+//            } catch (ClientProtocolException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//            System.out.println("Value of content in onPostExecute()...." );
+//        }
+//    }
 }
 
-<<<<<<< HEAD
-=======
 
 
 
@@ -498,4 +475,4 @@ public class LoginActivity extends Activity implements
                         });
                 request.executeAsync();
                 */
->>>>>>> c5661e1049d1a63c46e8dcbb1ed3e8b787bf72fe
+
