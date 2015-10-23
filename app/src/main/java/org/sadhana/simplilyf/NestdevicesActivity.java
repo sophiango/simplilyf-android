@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,7 +39,7 @@ public class NestdevicesActivity extends ActionBarActivity {
                 String roomName="livingroom";
                 i.putExtra("VALUE_SENT", roomName);
                 //obtainTemp();
-               new AsyncHttpTask().execute();
+//               new AsyncHttpTask().execute();
                 System.out.print("Starting Intent");
                 startActivity(i);
             }
@@ -68,95 +69,51 @@ public class NestdevicesActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    private class HttpRequestTask extends AsyncTask<Void, Void, String> {
-//        @Override
-//        protected String doInBackground(Void... params) {
-//            System.out.println("DoInBackground method");
-//            try {
-//                final String url = "http://10.189.114.192:3000/hello";
-//                //RestTemplate restTemplate = new RestTemplate();
-//                //restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-//                //content = restTemplate.getForObject(url, String.class);
-//                System.out.println("after hitting URL");
-//                System.out.println("Value of greeting...."+content);
-//                return content;
-//            } catch (Exception e) {
-//                Log.e("LoginActivity", e.getMessage(), e);
-//            }
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String greeting) {
-//
+   private class HttpRequestTask extends AsyncTask<Void, Void, String> {
+       @Override
+       protected String doInBackground(Void... params) {
+           System.out.println("DoInBackground method");
+           try {
+               final String url = "http://10.189.114.192:3000/hello";
+               //RestTemplate restTemplate = new RestTemplate();
+               //restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+               //content = restTemplate.getForObject(url, String.class);
+               System.out.println("after hitting URL");
+               System.out.println("Value of greeting...." + content);
+               return content;
+           } catch (Exception e) {
+               Log.e("LoginActivity", e.getMessage(), e);
+           }
+
+           return null;
+       }
+
+       @Override
+       protected void onPostExecute(String greeting) {
+
 //            //TextView greetingContentText = (TextView) findViewById(R.id.content_value);
 //            System.out.println("Value of CONTENT...." + content);
 //           // greetingContentText.setText(content);
 //        }
 //
-//    }
+       }
 
-    public class AsyncHttpTask extends AsyncTask<Void, Void, String> {
 
-        @Override
-        protected String doInBackground(Void... params) {
-            InputStream inputStream = null;
-            HttpURLConnection urlConnection = null;
-            Integer result = 0;
-            try {
-                /* forming th java.net.URL object */
-                URL url = new URL("http://10.189.114.192:3000/hello");
-                urlConnection = (HttpURLConnection) url.openConnection();
-
-                 /* optional request header */
-                urlConnection.setRequestProperty("Content-Type", "application/json");
-
-                /* optional request header */
-                urlConnection.setRequestProperty("Accept", "application/json");
-
-                /* for Get request */
-                urlConnection.setRequestMethod("GET");
-                int statusCode = urlConnection.getResponseCode();
-
-                /* 200 represents HTTP OK */
-                if (statusCode == 200) {
-                    inputStream = new BufferedInputStream(urlConnection.getInputStream());
-                    String response = convertInputStreamToString(inputStream);
-                    //   parseResult(response);
-
-                    System.out.println("Value of response...." +response);
-                    result = 1; // Successful
-                } else {
-                    result = 0; //"Failed to fetch data!";
-                }
-            } catch (Exception e) {
-                System.out.print("error");
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            System.out.println("Value of content in onPostExecute()...." +result);
-        }
-    }
-
-    private String convertInputStreamToString(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-        String line = "";
-        String result = "";
-        while((line = bufferedReader.readLine()) != null){
-            result += line;
-        }
+       private String convertInputStreamToString(InputStream inputStream) throws IOException {
+           BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+           String line = "";
+           String result = "";
+           while ((line = bufferedReader.readLine()) != null) {
+               result += line;
+           }
 
             /* Close Stream */
-        if(null!=inputStream){
-            inputStream.close();
-        }
-        System.out.println("result value"+result );
-        return result;
-    }
+           if (null != inputStream) {
+               inputStream.close();
+           }
+           System.out.println("result value" + result);
+           return result;
+       }
 
 //    private void parseResult(String result) {
 //        try{
@@ -208,5 +165,5 @@ public class NestdevicesActivity extends ActionBarActivity {
 //
 //   }
 
-
+   }
 }
