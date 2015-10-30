@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +29,8 @@ public class NestdevicesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nestdevices);
-
+        new AsyncHttpTask().execute();
+        System.out.println("here");
         //relate the listView from java to the one created in xml
         myList = (ListView) findViewById(R.id.list);
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -40,7 +42,7 @@ public class NestdevicesActivity extends AppCompatActivity {
                 String roomName = "livingroom";
                 i.putExtra("VALUE_SENT", roomName);
                 //obtainTemp();
-//               new AsyncHttpTask().execute();
+
 
                 System.out.print("Starting Intent");
                 startActivity(i);
@@ -102,8 +104,9 @@ public class NestdevicesActivity extends AppCompatActivity {
             HttpURLConnection urlConnection = null;
             Integer result = 0;
             try {
+                System.out.println("HELLO ENDPOINT");
                 /* forming th java.net.URL object */
-                URL url = new URL("http://10.189.114.192:3000/hello");
+                URL url = new URL("http://10.189.48.129:3000/hello");
                 urlConnection = (HttpURLConnection) url.openConnection();
 
                  /* optional request header */
@@ -116,7 +119,7 @@ public class NestdevicesActivity extends AppCompatActivity {
                 urlConnection.setRequestMethod("GET");
               //  List<NameValuePairs>
                 int statusCode = urlConnection.getResponseCode();
-
+                System.out.println("status code: " + statusCode);
                 /* 200 represents HTTP OK */
                 if (statusCode == 200) {
                     inputStream = new BufferedInputStream(urlConnection.getInputStream());
@@ -129,7 +132,7 @@ public class NestdevicesActivity extends AppCompatActivity {
                     result = 0; //"Failed to fetch data!";
                 }
             } catch (Exception e) {
-                System.out.print("error");
+                Log.d("error", e.toString());
             }
             return null;
         }

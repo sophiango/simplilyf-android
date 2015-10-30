@@ -30,12 +30,19 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
@@ -45,7 +52,7 @@ public class LoginActivity extends Activity implements
         ConnectionCallbacks, OnConnectionFailedListener {
 
     // endpoints
-    final String SERVER = "http://10.189.48.204:3000";
+    final String SERVER = "http://10.0.0.101:3000";
 
     private Button mLoginBtn;
     private EditText mUserName;
@@ -83,19 +90,21 @@ public class LoginActivity extends Activity implements
 
     private Button btnMydevices;
 
+    private static String userEmail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mLoginBtn = (Button) findViewById(R.id.btn_login);
+
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                new PostUserInfoAsync().execute(mUserName.getText().toString(), mPassword.getText().toString());
-                Intent i = new Intent(LoginActivity.this, ShowdevicesActivity.class);
-                startActivity(i);
+                userEmail = mUserName.getText().toString();
+                new PostUserInfoAsync().execute(userEmail, mPassword.getText().toString());
             }
         });
 
@@ -408,70 +417,108 @@ public class LoginActivity extends Activity implements
         }
     }
 
-    private class PostUserInfoAsync extends AsyncTask<String, Void, Void> {
+    private class PostUserInfoAsync extends AsyncTask<String, Void, String> {
 
         @Override
-        protected Void doInBackground(String... params) {
-            String endpoint = SERVER + "/register";
-            URL url = null;
-            HttpsURLConnection conn = null;
+        protected String doInBackground(String... params) {
+            InputStream inputStream = null;
+            HttpURLConnection urlConnection = null;
+            Integer result = 0;
+            String output = null;
+            StringBuilder reply = new StringBuilder();
             try {
-                url = new URL(endpoint);
-                conn = (HttpsURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                System.out.println("LOGIN ENDPOINT");
+                /* forming th java.net.URL object */
+                String endpoint = SERVER + "/signin";
+                URL url = new URL(endpoint);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                 /* optional request header */
+                //urlConnection.setRequestProperty("Content-Type", "application/json");
 
-            Uri.Builder builder = new Uri.Builder()
-                    .appendQueryParameter("username", params[0])
-                    .appendQueryParameter("password", params[1]);
-            String query = builder.build().getEncodedQuery();
-//            List<NameValuePairs> nameValuePairs = new ArrayList();
-//            nameValuePairs.add(new BasicNameValuePair("username", params[0]));
-//            nameValuePairs.add(new BasicNameValuePair("password", params[1]));
+                /* optional request header */
+                //urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.setDoOutput(true); // accept request body
+                urlConnection.setDoInput(true);
+                urlConnection.setChunkedStreamingMode(0);
+                urlConnection.setRequestMethod("POST");
 
-            OutputStream os = null;
-            try {
-                os = conn.getOutputStream();
-            } catch (IOException e) {
-                e.printStackTrace();
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("username", params[0]);
+                jsonParam.put("password", params[1]);
+                // Set request header
+                urlConnection.setRequestProperty("Accept-Charset", "UTF-8");
+                urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                urlConnection.setUseCaches(false);
+
+                // write body
+                OutputStream wr= urlConnection.getOutputStream();
+                wr.write(jsonParam.toString().getBytes("UTF-8"));
+                int statusCode = urlConnection.getResponseCode();
+                wr.close();
+                System.out.println("status code " + statusCode);
+
+
+                //STATUS CODE checking
+
+                //if (statusCode == 200) {
+                //inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                //response = convertInputStreamToString(inputStream);
+                    //   parseResult(response);
+
+//                BufferedReader br = new BufferedReader(new InputStreamReader(
+//                        (urlConnection.getInputStream())));
+//                System.out.println("Output from Server .... \n");
+//                while ((output = br.readLine()) != null) {
+//                    System.out.println(output);
+//                }
+
+                InputStream in = urlConnection.getInputStream();
+                //StringBuffer sb = new StringBuffer();
+                int chr;
+                while ((chr = in.read()) != -1) {
+                   reply.append((char) chr);
+                }
+                System.out.println("Value of response...." + reply.toString());
+                    //result = 1; // Successful
+//                } else {
+//                    result = 0; //"Failed to fetch data!";
+//                }
+                in.close();
+                urlConnection.disconnect();
+            } catch (Exception e) {
+                Log.d("error", e.toString());
             }
-            BufferedWriter writer = null;
-            try {
-                writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            try {
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
-                conn.connect();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-//            try{
-//                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-//                response = httpclient.execute(httppost);
-//                //Log.d("Http Post Response:", response.toString());
-            return null;
+            return reply.toString();
         }
 
         @Override
-        protected void onPostExecute(Void result) {
-            System.out.println("Value of content in onPostExecute()....");
+        protected void onPostExecute(String result) {
+            System.out.println("RESULT: " + result);
+            if (result!=null && result.equals(userEmail)) {
+                Intent i = new Intent(LoginActivity.this, ShowdevicesActivity.class);
+                startActivity(i);
+            } else {
+                Toast.makeText(LoginActivity.this,"Invalid login",Toast.LENGTH_LONG).show();
+            }
         }
     }
+
+    private String convertInputStreamToString(InputStream inputStream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while ((line = bufferedReader.readLine()) != null) {
+            result += line;
+        }
+
+            /* Close Stream */
+        if (null != inputStream) {
+            inputStream.close();
+        }
+        System.out.println("result value" + result);
+        return result;
+    }
+
 }
 
 
