@@ -72,6 +72,11 @@
             android:label="@string/title_activity_add_new_device"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+        <activity
+            android:name=".PhilipsDetailsActivity"
+            android:label="@string/title_activity_philips_details"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>
