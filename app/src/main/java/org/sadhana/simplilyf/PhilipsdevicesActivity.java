@@ -1,9 +1,12 @@
 package org.sadhana.simplilyf;
 
+import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class PhilipsdevicesActivity extends ActionBarActivity {
@@ -12,6 +15,19 @@ public class PhilipsdevicesActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_philipsdevices);
+
+        FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // list.add("New Item");
+                //adapter.notifyDataSetChanged();
+                Intent i = new Intent(PhilipsdevicesActivity.this, AddNewDevice.class);
+                System.out.print("Starting Intent");
+                startActivity(i);
+            }
+        });
+
     }
 
     @Override
