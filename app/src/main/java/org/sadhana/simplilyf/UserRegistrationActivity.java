@@ -1,5 +1,6 @@
 package org.sadhana.simplilyf;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -9,25 +10,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 
 
 public class UserRegistrationActivity extends ActionBarActivity {
@@ -43,7 +32,7 @@ public class UserRegistrationActivity extends ActionBarActivity {
     private String inputUsername = null;
     private String inputPW = null;
 
-    final String SERVER = "https://10.189.48.129:3000";
+    final String SERVER = "http://10.0.0.101:3000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,16 +58,18 @@ public class UserRegistrationActivity extends ActionBarActivity {
         });
     }
 
-    private class PostUserInfoAsync extends AsyncTask<String, Void, Void> {
+    private class PostUserInfoAsync extends AsyncTask<String, Void, String> {
         @Override
-        protected Void doInBackground(String... params) {
+        protected String doInBackground(String... params) {
             InputStream inputStream = null;
             HttpURLConnection urlConnection = null;
             Integer result = 0;
+            StringBuilder reply = new StringBuilder();
             try {
                 System.out.println("REGISTER ENDPOINT");
                 /* forming th java.net.URL object */
-                URL url = new URL(SERVER + "/signup");
+                String register_endpoint = SERVER + "/signup";
+                URL url = new URL(register_endpoint);
                 urlConnection = (HttpURLConnection) url.openConnection();
                  /* optional request header */
                 //urlConnection.setRequestProperty("Content-Type", "application/json");
@@ -121,45 +112,33 @@ public class UserRegistrationActivity extends ActionBarActivity {
                 wr.close();
                 System.out.println("status code " + statusCode);
 
+                InputStream in = urlConnection.getInputStream();
+                //StringBuffer sb = new StringBuffer();
+                int chr;
+                while ((chr = in.read()) != -1) {
+                    reply.append((char) chr);
+                }
+                System.out.println("Value of response...." + reply.toString());
                 /* 200 represents HTTP OK */
-//                if (statusCode == 200) {
-//                    inputStream = new BufferedInputStream(urlConnection.getInputStream());
-//                    String response = convertInputStreamToString(inputStream);
-//                    //   parseResult(response);
-//
-//                    System.out.println("Value of response...." + response);
-//                    result = 1; // Successful
-//                } else {
-//                    result = 0; //"Failed to fetch data!";
-//                }
+
                 urlConnection.disconnect();
             } catch (Exception e) {
                 Log.d("error", e.toString());
             }
-            return null;
+            return reply.toString();
         }
 
         @Override
-        protected void onPostExecute(Void result) {
-            System.out.println("Value of content in onPostExecute()....");
+        protected void onPostExecute(String result) {
+            System.out.println("RESULT: " + result);
+            if (result!=null && result.equals("successful")) {
+                Intent i = new Intent(UserRegistrationActivity.this, ShowdevicesActivity.class);
+                startActivity(i);
+            } else {
+                Toast.makeText(UserRegistrationActivity.this,"Unable to register the user",Toast.LENGTH_LONG).show();
+            }
         }
 
-    }
-
-    private String convertInputStreamToString(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        String line = "";
-        String result = "";
-        while ((line = bufferedReader.readLine()) != null) {
-            result += line;
-        }
-
-            /* Close Stream */
-        if (null != inputStream) {
-            inputStream.close();
-        }
-        System.out.println("result value" + result);
-        return result;
     }
 
     @Override
