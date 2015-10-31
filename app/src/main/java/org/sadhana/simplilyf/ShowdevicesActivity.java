@@ -93,7 +93,7 @@ public class ShowdevicesActivity extends ActionBarActivity {
             try {
                 System.out.println("HELLO ENDPOINT");
                 /* forming th java.net.URL object */
-                URL url = new URL("http://10.189.50.243:3000");
+                URL url = new URL("http://10.189.50.243:3000/light/getlight/1");
                 urlConnection = (HttpURLConnection) url.openConnection();
 
                  /* optional request header */
@@ -113,7 +113,7 @@ public class ShowdevicesActivity extends ActionBarActivity {
                     String response = convertInputStreamToString(inputStream);
                     PhilipsData msg = new Gson().fromJson(response, PhilipsData.class);
                     //   parseResult(response);
-                    System.out.println("Philips response...." + msg.get_1().getJsonContent().getName());
+                    System.out.println("Philips response...." + msg.getName());
                     result = 1; // Successful
                 } else {
                     result = 0; //"Failed to fetch data!";
