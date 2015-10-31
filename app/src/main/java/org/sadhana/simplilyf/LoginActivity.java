@@ -3,6 +3,7 @@ package org.sadhana.simplilyf;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -18,14 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.Profile;
-import com.facebook.ProfileTracker;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
@@ -37,20 +30,27 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
-import java.io.InputStream;
-import java.util.Arrays;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class LoginActivity extends Activity implements
-        ConnectionCallbacks, OnConnectionFailedListener{
+        ConnectionCallbacks, OnConnectionFailedListener {
+
+    // endpoints
+    final String SERVER = "http://10.189.115.74:3000";
 
     private Button mLoginBtn;
     private EditText mUserName;
     private EditText mPassword;
     private TextView mRegisterlink;
     private TextView mForgotLink;
-    private CallbackManager callbackManager;
-    private LoginButton loginButton;
     private static final int RC_SIGN_IN = 0;
     // Logcat tag
     private static final String TAG = "MainActivity";
@@ -79,68 +79,28 @@ public class LoginActivity extends Activity implements
     private LinearLayout emailLayout;
     private LinearLayout pwdLayout;
     private LinearLayout btnLayout;
-    private Button fbLoginLayout;
+
     private Button btnMydevices;
-    private ProfileTracker mProfileTracker;
+
+    private static String userEmail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
-
         setContentView(R.layout.activity_login);
-        loginButton = (LoginButton)findViewById(R.id.FBlogin_button);
-        loginButton.setReadPermissions(Arrays.asList("public_profile, email,user_friends"));
-        // Callback registration
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        mLoginBtn = (Button) findViewById(R.id.btn_login);
 
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                System.out.println("Authentication Token : " + loginResult.getAccessToken().getToken());
-                mProfileTracker = new ProfileTracker() {
-                    @Override
-                    protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
-                        Log.v("facebook - profile", profile2.getFirstName());
-                        Log.v("facebook-profile", profile2.getName());
-                        profile2.getProfilePictureUri(50, 50);
-                        mProfileTracker.stopTracking();
-                    }
-
-                };
-                Intent i=new Intent(LoginActivity.this,UserProfileActivity.class);
-                //mProfileTracker.g
-                String token=loginResult.getAccessToken().getToken();
-
-               System.out.println("donno" + mProfileTracker.getClass().getName());
-                i.putExtra("TOKEN_VALUE",token);
-                startActivity(i);
-                mProfileTracker.startTracking();
-            }
-
-            @Override
-            public void onCancel() {
-                // App code
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                // App code
-            }
-        });
-
-
-
-        mLoginBtn =(Button)findViewById(R.id.btn_login);
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, ShowdevicesActivity.class);
-                startActivity(i);
+                userEmail = mUserName.getText().toString();
+                new PostUserInfoAsync().execute(userEmail, mPassword.getText().toString());
             }
         });
 
-        mRegisterlink=(TextView)findViewById(R.id.link_register);
+        mRegisterlink = (TextView) findViewById(R.id.link_register);
         mRegisterlink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,8 +108,10 @@ public class LoginActivity extends Activity implements
                 startActivity(i);
             }
         });
-        mUserName=(EditText)findViewById(R.id.input_username);
-        mPassword=(EditText) findViewById(R.id.input_password);
+        mUserName = (EditText) findViewById(R.id.input_username);
+        mPassword = (EditText) findViewById(R.id.input_password);
+        SharedPreferences pref = getSharedPreferences("AppPref", MODE_PRIVATE);
+
 
         // for G+
         btnSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
@@ -159,12 +121,12 @@ public class LoginActivity extends Activity implements
         txtName = (TextView) findViewById(R.id.txtName);
         txtEmail = (TextView) findViewById(R.id.txtEmail);
         llProfileLayout = (LinearLayout) findViewById(R.id.gmailLayout);
-        emailLayout=(LinearLayout)findViewById(R.id.emailLayout);
-        pwdLayout=(LinearLayout)findViewById(R.id.pwdLayout);
-        fbLoginLayout=(Button)findViewById(R.id.FBlogin_button);
-        btnLayout=(LinearLayout)findViewById(R.id.btnLayout);
-        mForgotLink=(TextView)findViewById(R.id.link_forgotDetails);
-        btnMydevices=(Button)findViewById(R.id.myDevices);
+        emailLayout = (LinearLayout) findViewById(R.id.emailLayout);
+        pwdLayout = (LinearLayout) findViewById(R.id.pwdLayout);
+
+        btnLayout = (LinearLayout) findViewById(R.id.btnLayout);
+        mForgotLink = (TextView) findViewById(R.id.link_forgotDetails);
+        btnMydevices = (Button) findViewById(R.id.myDevices);
         btnMydevices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,8 +139,6 @@ public class LoginActivity extends Activity implements
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Intent i=new Intent(LoginActivity.this,UserProfile.class);
-
                 signInWithGplus();
             }
         });
@@ -212,9 +172,10 @@ public class LoginActivity extends Activity implements
             mGoogleApiClient.disconnect();
         }
     }
+
     /**
      * Method to resolve any signin errors
-     * */
+     */
     private void resolveSignInError() {
         if (mConnectionResult.hasResolution()) {
             try {
@@ -248,6 +209,7 @@ public class LoginActivity extends Activity implements
         }
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -258,8 +220,7 @@ public class LoginActivity extends Activity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-      //  resultCode.
+        //  resultCode.
 
         if (requestCode == RC_SIGN_IN) {
             if (resultCode != RESULT_OK) {
@@ -290,7 +251,7 @@ public class LoginActivity extends Activity implements
 
     /**
      * Updating the UI, showing/hiding buttons and profile layout
-     * */
+     */
     private void updateUI(boolean isSignedIn) {
         if (isSignedIn) {
             btnSignIn.setVisibility(View.GONE);
@@ -300,7 +261,7 @@ public class LoginActivity extends Activity implements
             llProfileLayout.setVisibility(View.VISIBLE);
             emailLayout.setVisibility(View.GONE);
             pwdLayout.setVisibility(View.GONE);
-            fbLoginLayout.setVisibility(View.GONE);
+
             mRegisterlink.setVisibility(View.GONE);
             mForgotLink.setVisibility(View.GONE);
             btnLayout.setVisibility(View.GONE);
@@ -313,7 +274,7 @@ public class LoginActivity extends Activity implements
             llProfileLayout.setVisibility(View.GONE);
             emailLayout.setVisibility(View.VISIBLE);
             pwdLayout.setVisibility(View.VISIBLE);
-            fbLoginLayout.setVisibility(View.VISIBLE);
+
             mRegisterlink.setVisibility(View.VISIBLE);
             mForgotLink.setVisibility(View.VISIBLE);
             btnLayout.setVisibility(View.VISIBLE);
@@ -322,7 +283,7 @@ public class LoginActivity extends Activity implements
 
     /**
      * Fetching user's information name, email, profile pic
-     * */
+     */
     private void getProfileInformation() {
         try {
             if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
@@ -363,6 +324,7 @@ public class LoginActivity extends Activity implements
         mGoogleApiClient.connect();
         updateUI(false);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -380,7 +342,7 @@ public class LoginActivity extends Activity implements
 
     /**
      * Sign-in into google
-     * */
+     */
     private void signInWithGplus() {
         if (!mGoogleApiClient.isConnecting()) {
             mSignInClicked = true;
@@ -390,7 +352,7 @@ public class LoginActivity extends Activity implements
 
     /**
      * Sign-out from google
-     * */
+     */
     private void signOutFromGplus() {
         if (mGoogleApiClient.isConnected()) {
             Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
@@ -402,7 +364,7 @@ public class LoginActivity extends Activity implements
 
     /**
      * Revoking access from google
-     * */
+     */
     private void revokeGplusAccess() {
         if (mGoogleApiClient.isConnected()) {
             Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
@@ -421,7 +383,7 @@ public class LoginActivity extends Activity implements
 
     /**
      * Background Async task to load user profile picture from url
-     * */
+     */
     private class LoadProfileImage extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
@@ -446,7 +408,113 @@ public class LoginActivity extends Activity implements
             bmImage.setImageBitmap(result);
         }
     }
+
+    private class PostUserInfoAsync extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            InputStream inputStream = null;
+            HttpURLConnection urlConnection = null;
+            Integer result = 0;
+            String output = null;
+            StringBuilder reply = new StringBuilder();
+            try {
+                System.out.println("LOGIN ENDPOINT");
+                /* forming th java.net.URL object */
+                String endpoint = SERVER + "/signin";
+                URL url = new URL(endpoint);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                 /* optional request header */
+                //urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                /* optional request header */
+                //urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.setDoOutput(true); // accept request body
+                urlConnection.setDoInput(true);
+                urlConnection.setChunkedStreamingMode(0);
+                urlConnection.setRequestMethod("POST");
+
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("username", params[0]);
+                jsonParam.put("password", params[1]);
+                // Set request header
+                urlConnection.setRequestProperty("Accept-Charset", "UTF-8");
+                urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                urlConnection.setUseCaches(false);
+
+                // write body
+                OutputStream wr= urlConnection.getOutputStream();
+                wr.write(jsonParam.toString().getBytes("UTF-8"));
+                int statusCode = urlConnection.getResponseCode();
+                wr.close();
+                System.out.println("status code " + statusCode);
+
+
+                //STATUS CODE checking
+
+                //if (statusCode == 200) {
+                //inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                //response = convertInputStreamToString(inputStream);
+                    //   parseResult(response);
+
+//                BufferedReader br = new BufferedReader(new InputStreamReader(
+//                        (urlConnection.getInputStream())));
+//                System.out.println("Output from Server .... \n");
+//                while ((output = br.readLine()) != null) {
+//                    System.out.println(output);
+//                }
+
+                InputStream in = urlConnection.getInputStream();
+                //StringBuffer sb = new StringBuffer();
+                int chr;
+                while ((chr = in.read()) != -1) {
+                   reply.append((char) chr);
+                }
+                System.out.println("Value of response...." + reply.toString());
+                    //result = 1; // Successful
+//                } else {
+//                    result = 0; //"Failed to fetch data!";
+//                }
+                in.close();
+                urlConnection.disconnect();
+            } catch (Exception e) {
+                Log.d("error", e.toString());
+            }
+            return reply.toString();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            System.out.println("RESULT: " + result);
+            if (result!=null && result.equals(userEmail)) {
+                Intent i = new Intent(LoginActivity.this, ShowdevicesActivity.class);
+                startActivity(i);
+            } else {
+                Toast.makeText(LoginActivity.this,"Invalid login",Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private String convertInputStreamToString(InputStream inputStream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while ((line = bufferedReader.readLine()) != null) {
+            result += line;
+        }
+
+            /* Close Stream */
+        if (null != inputStream) {
+            inputStream.close();
+        }
+        System.out.println("result value" + result);
+        return result;
+    }
+
 }
+
+
+
 
 
 // App code
@@ -495,3 +563,4 @@ public class LoginActivity extends Activity implements
                         });
                 request.executeAsync();
                 */
+
