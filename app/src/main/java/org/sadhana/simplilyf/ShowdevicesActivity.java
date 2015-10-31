@@ -1,12 +1,24 @@
 package org.sadhana.simplilyf;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+
+import com.google.gson.Gson;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 public class ShowdevicesActivity extends ActionBarActivity {
@@ -42,6 +54,7 @@ public class ShowdevicesActivity extends ActionBarActivity {
         mPhilipsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new AsyncHttpTask().execute();
                 Intent i=new Intent(ShowdevicesActivity.this,PhilipsdevicesActivity.class);
                 startActivity(i);
             }
@@ -68,5 +81,66 @@ public class ShowdevicesActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public class AsyncHttpTask extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected String doInBackground(Void... params) {
+            InputStream inputStream = null;
+            HttpURLConnection urlConnection = null;
+            Integer result = 0;
+            try {
+                System.out.println("HELLO ENDPOINT");
+                /* forming th java.net.URL object */
+                URL url = new URL("http://10.189.113.14:3000/light/getall");
+                urlConnection = (HttpURLConnection) url.openConnection();
+
+                 /* optional request header */
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                /* optional request header */
+                urlConnection.setRequestProperty("Accept", "application/json");
+
+                /* for Get request */
+                urlConnection.setRequestMethod("GET");
+                //  List<NameValuePairs>
+                int statusCode = urlConnection.getResponseCode();
+                System.out.println("status code: " + statusCode);
+                /* 200 represents HTTP OK */
+                if (statusCode == 200) {
+                    inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                    String response = convertInputStreamToString(inputStream);
+                    PhilipsData msg = new Gson().fromJson(response, PhilipsData.class);
+                    //   parseResult(response);
+
+                    System.out.println("Philips  response...." + msg.getName());
+                    result = 1; // Successful
+                } else {
+                    result = 0; //"Failed to fetch data!";
+                }
+            } catch (Exception e) {
+                Log.d("error", e.toString());
+            }
+            return null;
+        }
+
+    }
+
+
+    private String convertInputStreamToString(InputStream inputStream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while ((line = bufferedReader.readLine()) != null) {
+            result += line;
+        }
+
+            /* Close Stream */
+        if (null != inputStream) {
+            inputStream.close();
+        }
+        System.out.println("result value" + result);
+        return result;
     }
 }
