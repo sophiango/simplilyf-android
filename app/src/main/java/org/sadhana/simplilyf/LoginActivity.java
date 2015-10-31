@@ -6,7 +6,6 @@ import android.content.IntentSender.SendIntentException;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,26 +32,19 @@ import com.google.android.gms.plus.model.people.Person;
 
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
-import javax.net.ssl.HttpsURLConnection;
 
 public class LoginActivity extends Activity implements
         ConnectionCallbacks, OnConnectionFailedListener {
 
     // endpoints
-    final String SERVER = "http://172.16.1.14:3000";
+    final String SERVER = "http://10.189.115.74:3000";
 
     private Button mLoginBtn;
     private EditText mUserName;
