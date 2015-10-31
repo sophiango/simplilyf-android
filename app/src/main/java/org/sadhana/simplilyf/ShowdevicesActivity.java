@@ -91,7 +91,7 @@ public class ShowdevicesActivity extends ActionBarActivity {
             HttpURLConnection urlConnection = null;
             Integer result = 0;
             try {
-                System.out.println("HELLO ENDPOINT");
+                System.out.println("Philips endpoint");
                 /* forming th java.net.URL object */
                 URL url = new URL("http://10.189.50.243:3000/light/getlight/1");
                 urlConnection = (HttpURLConnection) url.openConnection();
