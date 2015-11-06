@@ -1,19 +1,21 @@
 package org.sadhana.simplilyf;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 
 public class PhilipsdevicesActivity extends ActionBarActivity {
+
 
     private ListView myList;
 
@@ -26,16 +28,19 @@ public class PhilipsdevicesActivity extends ActionBarActivity {
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(NestdevicesActivity.this, "Row " + position + " clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PhilipsdevicesActivity.this, "Row " + position + " clicked", Toast.LENGTH_SHORT).show();
+               // new PhilipsDetailAsync().execute(position+1);
+                String pos=Integer.toString(position+1);
                 Intent i = new Intent(PhilipsdevicesActivity.this, PhilipsDetailsActivity.class);
+                i.putExtra("position Value",pos);
                 System.out.print("Starting Intent");
                 startActivity(i);
             }
         });
         FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
         final ArrayList list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            list.add("Item " + i);
+        for (int i = 1; i < 4; i++) {
+            list.add("Hue Light " + i);
         }
         final MyCustomAdapter adapter = new MyCustomAdapter(PhilipsdevicesActivity.this, list);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -77,4 +82,7 @@ public class PhilipsdevicesActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }
