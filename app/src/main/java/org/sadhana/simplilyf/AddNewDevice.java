@@ -19,7 +19,7 @@ import java.net.URL;
 
 public class AddNewDevice extends AppCompatActivity {
 
-    final String SERVER = "http://172.16.1.14:3000";
+    final String SERVER = "http://10.189.114.99:3000";
     EditText inputFullname, inputEmail, inputPW;
 
 
