@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -27,6 +28,7 @@ public class PhilipsDetailsActivity extends AppCompatActivity {
     private EditText mlightStatus;
     private Button mOnButton;
     private Button mOffButton;
+    private String position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public class PhilipsDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_philips_details);
         mlightStatus=(EditText)findViewById(R.id.lightStatus_value);
         Intent intent=getIntent();
-      String position=  intent.getStringExtra("position Value");
+       position=  intent.getStringExtra("position Value");
         System.out.println("value from intent  "+position);
         new PhilipsDetailAsync().execute(position);
         mOnButton=(Button)findViewById(R.id.turnon);
@@ -47,11 +49,23 @@ public class PhilipsDetailsActivity extends AppCompatActivity {
                 System.out.println("value of editetxt   "+mlightStatus.getText().toString());
                 String lightStatus=mlightStatus.getText().toString();
                 System.out.println("light status "+lightStatus);
-                if(lightStatus.equals("true"))
+                if(lightStatus.equals("true")) {
                     System.out.println("light is true");
+                    //hit the endpoint
+                    new PhilipsLightOFFAsync().execute(position);
+                }
 
-                else
+                else {
                     System.out.println("light is false");
+                    Toast.makeText(PhilipsDetailsActivity.this, "Light is already OFF!", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+
+        mOffButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });
@@ -139,6 +153,123 @@ public class PhilipsDetailsActivity extends AppCompatActivity {
         }
     }
 
+    public class PhilipsLightOFFAsync extends AsyncTask<String, Void, PhilipsData> {
+
+        @Override
+        protected PhilipsData doInBackground(String... params) {
+            InputStream inputStream = null;
+            //int deviceNum=params[0];
+            String deviceNum= SERVER+"off/"+params[0];
+            HttpURLConnection urlConnection = null;
+            Integer result = 0;
+            PhilipsData msg=new PhilipsData();
+            try {
+                System.out.println("endpoint value "+deviceNum);
+                System.out.println("Off Philips endpoint");
+                /* forming th java.net.URL object */
+                URL url = new URL(deviceNum);
+                urlConnection = (HttpURLConnection) url.openConnection();
+
+                 /* optional request header */
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                /* optional request header */
+                urlConnection.setRequestProperty("Accept", "application/json");
+
+                /* for Get request */
+                urlConnection.setRequestMethod("POST");
+                //  List<NameValuePairs>
+                int statusCode = urlConnection.getResponseCode();
+                System.out.println("status code in off: " + statusCode);
+                /* 200 represents HTTP OK */
+                if (statusCode == 200) {
+                    inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                    String response = convertInputStreamToString(inputStream);
+                    msg = new Gson().fromJson(response, PhilipsData.class);
+                    //   parseResult(response);
+                    System.out.println("Philips response....in off " +msg.getName()+" "+ msg.getState().getOn());
+                    result = 1; // Successful
+                } else {
+                    result = 0; //"Failed to fetch data!";
+                }
+            } catch (Exception e) {
+                Log.d("error", e.toString());
+            }
+            return msg;
+        }
+
+        @Override
+        protected void onPostExecute(PhilipsData result) {
+            System.out.println("RESULT: " + result);
+            // System.out.println("value of light status"+result.getState().getOn());
+            if(result.getState().getOn()==true){
+                mlightStatus.setText("true");
+            }
+            else
+                mlightStatus.setText("false");
+
+
+        }
+    }
+
+    public class PhilipsLightONAsync extends AsyncTask<String, Void, PhilipsData> {
+
+        @Override
+        protected PhilipsData doInBackground(String... params) {
+            InputStream inputStream = null;
+            //int deviceNum=params[0];
+            String deviceNum= SERVER+"on/"+params[0];
+            HttpURLConnection urlConnection = null;
+            Integer result = 0;
+            PhilipsData msg=new PhilipsData();
+            try {
+                System.out.println("endpoint value "+deviceNum);
+                System.out.println("On Philips endpoint");
+                /* forming th java.net.URL object */
+                URL url = new URL(deviceNum);
+                urlConnection = (HttpURLConnection) url.openConnection();
+
+                 /* optional request header */
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                /* optional request header */
+                urlConnection.setRequestProperty("Accept", "application/json");
+
+                /* for Get request */
+                urlConnection.setRequestMethod("POST");
+                //  List<NameValuePairs>
+                int statusCode = urlConnection.getResponseCode();
+                System.out.println("status code in on: " + statusCode);
+                /* 200 represents HTTP OK */
+                if (statusCode == 200) {
+                    inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                    String response = convertInputStreamToString(inputStream);
+                    msg = new Gson().fromJson(response, PhilipsData.class);
+                    //   parseResult(response);
+                    System.out.println("Philips response....in on " +msg.getName()+" "+ msg.getState().getOn());
+                    result = 1; // Successful
+                } else {
+                    result = 0; //"Failed to fetch data!";
+                }
+            } catch (Exception e) {
+                Log.d("error", e.toString());
+            }
+            return msg;
+        }
+
+        @Override
+        protected void onPostExecute(PhilipsData result) {
+            System.out.println("RESULT: " + result);
+            // System.out.println("value of light status"+result.getState().getOn());
+            if(result.getState().getOn()==true){
+                mlightStatus.setText("true");
+            }
+            else
+                mlightStatus.setText("false");
+
+
+        }
+    }
 
     private String convertInputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
