@@ -10,12 +10,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddNewDevice extends AppCompatActivity {
 
@@ -100,7 +104,16 @@ public class AddNewDevice extends AppCompatActivity {
                 while ((chr = in.read()) != -1) {
                     reply.append((char) chr);
                 }
-                System.out.println("Value of response...." + reply.toString());
+                String [] perThermoData = reply.toString().split("/");
+                System.out.println("size: " + perThermoData.length);
+                List<NestData> allThermoData = new ArrayList<NestData>();
+                for (int i = 0; i < perThermoData.length; i++){
+                    NestData nestData = new Gson().fromJson(perThermoData[i], NestData.class);
+                    allThermoData.add(nestData);
+                    System.out.println("nest data: " + nestData + " size: " + allThermoData.size());
+                }
+
+                System.out.println("Value of response...." + allThermoData.get(0).getName() + "," + allThermoData.get(1).getName());
                 /* 200 represents HTTP OK */
 
                 urlConnection.disconnect();
@@ -113,12 +126,12 @@ public class AddNewDevice extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             System.out.println("RESULT: " + result);
-            if (result!=null) {
+            if (result.equals(null) || result.equals("")) {
+                Toast.makeText(AddNewDevice.this, "Unable to register the user", Toast.LENGTH_LONG).show();
+            } else {
                 Toast.makeText(AddNewDevice.this, "Successful login", Toast.LENGTH_LONG).show();
                 Intent i = new Intent(AddNewDevice.this, NestLivingrmActivity.class);
                 startActivity(i);
-            } else {
-                Toast.makeText(AddNewDevice.this, "Unable to register the user", Toast.LENGTH_LONG).show();
             }
         }
 
