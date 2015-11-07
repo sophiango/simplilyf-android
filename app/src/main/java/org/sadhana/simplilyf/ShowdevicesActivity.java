@@ -54,7 +54,7 @@ public class ShowdevicesActivity extends ActionBarActivity {
         mPhilipsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AsyncHttpTask().execute();
+               // new AsyncHttpTask().execute();
                 Intent i=new Intent(ShowdevicesActivity.this,PhilipsdevicesActivity.class);
                 startActivity(i);
             }
@@ -93,7 +93,7 @@ public class ShowdevicesActivity extends ActionBarActivity {
             try {
                 System.out.println("Philips endpoint");
                 /* forming th java.net.URL object */
-                URL url = new URL("http://10.189.50.243:3000/light/getlight/1");
+                URL url = new URL("http://10.189.113.0:3000/light/getlight/1");
                 urlConnection = (HttpURLConnection) url.openConnection();
 
                  /* optional request header */

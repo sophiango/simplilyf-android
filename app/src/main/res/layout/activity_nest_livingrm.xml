@@ -28,54 +28,146 @@
         android:layout_weight="0.30" />
 
 
-    <RelativeLayout
-        android:id="@+id/thermostat_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@mipmap/nestlivingroom">
+    <!--<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+        <!--android:text="Current temp:"-->
+        <!--android:layout_centerInParent="true" />-->
+    <!--<EditText-->
+        <!--android:id="@+id/temp_value"-->
+        <!--android:text="@string/content_value"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true" />-->
 
+    <!--<LinearLayout-->
+        <!--android:id="@+id/updateLayout"-->
+        <!--android:layout_width="match_parent" android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:weightSum="4"-->
+        <!--android:orientation="horizontal">-->
+        <!--<Button android:id="@+id/update" android:text="Update Temp" android:layout_weight="1.94" android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"/>-->
 
+        <!--<EditText android:id="@+id/update_tempValue"-->
+            <!--android:layout_width="248dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:hint="TempValue" />-->
+        <!--&lt;!&ndash;<Button android:id="@+id/cool" android:text="Cool" android:layout_weight="1.94" android:layout_width="0dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"/>&ndash;&gt;-->
 
-    </RelativeLayout>
+        <!--&lt;!&ndash;<Button android:id="@+id/heat_cool" android:text="Range" android:layout_weight="1" android:layout_width="0dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<Button android:id="@+id/off" android:text="Off" android:layout_weight="1" android:layout_width="0dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"/>&ndash;&gt;-->
+    <!--</LinearLayout>-->
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Thermostat mode:"-->
+        <!--android:layout_above="@+id/hvac_mode_control_container"-->
 
+         <!--/>-->
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="Current temp:"
+    <!--<LinearLayout-->
+        <!--android:id="@+id/hvac_mode_control_container"-->
+        <!--android:layout_width="match_parent" android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:weightSum="4"-->
+        <!--android:orientation="horizontal">-->
+        <!--<Button android:id="@+id/heat" android:text="Away" android:layout_weight="1.94" android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"/>-->
+        <!--<Button android:id="@+id/cool" android:text="Cool" android:layout_weight="1.94" android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"/>-->
+        <!--&lt;!&ndash;<Button android:id="@+id/heat_cool" android:text="Range" android:layout_weight="1" android:layout_width="0dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<Button android:id="@+id/off" android:text="Off" android:layout_weight="1" android:layout_width="0dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"/>&ndash;&gt;-->
+    <!--</LinearLayout>-->
 
-        android:layout_above="@+id/thermostat_view"
-        />
-    <TextView
-        android:id="@+id/temp_value"
-        android:text="@string/content_value"
-        android:layout_above="@+id/thermostat_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/thermostat_view"
-         />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Thermostat mode:"
-        android:layout_above="@+id/hvac_mode_control_container"
-
-         />
 
     <LinearLayout
-        android:id="@+id/hvac_mode_control_container"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:weightSum="4"
-        android:orientation="horizontal">
-        <Button android:id="@+id/heat" android:text="Away" android:layout_weight="1.94" android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
-        <Button android:id="@+id/cool" android:text="Cool" android:layout_weight="1.94" android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
-        <!--<Button android:id="@+id/heat_cool" android:text="Range" android:layout_weight="1" android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"/>-->
-        <!--<Button android:id="@+id/off" android:text="Off" android:layout_weight="1" android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"/>-->
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dip"
+        android:layout_marginTop="90dp"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView android:text="Current temp:"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText android:id="@+id/temp_value"
+                android:layout_width="248dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:hint="TempValue" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button android:text="Update"
+                android:id="@+id/updateTempBtn"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText android:id="@+id/tempValue"
+                android:layout_width="248dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:hint="TempValue" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView android:text="Thermostat Modes"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+        <LinearLayout  android:id="@+id/ModesLayout"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button android:text="Away"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/awayBtn"/>
+
+
+            <Button android:id="@+id/coolBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cool"
+                android:layout_marginLeft="25dp"
+
+               />
+        </LinearLayout>
+
+
+
+
+
+
     </LinearLayout>
+
+
 
 </RelativeLayout>
 
