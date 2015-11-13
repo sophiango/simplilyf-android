@@ -112,6 +112,7 @@ public class AddNewDevice extends AppCompatActivity {
                     JSONObject eachNestJson = thermoArray.getJSONObject(i);
                     NestData nestData = new Gson().fromJson(eachNestJson.toString(), NestData.class);
                     allThermoData.add(nestData);
+                    System.out.println("nest data: " + nestData.getName() + " " + nestData.getTargetTemperature());
                 }
 
 //                NestData nestData = new NestData();
@@ -125,7 +126,7 @@ public class AddNewDevice extends AppCompatActivity {
 //                    allThermoData.add(nestData);
 ////                    System.out.println("nest data: " + nestData + " size: " + allThermoData.size());
 //                }
-                System.out.println("nest data: " + allThermoData.get(0).getTargetTemperature());
+                //System.out.println("nest data: " + allThermoData.get(0).getTargetTemperature());
                 thermoList = new ThermoList(allThermoData);
 
                 System.out.println("Value of response...." + allThermoData.get(0).getName() + "," + allThermoData.get(1).getName());
