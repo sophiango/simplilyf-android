@@ -55,6 +55,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
     private int mic_flag=0;
     private String user_speech="";
     private String confirm_device="";
+    private String temp_thermostat="";
     private TextToSpeech repeatTTS;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,13 +129,11 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                 if(input.equalsIgnoreCase("done")){
                     startActivityForResult(intent_new, REQ_CODE_SPEECH_INPUT_SECOND);
                 }
-                if(input.equalsIgnoreCase("confrim_temp")){
+                if(input.equalsIgnoreCase("confirm_temp")){
                     startActivityForResult(intent_new, REQ_CODE_SPEECH_INPUT_SEND_TEMP);
                 }
-                if(input.equalsIgnoreCase("confrim_device_thermo")){
+                if(input.equalsIgnoreCase("confirm_device")){
                     startActivityForResult(intent_new, REQ_CODE_SPEECH_INPUT_CONFIRM_DEVICE);
-                }if(input.equalsIgnoreCase("confrim_device_light")){
-                    startActivityForResult(intent_new, REQ_CODE_SPEECH_INPUT_LIGHT_SEND);
                 }
             } catch (ActivityNotFoundException a) {
                 Toast.makeText(getApplicationContext(),
@@ -177,11 +176,6 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                     HashMap<String, String> myHash = new HashMap<String, String>();
                     myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "done");
                     repeatTTS.speak("Did you say " + user_speech, TextToSpeech.QUEUE_FLUSH, myHash);
-                  /*  boolean tts_isspeaking=repeatTTS.isSpeaking();
-                    do{
-                        tts_isspeaking=repeatTTS.isSpeaking();
-                    }while(tts_isspeaking); //be in the loop till the speaking*/
-
                 }
                 break;
             }
@@ -194,21 +188,20 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                     if("yes".equalsIgnoreCase(text_output)){
                         repeatTTS.speak("Ok wait a moment", TextToSpeech.QUEUE_FLUSH, null);
                         String recieved_key =check_in_database(user_speech);
-                        //check the four keywords
                         HashMap<String, String> myHash = new HashMap<String, String>();
                         if(recieved_key.equalsIgnoreCase("turn_on")){
                             myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_device");
                             repeatTTS.speak("Do you want to turn on the thermostat or the light",TextToSpeech.QUEUE_FLUSH,myHash);
                         }
                      if(recieved_key.equalsIgnoreCase("increase_temp")||recieved_key.equalsIgnoreCase("decrease_temp")){
-                          // google girl should ask the user by how much to increas
                             myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_temp");
                             repeatTTS.speak("What temperature do you want to set the thermostat to",TextToSpeech.QUEUE_FLUSH,myHash);
-                            //create another intent to recieve user's input for temperature
-                        }else if(recieved_key.equalsIgnoreCase("on_lights")){
+                     }else if(recieved_key.equalsIgnoreCase("on_lights")){
                             repeatTTS.speak("Turning on the lights",TextToSpeech.QUEUE_FLUSH,myHash);
+                         //call the light api to turn on lights
                         }else if(recieved_key.equalsIgnoreCase("off_lights")){
                             repeatTTS.speak("Turning off the lights",TextToSpeech.QUEUE_FLUSH,myHash);
+                         //call the light api to turn off the lights
                         }else{
                         repeatTTS.speak("Sorry, did not get you.Please say again", TextToSpeech.QUEUE_FLUSH, null);
                         }
@@ -221,7 +214,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                 }
                 break;
             }
-            case REQ_CODE_SPEECH_INPUT_CHECK_DEVICE:{
+            case REQ_CODE_SPEECH_INPUT_CHECK_DEVICE:{ //ask device
                 if (resultCode == RESULT_OK && null != data) {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
@@ -233,7 +226,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                 }
                 break;
             }
-            case REQ_CODE_SPEECH_INPUT_CONFIRM_DEVICE:{
+            case REQ_CODE_SPEECH_INPUT_CONFIRM_DEVICE:{ //confirm device
                 if (resultCode == RESULT_OK && null != data) {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
@@ -243,34 +236,39 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
 
                     if("yes".equalsIgnoreCase(text_output)||"yeah".equalsIgnoreCase(text_output)){
                         //send the text_output to the thermostat api
-                        if(confirm_device.equalsIgnoreCase("thermostat")||confirm_device.equalsIgnoreCase("thermo")){
-                            repeatTTS.speak("Turning on the thermostat",TextToSpeech.QUEUE_FLUSH,null);
-                        }else if(confirm_device.equalsIgnoreCase("light")||confirm_device.equalsIgnoreCase("lights")){
+                        if(confirm_device.equalsIgnoreCase("thermostat")||confirm_device.equalsIgnoreCase("thermo")||confirm_device.equalsIgnoreCase("the thermostat")){
+                            myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_temp");
+                            repeatTTS.speak("Turning on the thermostat, what temperatute you want to set",TextToSpeech.QUEUE_FLUSH,null);
+                        }else if(confirm_device.equalsIgnoreCase("light")||confirm_device.equalsIgnoreCase("lights")||confirm_device.equalsIgnoreCase("the lights")||confirm_device.equalsIgnoreCase("the light")){
                             repeatTTS.speak("Turning on the lights",TextToSpeech.QUEUE_FLUSH,null);
+                            //call the light api to switch on
+                        }else{
+                            myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_device");
+                            repeatTTS.speak("Sorry, did not get you.Please say again", TextToSpeech.QUEUE_FLUSH, null);
                         }
                     }else if("no".equalsIgnoreCase(text_output)||"nope".equalsIgnoreCase(text_output)){
                         myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_device");
                         repeatTTS.speak("Ok,please tell us again what to switch on thermostat or light bulb",TextToSpeech.QUEUE_ADD,myHash);
                     }else{
-                        myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "confirm_temp");
+                        myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_device");
                         repeatTTS.speak("Sorry, did not get you.Please say again", TextToSpeech.QUEUE_FLUSH, null);
                     }
                 }
                 break;
             }
-            case REQ_CODE_SPEECH_INPUT_THIRD: {
+            case REQ_CODE_SPEECH_INPUT_THIRD: { //ask temperature
                 if (resultCode == RESULT_OK && null != data) {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     txtSpeechInput.setText(result.get(0));
-                    String text_output=result.get(0);
+                    temp_thermostat=result.get(0);
                     HashMap<String, String> myHash = new HashMap<String, String>();
                     myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "confirm_temp");
-                    repeatTTS.speak("Did you say " + text_output, TextToSpeech.QUEUE_FLUSH, myHash);
+                    repeatTTS.speak("Did you say " + temp_thermostat, TextToSpeech.QUEUE_FLUSH, myHash);
                 }
                 break;
             }
-            case REQ_CODE_SPEECH_INPUT_SEND_TEMP:{
+            case REQ_CODE_SPEECH_INPUT_SEND_TEMP:{ //confirm temperature
                 if (resultCode == RESULT_OK && null != data) {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
@@ -280,7 +278,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
 
                    if("yes".equalsIgnoreCase(text_output)||"yeah".equalsIgnoreCase(text_output)){
                        //send the text_output to the thermostat api
-                       repeatTTS.speak("Thankyou,set the temperature",TextToSpeech.QUEUE_FLUSH,null);
+                       repeatTTS.speak("Thankyou,set the temperature to"+temp_thermostat,TextToSpeech.QUEUE_FLUSH,null);
 
                    }else if("no".equalsIgnoreCase(text_output)||"nope".equalsIgnoreCase(text_output)){
                        myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_temp");
@@ -316,7 +314,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
             StringBuilder reply = new StringBuilder();
             try{
                 System.out.println("HELLO ENDPOINT");
-                String voice_url= "http://10.189.147.154:3000/voice/search";
+                String voice_url= "http://10.0.0.3:3000/voice/search";
                 URL url= new URL(voice_url);
                 urlConnection=(HttpURLConnection)url.openConnection();
 
@@ -398,7 +396,11 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
         }
         if(utteranceId.equalsIgnoreCase("confirm_temp")){
             System.out.print("ask the temperature");
-            call_new_intent("confrim_temp");
+            call_new_intent("confirm_temp");
+        }
+        if(utteranceId.equalsIgnoreCase("confirm_device")){
+            System.out.print("ask the device thermostat or light bulb");
+            call_new_intent("confirm_device");
         }
 
     }
