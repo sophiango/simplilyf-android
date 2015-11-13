@@ -23,8 +23,9 @@ import java.util.List;
 
 public class AddNewDevice extends AppCompatActivity {
 
-    final String SERVER = "http://10.189.114.99:3000";
+    final String SERVER = "http://10.189.50.220:3000";
     EditText inputFullname, inputEmail, inputPW;
+    List<NestData> allThermoData = new ArrayList<NestData>();
 
 
     @Override
@@ -46,12 +47,13 @@ public class AddNewDevice extends AppCompatActivity {
         });
     }
 
-    private class NestLoginAsync extends AsyncTask<String, Void, String> {
+    private class NestLoginAsync extends AsyncTask<String, Void, ThermoList> {
         @Override
-        protected String doInBackground(String... params) {
+        protected ThermoList doInBackground(String... params) {
             InputStream inputStream = null;
             HttpURLConnection urlConnection = null;
             StringBuilder reply = new StringBuilder();
+            ThermoList thermoList = null;
             try {
                 System.out.println("ADD NEW THERMO ENDPOINT");
                 /* forming th java.net.URL object */
@@ -106,12 +108,14 @@ public class AddNewDevice extends AppCompatActivity {
                 }
                 String [] perThermoData = reply.toString().split("/");
                 System.out.println("size: " + perThermoData.length);
-                List<NestData> allThermoData = new ArrayList<NestData>();
+
                 for (int i = 0; i < perThermoData.length; i++){
                     NestData nestData = new Gson().fromJson(perThermoData[i], NestData.class);
                     allThermoData.add(nestData);
                     System.out.println("nest data: " + nestData + " size: " + allThermoData.size());
                 }
+
+                thermoList = new ThermoList(allThermoData);
 
                 System.out.println("Value of response...." + allThermoData.get(0).getName() + "," + allThermoData.get(1).getName());
                 /* 200 represents HTTP OK */
@@ -120,17 +124,23 @@ public class AddNewDevice extends AppCompatActivity {
             } catch (Exception e) {
                 Log.d("error", e.toString());
             }
-            return reply.toString();
+            return thermoList;
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(ThermoList result) {
             System.out.println("RESULT: " + result);
-            if (result.equals(null) || result.equals("")) {
+            if (result==null) {
                 Toast.makeText(AddNewDevice.this, "Unable to register the user", Toast.LENGTH_LONG).show();
             } else {
+                //System.out.println("ON POST EXECUTE: " + result + " any result? " + result.get(0));
                 Toast.makeText(AddNewDevice.this, "Successful login", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(AddNewDevice.this, NestLivingrmActivity.class);
+                Intent i = new Intent(AddNewDevice.this, NestdevicesActivity.class);
+                //Bundle bundle = new Bundle();
+                //bundle.putSerializable("ThermoList", (Serializable) result);
+                i.putExtra("thermo",result);
+                //System.out.println("BUNDLE: " + bundle);
+                //i.putExtra("thermo",new Gson().toJson(result));
                 startActivity(i);
             }
         }

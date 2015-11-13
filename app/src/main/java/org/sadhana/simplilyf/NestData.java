@@ -2,6 +2,7 @@ package org.sadhana.simplilyf;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Map;
 /**
  * Created by SophiaNgo on 9/11/15.
  */
-public class NestData {
+public class NestData implements Serializable{
     @JsonProperty("$version")
     private Integer $version;
     @JsonProperty("$timestamp")

@@ -12,14 +12,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class NestdevicesActivity extends AppCompatActivity {
 
@@ -29,9 +33,42 @@ public class NestdevicesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nestdevices);
-        new AsyncHttpTask().execute();
+        //new AsyncHttpTask().execute();
         System.out.println("here");
+        ThermoList receivedThermoList = null;
+        List<NestData> listThermo = new ArrayList<NestData>();
         //relate the listView from java to the one created in xml
+        //String receivedJsonObject = "";
+        Intent i = getIntent();
+        Bundle receivedBundle = i.getExtras();
+//        if (receivedBundle!=null){
+//            receivedJsonObject = receivedBundle.getString("thermo");
+//            NestData receivedNestData = new Gson().fromJson(receivedJsonObject,NestData.class);
+//            System.out.println("Received data: " + receivedNestData.getName());
+//        }
+        if (receivedBundle != null){
+            receivedThermoList = (ThermoList) receivedBundle.getSerializable("thermo");
+            listThermo = receivedThermoList.getThermoList();
+            for (int j = 0; j < listThermo.size(); j++) {
+                System.out.println("thermo: " + listThermo.get(j));
+            }
+        }
+
+        //Serializable bundle = i.getSerializableExtra("ThermoList");
+        //List<NestData> listThermo = (List<NestData>) i.getSerializableExtra("ThermoList");
+        //System.out.println("BUNDLE RECEIVE: " + bundle);
+//        if (listThermo!=null) {
+//            //List<NestData> listThermo = (List<NestData>) bundle.get("ThermoList");
+////            if (listThermo.isEmpty()) {
+////                System.out.println("no thermo list");
+////            } else {
+//                for (int j = 0; j < listThermo.size(); j++) {
+//                    System.out.println("thermo: " + listThermo.get(j));
+//                }
+////            }
+//        }
+
+
         myList = (ListView) findViewById(R.id.list);
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -50,9 +87,9 @@ public class NestdevicesActivity extends AppCompatActivity {
         });
         FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
         final ArrayList list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            list.add("Item " + i);
-        }
+//        for (int i = 0; i < 5; i++) {
+//            list.add("Item " + i);
+//        }
         final MyCustomAdapter adapter = new MyCustomAdapter(NestdevicesActivity.this, list);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
