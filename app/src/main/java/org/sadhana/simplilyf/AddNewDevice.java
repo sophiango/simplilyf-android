@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
@@ -106,15 +107,25 @@ public class AddNewDevice extends AppCompatActivity {
                 while ((chr = in.read()) != -1) {
                     reply.append((char) chr);
                 }
-                String [] perThermoData = reply.toString().split("/");
-                System.out.println("size: " + perThermoData.length);
-
-                for (int i = 0; i < perThermoData.length; i++){
-                    NestData nestData = new Gson().fromJson(perThermoData[i], NestData.class);
+                JSONArray thermoArray = new JSONArray(reply.toString());
+                for(int i=0;i<thermoArray.length();i++){
+                    JSONObject eachNestJson = thermoArray.getJSONObject(i);
+                    NestData nestData = new Gson().fromJson(eachNestJson.toString(), NestData.class);
                     allThermoData.add(nestData);
-                    System.out.println("nest data: " + nestData + " size: " + allThermoData.size());
                 }
 
+//                NestData nestData = new NestData();
+//
+                //String [] perThermoData = reply.toString().split("/");
+                //System.out.println("size: " + perThermoData.length);
+
+//                for (int i = 0; i < perThermoData.length; i++){
+//                    NestData nestData = new Gson().fromJson(perThermoData[i], NestData.class);
+//                    System.out.println("nest: " + nestData.getCurrentTemperature() + nestData.getTargetTemperature() );
+//                    allThermoData.add(nestData);
+////                    System.out.println("nest data: " + nestData + " size: " + allThermoData.size());
+//                }
+                System.out.println("nest data: " + allThermoData.get(0).getTargetTemperature());
                 thermoList = new ThermoList(allThermoData);
 
                 System.out.println("Value of response...." + allThermoData.get(0).getName() + "," + allThermoData.get(1).getName());
