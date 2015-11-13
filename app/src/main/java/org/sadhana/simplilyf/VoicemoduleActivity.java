@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -28,6 +29,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,6 +60,8 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
     private String confirm_device="";
     private String temp_thermostat="";
     private TextToSpeech repeatTTS;
+    final String SERVER = "http://10.189.50.220:3000";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -278,6 +283,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
 
                    if("yes".equalsIgnoreCase(text_output)||"yeah".equalsIgnoreCase(text_output)){
                        //send the text_output to the thermostat api
+                       new ChangeTempAsync().execute("Livingroom",temp_thermostat);
                        repeatTTS.speak("Thankyou,set the temperature to"+temp_thermostat,TextToSpeech.QUEUE_FLUSH,null);
 
                    }else if("no".equalsIgnoreCase(text_output)||"nope".equalsIgnoreCase(text_output)){
@@ -305,6 +311,74 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
         }
     }
 
+    public class ChangeTempAsync extends AsyncTask<String,Void, String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+            InputStream inputStream = null;
+            HttpURLConnection urlConnection = null;
+            StringBuilder reply = new StringBuilder();
+            ThermoList thermoList = null;
+            try {
+                System.out.println("ADD NEW THERMO ENDPOINT");
+                /* forming th java.net.URL object */
+                String changeTempUrl = SERVER + "/thermo";
+                URL url = new URL(changeTempUrl);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                 /* optional request header */
+                //urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                /* optional request header */
+                //urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.setDoOutput(true); // accept request body
+                //urlConnection.setDoInput(true);
+                urlConnection.setChunkedStreamingMode(0);
+                urlConnection.setRequestMethod("PUT");
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("thermo_name", params[0]);
+                jsonParam.put("updated_temp", params[1]);
+                System.out.println("before post " + jsonParam.toString());
+
+                // Set request header
+                urlConnection.setRequestProperty("Accept-Charset", "UTF-8");
+                urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                urlConnection.setUseCaches(false);
+
+
+                //urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+                //urlConnection.setRequestProperty("Content-Length",Integer.toString(param.getBytes().length));
+
+                // write body
+                OutputStream wr= urlConnection.getOutputStream();
+                wr.write(jsonParam.toString().getBytes("UTF-8"));
+                int statusCode = urlConnection.getResponseCode();
+                wr.close();
+                System.out.println("status code " + statusCode);
+
+                InputStream in = urlConnection.getInputStream();
+                int chr;
+                while ((chr = in.read()) != -1) {
+                    reply.append((char) chr);
+                }
+                System.out.println("received: " + reply.toString());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            System.out.println("on post execute: " + s);
+        }
+    }
+
     public class VoiceAsyncTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
@@ -314,7 +388,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
             StringBuilder reply = new StringBuilder();
             try{
                 System.out.println("HELLO ENDPOINT");
-                String voice_url= "http://10.0.0.3:3000/voice/search";
+                String voice_url= SERVER + "/voice/search";
                 URL url= new URL(voice_url);
                 urlConnection=(HttpURLConnection)url.openConnection();
 
