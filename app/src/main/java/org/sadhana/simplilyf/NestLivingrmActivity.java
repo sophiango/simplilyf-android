@@ -1,33 +1,28 @@
 package org.sadhana.simplilyf;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 
 public class NestLivingrmActivity extends ActionBarActivity {
+
+    private EditText mTempValue;
+    //private Button
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nest_livingrm);
+        mTempValue=(EditText)findViewById(R.id.temp_value);
+        Intent i=getIntent();
+        String res=i.getStringExtra("TEMP");
 
-        String retrievedStr;
-        if (savedInstanceState == null) {
-            Bundle extras = getIntent().getExtras();
-            if(extras == null) {
-                retrievedStr= null;
-                System.out.println("VALUE OF RETRIEVED STRING1"+retrievedStr);
-            } else {
-                retrievedStr= (String)extras.get("VALUE_SENT");
-                System.out.println("VALUE OF RETRIEVED STRING2"+retrievedStr);
-            }
-        } else {
-            retrievedStr= (String) savedInstanceState.getSerializable("VALUE_SENT");
-        }
-        System.out.println("VALUE OF RETRIEVED STRING"+retrievedStr);
-
+        System.out.println("res receuved"+ res);
 
     }
 
@@ -53,3 +48,20 @@ public class NestLivingrmActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 }
+
+
+//        String retrievedStr;
+//        if (savedInstanceState == null) {
+//            Bundle extras = getIntent().getExtras();
+//            if(extras == null) {
+//                retrievedStr= null;
+//                System.out.println("VALUE OF RETRIEVED STRING1"+retrievedStr);
+//            } else {
+//                retrievedStr= (String)extras.get("TEMP");
+//                System.out.println("VALUE OF RETRIEVED STRING2"+retrievedStr);
+//                mTempValue.setText(retrievedStr);
+//            }
+//        } else {
+//            retrievedStr= (String) savedInstanceState.getSerializable("VALUE_SENT");
+//        }
+//        System.out.println("VALUE OF RETRIEVED STRING"+retrievedStr);
