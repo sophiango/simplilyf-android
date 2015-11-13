@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Sadhana on 10/31/15.
+ * Created by SophiaNgo on 10/31/15.
  */
 
 
@@ -119,11 +119,11 @@ public class PhilipsData{
             this.sat = sat;
         }
 
-        public List<Integer> getXy() {
+        public List<Float> getXy() {
             return xy;
         }
 
-        public void setXy(List<Integer> xy) {
+        public void setXy(List<Float> xy) {
             this.xy = xy;
         }
 
@@ -184,7 +184,7 @@ public class PhilipsData{
         @JsonProperty("sat")
         private Integer sat;
         @JsonProperty("xy")
-        private List<Integer> xy = new ArrayList<Integer>();
+        private List<Float> xy = new ArrayList<Float>();
         @JsonProperty("ct")
         private Integer ct;
         @JsonProperty("alert")
