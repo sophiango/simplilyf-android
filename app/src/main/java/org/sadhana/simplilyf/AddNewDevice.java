@@ -24,7 +24,7 @@ import java.util.List;
 
 public class AddNewDevice extends AppCompatActivity {
 
-    final String SERVER = "http://10.189.50.220:3000";
+    final String SERVER = "http://10.189.115.48:3000";
     EditText inputFullname, inputEmail, inputPW;
     List<NestData> allThermoData = new ArrayList<NestData>();
 
@@ -43,7 +43,7 @@ public class AddNewDevice extends AppCompatActivity {
                 String inputFullnameText = inputFullname.getText().toString();
                 String inputEmailText = inputEmail.getText().toString();
                 String inputPwText = inputPW.getText().toString();
-                new NestLoginAsync().execute(inputFullnameText,inputEmailText,inputPwText);
+                new NestLoginAsync().execute("qwerty","sophia2901@gmail.com","Cmpe@295");
             }
         });
     }
@@ -150,7 +150,8 @@ public class AddNewDevice extends AppCompatActivity {
                 Intent i = new Intent(AddNewDevice.this, NestdevicesActivity.class);
                 //Bundle bundle = new Bundle();
                 //bundle.putSerializable("ThermoList", (Serializable) result);
-                i.putExtra("thermo",result);
+                i.putExtra("thermo", result);
+            //   System.out.println("sending data" + result.getThermoList().get(0).getName()+ result.getThermoList().get(0).getCurrentTemperature());
                 //System.out.println("BUNDLE: " + bundle);
                 //i.putExtra("thermo",new Gson().toJson(result));
                 startActivity(i);
