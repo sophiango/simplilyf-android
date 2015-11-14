@@ -61,6 +61,7 @@ public class NestdevicesActivity extends AppCompatActivity {
                 //Toast.makeText(NestdevicesActivity.this, "Row " + position + " clicked", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(NestdevicesActivity.this, NestLivingrmActivity.class);
                 i.putExtra("TEMP",listThermo.get(position).getCurrentTemp());
+                i.putExtra("DEVICENAME",listThermo.get(position).getName());
              //   System.out.print("Starting Intent" + receivedThermoList.getThermoList().get(position).getCurrentTemperature());
                 startActivity(i);
             }
