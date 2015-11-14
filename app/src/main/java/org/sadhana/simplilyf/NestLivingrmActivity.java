@@ -20,7 +20,7 @@ public class NestLivingrmActivity extends ActionBarActivity {
         setContentView(R.layout.activity_nest_livingrm);
         mTempValue=(EditText)findViewById(R.id.temp_value);
         Intent i=getIntent();
-        String res=i.getStringExtra("TEMP");
+        Double res=i.getDoubleExtra("TEMP",0.0);
 
         System.out.println("res receuved"+ res);
 

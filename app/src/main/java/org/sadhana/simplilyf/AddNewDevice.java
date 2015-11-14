@@ -24,7 +24,7 @@ import java.util.List;
 
 public class AddNewDevice extends AppCompatActivity {
 
-    final String SERVER = "http://10.189.115.48:3000";
+    final String SERVER = "http://10.189.50.220:3000";
     EditText inputFullname, inputEmail, inputPW;
     List<NestData> allThermoData = new ArrayList<NestData>();
 
@@ -43,7 +43,7 @@ public class AddNewDevice extends AppCompatActivity {
                 String inputFullnameText = inputFullname.getText().toString();
                 String inputEmailText = inputEmail.getText().toString();
                 String inputPwText = inputPW.getText().toString();
-                new NestLoginAsync().execute("qwerty","sophia2901@gmail.com","Cmpe@295");
+                new NestLoginAsync().execute("qwerty", "sophia2901@gmail.com", "Cmpe@295");
             }
         });
     }
@@ -108,12 +108,23 @@ public class AddNewDevice extends AppCompatActivity {
                     reply.append((char) chr);
                 }
                 JSONArray thermoArray = new JSONArray(reply.toString());
-                for(int i=0;i<thermoArray.length();i++){
-                    JSONObject eachNestJson = thermoArray.getJSONObject(i);
-                    NestData nestData = new Gson().fromJson(eachNestJson.toString(), NestData.class);
+                for(int i=0;i<thermoArray.length();i++) {
+                    JSONObject jsonObject = thermoArray.getJSONObject(i);
+                    String thermo_name = jsonObject.getString("name");
+                    System.out.println("thermo name: " + thermo_name);
+                    Double current_temp = jsonObject.getDouble("current_temp");
+                    System.out.println("current temp: " + current_temp);
+                    NestData nestData = new NestData(thermo_name,current_temp);
                     allThermoData.add(nestData);
-                    System.out.println("nest data: " + nestData.getName() + " " + nestData.getTargetTemperature());
                 }
+
+
+//                for(int i=0;i<thermoArray.length();i++){
+//                    JSONObject eachNestJson = thermoArray.getJSONObject(i);
+//                    NestData nestData = new Gson().fromJson(eachNestJson.toString(), NestData.class);
+//                    allThermoData.add(nestData);
+//                    System.out.println("nest data: " + nestData.getName() + " " + nestData.getTargetTemperature());
+//                }
 
 //                NestData nestData = new NestData();
 //

@@ -60,7 +60,7 @@ public class NestdevicesActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(NestdevicesActivity.this, "Row " + position + " clicked", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(NestdevicesActivity.this, NestLivingrmActivity.class);
-                i.putExtra("TEMP", listThermo.get(position).getCurrentTemperature());
+                i.putExtra("TEMP",listThermo.get(position).getCurrentTemp());
              //   System.out.print("Starting Intent" + receivedThermoList.getThermoList().get(position).getCurrentTemperature());
                 startActivity(i);
             }
@@ -123,7 +123,7 @@ public class NestdevicesActivity extends AppCompatActivity {
             try {
                 System.out.println("HELLO ENDPOINT");
                 /* forming th java.net.URL object */
-                URL url = new URL("http://10.189.48.129:3000/hello");
+                URL url = new URL("http://10.189.50.220:3000/hello");
                 urlConnection = (HttpURLConnection) url.openConnection();
 
                  /* optional request header */
