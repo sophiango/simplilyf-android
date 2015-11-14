@@ -22,6 +22,8 @@ public class NestData implements Serializable{
         this.current_temp = current_temp;
     }
 
+    public NestData(){};
+
     public String getName() {
         return name;
     }
