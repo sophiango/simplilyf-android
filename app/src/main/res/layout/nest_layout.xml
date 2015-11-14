@@ -45,3 +45,56 @@
     </LinearLayout>
 
 </RelativeLayout>
+
+
+<!-- BACKUP-->
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--android:layout_width="match_parent" android:layout_height="match_parent">-->
+
+
+<!--<FrameLayout-->
+    <!--android:id="@+id/container"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:background="@color/main_background">-->
+    <!--<include layout="@layout/thermo_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="364dp" />-->
+<!--</FrameLayout>-->
+
+
+
+
+<!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/container"-->
+    <!--android:weightSum="2"-->
+    <!--android:layout_marginTop="20dp">-->
+    <!--<ImageButton-->
+        <!--android:background="@mipmap/running"-->
+        <!--android:layout_width="82dp"-->
+        <!--android:layout_height="106dp"-->
+        <!--android:id="@+id/awayBtn"-->
+        <!--android:layout_marginLeft="40dp"-->
+        <!--android:layout_marginRight="40dp"-->
+        <!--android:layout_gravity="left|bottom"-->
+        <!--android:textSize="30sp"/>-->
+
+    <!--<ImageButton android:id="@+id/coolBtn"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@mipmap/home"-->
+        <!--android:layout_marginLeft="40dp"-->
+        <!--android:textSize="30sp"-->
+        <!--android:layout_gravity="center_horizontal|bottom"-->
+        <!--android:layout_weight="0.70" />-->
+
+
+<!--</LinearLayout>-->
+
+<!--</RelativeLayout>-->
+
+

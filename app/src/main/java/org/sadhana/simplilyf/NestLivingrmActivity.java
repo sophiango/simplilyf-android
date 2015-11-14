@@ -4,14 +4,13 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.*;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
+import android.widget.ImageButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,20 +22,19 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.ArrayList;
 
 
 public class NestLivingrmActivity extends ActionBarActivity implements TempUpdateDialog.OnCompleteListener {
 
 
-   final String SERVER = "http://10.189.50.220:3000";
+   final String SERVER = "http://192.168.1.8:3000";
     private EditText mTempValue;
     private Button mUpdate;
     private Double res_temp;
     private String devicename;
     private EditText mUpdateTempValue;
-    private Button mAwayBtn;
-    private Button mCoolBtn;
+    private ImageButton mAwayBtn;
+    private ImageButton mCoolBtn;
     public static NestData nestData;
     double target = 65;
 
@@ -51,8 +49,8 @@ public class NestLivingrmActivity extends ActionBarActivity implements TempUpdat
          devicename=i.getStringExtra("DEVICENAME");
         System.out.println("res received" + res_temp);
 //        mTempValue.setText(res_temp.toString());
-        mAwayBtn=(Button)findViewById(R.id.awayBtn);
-        mCoolBtn=(Button)findViewById(R.id.coolBtn);
+        mAwayBtn=(ImageButton)findViewById(R.id.awayBtn);
+        mCoolBtn=(ImageButton)findViewById(R.id.coolBtn);
 
 
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class MyCustomAdapter extends BaseAdapter{
 
             view = mLayoutInflater.inflate(R.layout.list_item, null);
             holder.itemName = (TextView) view.findViewById(R.id.list_item_text_view);
-
+            holder.image=(ImageView)view.findViewById(R.id.imgIcon);
             // the setTag is used to store the data within this view
             view.setTag(holder);
         } else {
@@ -70,6 +71,7 @@ public class MyCustomAdapter extends BaseAdapter{
             if (holder.itemName != null) {
                 //set the item name on the TextView
                 holder.itemName.setText(stringItem);
+                holder.image.setImageResource(R.mipmap.cupcake);
             }
         }
 
@@ -86,6 +88,7 @@ public class MyCustomAdapter extends BaseAdapter{
     private static class ViewHolder {
 
         protected TextView itemName;
+        protected ImageView image;
 
     }
 }

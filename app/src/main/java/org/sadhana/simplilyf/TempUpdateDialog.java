@@ -14,27 +14,19 @@ import android.widget.SeekBar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.OutputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 public class TempUpdateDialog extends DialogFragment implements DialogInterface.OnClickListener {
 
     private double targetTemperature = 0.0;
     private boolean hasChanged = false;
-    final String SERVER = "http://10.189.50.220:3000";
+    final String SERVER = "http://192.168.1.8:3000";
     private String roomName = "";
 
     public static TempUpdateDialog newInstance(String roomName, double targetTemperature) {
