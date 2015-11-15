@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,8 +32,8 @@ public class NestLivingrmActivity extends ActionBarActivity implements TempUpdat
     private Double res_temp;
     private String devicename;
     private EditText mUpdateTempValue;
-    private ImageButton mAwayBtn;
-    private ImageButton mCoolBtn;
+    private Button mAwayBtn;
+    private Button mCoolBtn;
     public static NestData nestData;
     double target = 65;
 
@@ -49,8 +48,8 @@ public class NestLivingrmActivity extends ActionBarActivity implements TempUpdat
          devicename=i.getStringExtra("DEVICENAME");
         System.out.println("res received" + res_temp);
 //        mTempValue.setText(res_temp.toString());
-        mAwayBtn=(ImageButton)findViewById(R.id.awayBtn);
-        mCoolBtn=(ImageButton)findViewById(R.id.coolBtn);
+        mAwayBtn=(Button)findViewById(R.id.awayBtn);
+        mCoolBtn=(Button)findViewById(R.id.coolBtn);
 
 
 
