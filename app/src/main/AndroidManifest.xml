@@ -70,7 +70,7 @@
         </activity>
         <activity
             android:name=".PhilipsDetailsActivity"
-            android:label="@string/title_activity_philips_details"
+            android:label="PhilipsDetails"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>

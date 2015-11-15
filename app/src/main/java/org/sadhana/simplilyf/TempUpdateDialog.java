@@ -42,7 +42,7 @@ public class TempUpdateDialog extends DialogFragment implements DialogInterface.
 
     public static interface OnCompleteListener {
 
-        public abstract void onComplete(double targetTemperature, Boolean setPermanently);
+        public abstract void onComplete(double targetTemperature);
     }
 
     private OnCompleteListener mListener;
@@ -128,6 +128,7 @@ public class TempUpdateDialog extends DialogFragment implements DialogInterface.
                 } catch (Exception e) {
                     System.out.println(e);
                 }
+                mListener.onComplete(targetTemperature);
                 dismiss();
             }
         });

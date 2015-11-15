@@ -118,7 +118,7 @@ public class NestLivingrmActivity extends ActionBarActivity implements TempUpdat
     }
 
     @Override
-    public void onComplete(double targetTemperature, Boolean setPermanently) {
+    public void onComplete(double targetTemperature) {
         System.out.println("ON COMPLETE");
         CircleView targetCircle = (CircleView) findViewById(R.id.main_screen_current);
 //        targetTemperature = target;
