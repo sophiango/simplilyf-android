@@ -28,6 +28,7 @@ public class TempUpdateDialog extends DialogFragment implements DialogInterface.
     private boolean hasChanged = false;
     final String SERVER = "http://192.168.1.8:3000";
     private String roomName = "";
+    private Button allThermos;
 
     public static TempUpdateDialog newInstance(String roomName, double targetTemperature) {
         TempUpdateDialog TempUpdateDialog = new TempUpdateDialog();
@@ -71,7 +72,7 @@ public class TempUpdateDialog extends DialogFragment implements DialogInterface.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        getDialog().setTitle("Temperature editing");
+       // getDialog().setTitle("Temperature editing");
         final View v = inflater.inflate(R.layout.temp_setting, null);
         final CircleView editTarget = (CircleView) v.findViewById(R.id.edit_target_circleView);
         editTarget.setTitleText(targetTemperature + "");
@@ -136,6 +137,15 @@ public class TempUpdateDialog extends DialogFragment implements DialogInterface.
             @Override
             public void onClick(View v) {
                 dismiss();
+            }
+        });
+
+        allThermos=(Button)v.findViewById(R.id.allthermosBtn);
+        allThermos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Async task for all thermos
+                System.out.println("All thermos");
             }
         });
 
