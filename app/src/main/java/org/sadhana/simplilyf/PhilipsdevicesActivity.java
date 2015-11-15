@@ -32,6 +32,7 @@ public class PhilipsdevicesActivity extends ActionBarActivity {
                // new PhilipsDetailAsync().execute(position+1);
                 String pos=Integer.toString(position+1);
                 Intent i = new Intent(PhilipsdevicesActivity.this, PhilipsDetailsActivity.class);
+
                 i.putExtra("position Value",pos);
                 System.out.print("Starting Intent");
                 startActivity(i);
@@ -42,7 +43,15 @@ public class PhilipsdevicesActivity extends ActionBarActivity {
         for (int i = 1; i < 4; i++) {
             list.add("Hue Light " + i);
         }
-        final MyCustomAdapter adapter = new MyCustomAdapter(PhilipsdevicesActivity.this, list);
+        final ArrayList statelist = new ArrayList<>();
+        for (int i = 1; i < 4; i++) {
+            statelist.add("ON");
+        }
+        final ArrayList colorlist = new ArrayList<>();
+        for (int i = 1; i < 4; i++) {
+            colorlist.add("Red");
+        }
+      final PhilipsCustomAdapter adapter = new PhilipsCustomAdapter(PhilipsdevicesActivity.this, list,statelist,colorlist);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +66,7 @@ public class PhilipsdevicesActivity extends ActionBarActivity {
         //show the ListView on the screen
         // The adapter MyCustomAdapter is responsible for maintaining the data backing this list and for producing
         // a view to represent an item in that data set.
-        myList.setAdapter(adapter);
+      myList.setAdapter(adapter);
 
     }
 

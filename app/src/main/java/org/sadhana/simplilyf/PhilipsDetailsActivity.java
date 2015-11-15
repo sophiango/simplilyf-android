@@ -1,6 +1,8 @@
 package org.sadhana.simplilyf;
 
+import android.app.DialogFragment;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 
@@ -21,83 +23,125 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-public class PhilipsDetailsActivity extends AppCompatActivity {
+public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCustomDialog.EditDialogListener{
 
     final String SERVER = "http://192.168.1.8:3000/light/";
     private EditText mlightStatus;
-    private Button mOnButton;
-    private Button mOffButton;
+  //  private Button mOnButton;
+   // private Button mOffButton;
     private String position;
     private Button mChangeColor;
+    private ImageView mSwitch;
+    private ImageView mLight;
+    String result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_philips_details);
-        mlightStatus=(EditText)findViewById(R.id.lightStatus_value);
+      //  mlightStatus=(EditText)findViewById(R.id.lightStatus_value);
+        mSwitch=(ImageView)findViewById(R.id.image_switch);
+        mLight=(ImageView)findViewById(R.id.image_lamp);
         Intent intent=getIntent();
        position=  intent.getStringExtra("position Value");
         System.out.println("value from intent  " + position);
         new PhilipsDetailAsync().execute(position);
-        mOnButton=(Button)findViewById(R.id.turnon);
-        mOffButton=(Button)findViewById(R.id.turnoff);
-        mChangeColor=(Button)findViewById(R.id.colorchange);
-        mOnButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("button clicked");
-                System.out.println("value of editetxt   "+mlightStatus.getText().toString());
-                String lightStatus=mlightStatus.getText().toString();
-                System.out.println("light status "+lightStatus);
-                if(lightStatus.equals("true")) {
-                    System.out.println("light is true");
-                    //hit the endpoint
-                    Toast.makeText(PhilipsDetailsActivity.this, "Light is already ON!", Toast.LENGTH_LONG).show();
 
-                }
-
-                else {
-                    System.out.println("light is false");
-                    new PhilipsLightONAsync().execute(position);
-                }
-
-            }
-        });
-
-        mOffButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("button clicked");
-                System.out.println("value of editetxt   "+mlightStatus.getText().toString());
-                String lightStatus=mlightStatus.getText().toString();
-                System.out.println("light status "+lightStatus);
-                if(lightStatus.equals("true")) {
-                    System.out.println("light is true");
-                    //hit the endpoint
-                    new PhilipsLightOFFAsync().execute(position);
-
-                } else {
-                    System.out.println("light is false");
-
-                    Toast.makeText(PhilipsDetailsActivity.this, "Light is already OFF!", Toast.LENGTH_LONG).show();
-                }
-
-            }
-        });
+      //  mOnButton=(Button)findViewById(R.id.turnon);
+        //mOffButton=(Button)findViewById(R.id.turnoff);
+        mChangeColor=(Button)findViewById(R.id.chngebtn);
 
         mChangeColor.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                DialogFragment dialogFragment = ColorCustomDialog.newInstance();
+                dialogFragment.show(getFragmentManager(), "editMainDialog");
+                //setting custom layout to dialog
+//                dialog.setContentView(R.layout.colorchange_dialog);
+//                dialog.setTitle("Custom Dialog");
+//
+//
+//                dialog.show();
+            }
+        });
+
+        mSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String lightStatus=mlightStatus.getText().toString();
-                if(lightStatus.equals("false")){
-                    Toast.makeText(PhilipsDetailsActivity.this,"Cannot change color when light is OFF",Toast.LENGTH_LONG).show();
-                }else{
-                    // hit change endpoint
-                    new PhilipsColorChange().execute(position);
+
+                System.out.println("get tag"+ mSwitch.getTag());
+                int tagValue = (Integer)mSwitch.getTag();
+                if(tagValue==1){
+                    //button on
+                    System.out.println("get tag"+ mSwitch.getTag()+"Button On");
+                    new PhilipsLightONAsync().execute(position);
+                }
+                if(tagValue==2){
+                    //button off
+                    System.out.println("get tag"+ mSwitch.getTag()+"Button Off");
+                    new PhilipsLightOFFAsync().execute(position);
                 }
             }
         });
+
+
+//        mOnButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                System.out.println("button clicked");
+//                System.out.println("value of editetxt   "+mlightStatus.getText().toString());
+//                String lightStatus=mlightStatus.getText().toString();
+//                System.out.println("light status "+lightStatus);
+//                if(lightStatus.equals("true")) {
+//                    System.out.println("light is true");
+//                    //hit the endpoint
+//                    Toast.makeText(PhilipsDetailsActivity.this, "Light is already ON!", Toast.LENGTH_LONG).show();
+//
+//                }
+//
+//                else {
+//                    System.out.println("light is false");
+//                 //   new PhilipsLightONAsync().execute(position);
+//                }
+//
+//            }
+//        });
+//
+//        mOffButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                System.out.println("button clicked");
+//                System.out.println("value of editetxt   "+mlightStatus.getText().toString());
+//                String lightStatus=mlightStatus.getText().toString();
+//                System.out.println("light status "+lightStatus);
+//                if(lightStatus.equals("true")) {
+//                    System.out.println("light is true");
+//                    //hit the endpoint
+//                 //   new PhilipsLightOFFAsync().execute(position);
+//
+//                } else {
+//                    System.out.println("light is false");
+//
+//                    Toast.makeText(PhilipsDetailsActivity.this, "Light is already OFF!", Toast.LENGTH_LONG).show();
+//                }
+//
+//            }
+//        });
+
+//        mChangeColor.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String lightStatus=mlightStatus.getText().toString();
+//                if(lightStatus.equals("false")){
+//                    Toast.makeText(PhilipsDetailsActivity.this,"Cannot change color when light is OFF",Toast.LENGTH_LONG).show();
+//                }else{
+//                    // hit change endpoint
+//                 //   new PhilipsColorChange().execute(position);
+//                }
+//            }
+//        });
 
     }
 
@@ -173,10 +217,23 @@ public class PhilipsDetailsActivity extends AppCompatActivity {
             System.out.println("RESULT: " + result);
            // System.out.println("value of light status"+result.getState().getOn());
             if(result.getState().getOn()==true){
-                mlightStatus.setText("true");
+//                mlightStatus.setText("true");
+                mLight.setImageResource(R.drawable.lighton);
+                mSwitch.setImageResource(R.mipmap.button_off);
+                playSound();
+                mSwitch.setTag(Integer.valueOf(2));
+              //  mSwitch.setTag(R.mipmap.button_off);
+             //   System.out.println("set tag" + mSwitch.getTag(1));
+
             }
-            else
-                mlightStatus.setText("false");
+            else {
+                //   mlightStatus.setText("false");
+
+                mLight.setImageResource(R.drawable.lightoff);
+                mSwitch.setImageResource(R.mipmap.button_on);
+                mSwitch.setTag(Integer.valueOf(1));
+                playSound();
+            }
 
 
         }
@@ -230,13 +287,14 @@ public class PhilipsDetailsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(PhilipsData result) {
             System.out.println("RESULT: " + result);
-            // System.out.println("value of light status"+result.getState().getOn());
-            if(result.getState().getOn()==true){
-                mlightStatus.setText("true");
+            System.out.println("value of light status out of loop  "+result.getState().getOn());
+            if(result.getState().getOn()==false){
+                System.out.println("value of light status now  "+result.getState().getOn());
+                mLight.setImageResource(R.drawable.lightoff);
+                mSwitch.setImageResource(R.mipmap.button_on);
+                playSound();
+                mSwitch.setTag(Integer.valueOf(1));
             }
-            else
-                mlightStatus.setText("false");
-
 
         }
     }
@@ -291,10 +349,12 @@ public class PhilipsDetailsActivity extends AppCompatActivity {
             System.out.println("RESULT: " + result);
             // System.out.println("value of light status"+result.getState().getOn());
             if(result.getState().getOn()==true){
-                mlightStatus.setText("true");
+                System.out.println("value of light status now  "+result.getState().getOn());
+                mLight.setImageResource(R.drawable.lighton);
+                mSwitch.setImageResource(R.mipmap.button_off);
+                playSound();
+                mSwitch.setTag(Integer.valueOf(2));
             }
-            else
-                mlightStatus.setText("false");
 
 
         }
@@ -306,13 +366,13 @@ public class PhilipsDetailsActivity extends AppCompatActivity {
         protected Void doInBackground(String... params) {
             InputStream inputStream = null;
             //int deviceNum=params[0];
-            String endpoint= SERVER+"change/"+params[0]+"/magenta";
+            String endpoint= SERVER+"change/"+params[0]+"/"+params[1];
             HttpURLConnection urlConnection = null;
             Integer result = 0;
             PhilipsData msg=new PhilipsData();
             try {
                 System.out.println("endpoint value "+endpoint);
-                System.out.println("Off Philips endpoint");
+                System.out.println("color change Philips endpoint");
                 /* forming th java.net.URL object */
                 URL url = new URL(endpoint);
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -327,7 +387,7 @@ public class PhilipsDetailsActivity extends AppCompatActivity {
                 urlConnection.setRequestMethod("POST");
                 //  List<NameValuePairs>
                 int statusCode = urlConnection.getResponseCode();
-                System.out.println("status code in off: " + statusCode);
+                System.out.println("status code in change: " + statusCode);
                 /* 200 represents HTTP OK */
                 if (statusCode == 200) {
                     inputStream = new BufferedInputStream(urlConnection.getInputStream());
@@ -355,7 +415,7 @@ public class PhilipsDetailsActivity extends AppCompatActivity {
 //            else
 //                mlightStatus.setText("false");
 
-            Toast.makeText(PhilipsDetailsActivity.this,"Color Changed Successfully..!",Toast.LENGTH_LONG).show();
+          //  Toast.makeText(PhilipsDetailsActivity.this,"Color Changed Successfully..!",Toast.LENGTH_LONG).show();
 
 
         }
@@ -375,5 +435,26 @@ public class PhilipsDetailsActivity extends AppCompatActivity {
         }
         System.out.println("result value" + result);
         return result;
+    }
+
+    private void playSound() {
+        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.lightswitch);
+        mediaPlayer.start();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                if (mediaPlayer != null) {
+                    mediaPlayer.reset();
+                    mediaPlayer.release();
+                }
+            }
+        });
+    }
+
+    public void updateResult(String inputText) {
+        result = inputText;
+        System.out.println("fnal result "+result);
+        new PhilipsColorChange().execute(position,result);
+
     }
 }
