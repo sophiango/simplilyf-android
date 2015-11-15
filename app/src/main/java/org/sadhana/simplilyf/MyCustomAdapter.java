@@ -15,12 +15,21 @@ import java.util.ArrayList;
  */
 public class MyCustomAdapter extends BaseAdapter{
     private ArrayList mListItems;
+    private ArrayList mListItems2;
     private LayoutInflater mLayoutInflater;
 
     public MyCustomAdapter(Context context, ArrayList arrayList){
 
         mListItems = arrayList;
 
+        //get the layout inflater
+        mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    public MyCustomAdapter(Context context, ArrayList arrayList,ArrayList arrayList2){
+
+        mListItems = arrayList;
+        mListItems2=arrayList2;
         //get the layout inflater
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -58,6 +67,7 @@ public class MyCustomAdapter extends BaseAdapter{
             view = mLayoutInflater.inflate(R.layout.list_item, null);
             holder.itemName = (TextView) view.findViewById(R.id.list_item_text_view);
             holder.image=(ImageView)view.findViewById(R.id.imgIcon);
+            holder.itemDesc=(TextView)view.findViewById(R.id.desc);
             // the setTag is used to store the data within this view
             view.setTag(holder);
         } else {
@@ -67,10 +77,12 @@ public class MyCustomAdapter extends BaseAdapter{
 
         //get the string item from the position "position" from array list to put it on the TextView
         String stringItem = mListItems.get(position).toString();
+        String stringdesc = mListItems2.get(position).toString();
         if (stringItem != null) {
             if (holder.itemName != null) {
                 //set the item name on the TextView
                 holder.itemName.setText(stringItem);
+                holder.itemDesc.setText((stringdesc)+" \u2109");
                 holder.image.setImageResource(R.mipmap.cupcake);
             }
         }
@@ -89,6 +101,7 @@ public class MyCustomAdapter extends BaseAdapter{
 
         protected TextView itemName;
         protected ImageView image;
+        protected TextView itemDesc;
 
     }
 }

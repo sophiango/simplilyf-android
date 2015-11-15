@@ -1,24 +1,15 @@
 package org.sadhana.simplilyf;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,10 +59,12 @@ public class NestdevicesActivity extends AppCompatActivity {
         });
         FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
         final ArrayList list = new ArrayList<>();
+        final ArrayList list2 = new ArrayList<>();
         for (int k = 0; k < listThermo.size(); k++) {
             list.add(listThermo.get(k).getName());
+            list2.add(listThermo.get(k).getCurrentTemp());
         }
-        final MyCustomAdapter adapter = new MyCustomAdapter(NestdevicesActivity.this, list);
+        final MyCustomAdapter adapter = new MyCustomAdapter(NestdevicesActivity.this, list,list2);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +80,7 @@ public class NestdevicesActivity extends AppCompatActivity {
         // The adapter MyCustomAdapter is responsible for maintaining the data backing this list and for producing
         // a view to represent an item in that data set.
         myList.setAdapter(adapter);
+
 
     }
 
@@ -114,65 +108,7 @@ public class NestdevicesActivity extends AppCompatActivity {
     }
 
 
-    public class AsyncHttpTask extends AsyncTask<Void, Void, String> {
 
-        @Override
-        protected String doInBackground(Void... params) {
-            InputStream inputStream = null;
-            HttpURLConnection urlConnection = null;
-            Integer result = 0;
-            try {
-                System.out.println("HELLO ENDPOINT");
-                /* forming th java.net.URL object */
-                URL url = new URL("http://10.189.50.220:3000/hello");
-                urlConnection = (HttpURLConnection) url.openConnection();
-
-                 /* optional request header */
-                urlConnection.setRequestProperty("Content-Type", "application/json");
-
-                /* optional request header */
-                urlConnection.setRequestProperty("Accept", "application/json");
-
-                /* for Get request */
-                urlConnection.setRequestMethod("GET");
-              //  List<NameValuePairs>
-                int statusCode = urlConnection.getResponseCode();
-                System.out.println("status code: " + statusCode);
-                /* 200 represents HTTP OK */
-                if (statusCode == 200) {
-                    inputStream = new BufferedInputStream(urlConnection.getInputStream());
-                    String response = convertInputStreamToString(inputStream);
-                    //   parseResult(response);
-
-                    System.out.println("Value of response...." + response);
-                    result = 1; // Successful
-                } else {
-                    result = 0; //"Failed to fetch data!";
-                }
-            } catch (Exception e) {
-                Log.d("error", e.toString());
-            }
-            return null;
-        }
-
-    }
-
-
-    private String convertInputStreamToString(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        String line = "";
-        String result = "";
-        while ((line = bufferedReader.readLine()) != null) {
-            result += line;
-        }
-
-            /* Close Stream */
-        if (null != inputStream) {
-            inputStream.close();
-        }
-        System.out.println("result value" + result);
-        return result;
-    }
 }
 
 
