@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import org.json.JSONException;
@@ -31,8 +31,8 @@ public class NestdevicesActivity extends AppCompatActivity {
     private ListView myList;
     List<NestData> listThermo = new ArrayList<NestData>();
     ThermoList receivedThermoList = null;
-    private Button mAwayBtn;
-    private Button mHomeBtn;
+    private ImageView mAwayBtn;
+    private ImageView mHomeBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,8 +96,8 @@ public class NestdevicesActivity extends AppCompatActivity {
         // a view to represent an item in that data set.
         myList.setAdapter(adapter);
 
-        mAwayBtn=(Button)findViewById(R.id.awayBtn);
-        mHomeBtn=(Button)findViewById(R.id.homeBtn);
+        mAwayBtn=(ImageView)findViewById(R.id.awayBtn);
+        mHomeBtn=(ImageView)findViewById(R.id.homeBtn);
 
 
 
