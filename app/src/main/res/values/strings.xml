@@ -34,7 +34,7 @@
     <string name="title_activity_user_profile">UserProfileActivity</string>
     <string name="title_activity_add_new_device">AddNewDevice</string>
     <string name="vendor_prompt">Choose a vendor</string>
-    <!--<string name="title_activity_philips_details">Philip</string>-->
+    <string name="title_activity_philips_details">Philip</string>
 
     <string-array name="vendor_array">
         <item>Select a vendor</item>

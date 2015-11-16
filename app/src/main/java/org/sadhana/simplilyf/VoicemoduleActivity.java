@@ -60,7 +60,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
     private String confirm_device="";
     private String temp_thermostat="";
     private TextToSpeech repeatTTS;
-    final String SERVER = "http://10.189.50.220:3000";
+    final String SERVER = "http://172.16.1.9:3000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

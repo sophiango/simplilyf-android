@@ -22,7 +22,7 @@ import java.util.List;
 
 public class AddNewDevice extends AppCompatActivity {
 
-    final String SERVER = "http://192.168.1.8:3000";
+    final String SERVER = "http://172.16.1.9:3000";
     EditText inputFullname, inputEmail, inputPW;
     List<NestData> allThermoData = new ArrayList<NestData>();
 

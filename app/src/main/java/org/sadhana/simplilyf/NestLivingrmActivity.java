@@ -26,7 +26,7 @@ import java.net.URL;
 public class NestLivingrmActivity extends ActionBarActivity implements TempUpdateDialog.OnCompleteListener {
 
 
-   final String SERVER = "http://192.168.1.8:3000";
+   final String SERVER = "http://172.16.1.9:3000";
     private EditText mTempValue;
     private Button mUpdate;
     private Double res_temp;
