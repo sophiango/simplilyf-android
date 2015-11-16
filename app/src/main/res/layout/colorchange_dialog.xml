@@ -15,13 +15,15 @@
         android:id="@+id/btn_red"
         android:background="@drawable/btn_red"
         style="@style/ButtonText"
-       >
+        android:layout_margin="10dp" >
     </Button>
+
     <Button
         android:text="blue"
         android:id="@+id/btn_blue"
         android:background="@drawable/btn_blue"
         android:layout_below="@+id/btn_red"
+        android:layout_margin="10dp"
         style="@style/ButtonText">
     </Button>
 
@@ -30,6 +32,7 @@
         android:id="@+id/btn_purple"
         android:background="@drawable/btn_purple"
         android:layout_below="@+id/btn_blue"
+        android:layout_margin="10dp"
         style="@style/ButtonText">
     </Button>
 
@@ -38,6 +41,7 @@
         android:id="@+id/btn_green"
         android:background="@drawable/btn_green"
         android:layout_below="@+id/btn_purple"
+        android:layout_margin="10dp"
         style="@style/ButtonText">
     </Button>
 
@@ -46,6 +50,7 @@
         android:id="@+id/btn_yellow"
         android:background="@drawable/btn_yellow"
         android:layout_below="@+id/btn_green"
+        android:layout_margin="10dp"
         style="@style/ButtonText">
     </Button>
 

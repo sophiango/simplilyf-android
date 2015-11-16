@@ -41,7 +41,7 @@
             android:layout_weight="1"
             android:textSize="20sp"/>
 
-        <Button android:id="@+id/coolBtn"
+        <Button android:id="@+id/homeBtn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Home"
