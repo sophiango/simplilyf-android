@@ -218,7 +218,7 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
            // System.out.println("value of light status"+result.getState().getOn());
             if(result.getState().getOn()==true){
 //                mlightStatus.setText("true");
-                mLight.setImageResource(R.drawable.lighton);
+                mLight.setImageResource(R.drawable.bulbon);
                 mSwitch.setImageResource(R.mipmap.button_off);
                 playSound();
                 mSwitch.setTag(Integer.valueOf(2));
@@ -229,7 +229,7 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
             else {
                 //   mlightStatus.setText("false");
 
-                mLight.setImageResource(R.drawable.lightoff);
+                mLight.setImageResource(R.drawable.bulboff);
                 mSwitch.setImageResource(R.mipmap.button_on);
                 mSwitch.setTag(Integer.valueOf(1));
                 playSound();
@@ -290,7 +290,7 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
             System.out.println("value of light status out of loop  "+result.getState().getOn());
             if(result.getState().getOn()==false){
                 System.out.println("value of light status now  "+result.getState().getOn());
-                mLight.setImageResource(R.drawable.lightoff);
+                mLight.setImageResource(R.drawable.bulboff);
                 mSwitch.setImageResource(R.mipmap.button_on);
                 playSound();
                 mSwitch.setTag(Integer.valueOf(1));
@@ -350,7 +350,7 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
             // System.out.println("value of light status"+result.getState().getOn());
             if(result.getState().getOn()==true){
                 System.out.println("value of light status now  "+result.getState().getOn());
-                mLight.setImageResource(R.drawable.lighton);
+                mLight.setImageResource(R.drawable.bulbon);
                 mSwitch.setImageResource(R.mipmap.button_off);
                 playSound();
                 mSwitch.setTag(Integer.valueOf(2));
@@ -453,8 +453,31 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
 
     public void updateResult(String inputText) {
         result = inputText;
-        System.out.println("fnal result "+result);
-        new PhilipsColorChange().execute(position,result);
+        System.out.println("fnal result " + result);
+        if(result.equals("red")){
+            System.out.println("in red " );
+            new PhilipsColorChange().execute(position,result);
+            mLight.setImageResource(R.drawable.red);
+        }
+
+        if(result.equals("blue")){
+            new PhilipsColorChange().execute(position,result);
+            mLight.setImageResource(R.drawable.blue);
+        }
+        if(result.equals("green")){
+            new PhilipsColorChange().execute(position,result);
+            mLight.setImageResource(R.drawable.green);
+        }
+        if(result.equals("purple")){
+            new PhilipsColorChange().execute(position,result);
+            mLight.setImageResource(R.drawable.purple);
+        }
+        if(result.equals("yellow")){
+            new PhilipsColorChange().execute(position,result);
+            mLight.setImageResource(R.drawable.bulbon);
+        }
+
+
 
     }
 }

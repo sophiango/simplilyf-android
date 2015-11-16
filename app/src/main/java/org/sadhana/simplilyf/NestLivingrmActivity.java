@@ -32,8 +32,8 @@ public class NestLivingrmActivity extends ActionBarActivity implements TempUpdat
     private Double res_temp;
     private String devicename;
     private EditText mUpdateTempValue;
-    private Button mAwayBtn;
-    private Button mCoolBtn;
+//    private Button mAwayBtn;
+//    private Button mCoolBtn;
     public static NestData nestData;
     double target = 65;
 
@@ -48,26 +48,26 @@ public class NestLivingrmActivity extends ActionBarActivity implements TempUpdat
          devicename=i.getStringExtra("DEVICENAME");
         System.out.println("res received" + res_temp);
 //        mTempValue.setText(res_temp.toString());
-        mAwayBtn=(Button)findViewById(R.id.awayBtn);
-        mCoolBtn=(Button)findViewById(R.id.coolBtn);
-
-
-
-        mAwayBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AwayBtnAsync().execute("away");
-
-            }
-        });
-
-        mCoolBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-            }
-        });
+//        mAwayBtn=(Button)findViewById(R.id.awayBtn);
+//        mCoolBtn=(Button)findViewById(R.id.coolBtn);
+//
+//
+//
+//        mAwayBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                new AwayBtnAsync().execute("away");
+//
+//            }
+//        });
+//
+//        mCoolBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//            }
+//        });
 
         final CircleView currentCircle = (CircleView) findViewById(R.id.main_screen_current);
         currentCircle.setOnClickListener(new View.OnClickListener() {

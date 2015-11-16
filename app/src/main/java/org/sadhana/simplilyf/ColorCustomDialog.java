@@ -13,7 +13,7 @@ import android.widget.Button;
 public class ColorCustomDialog extends DialogFragment {
 
     private String btnName;
-    Button setBtn,cancelBtn,blueBtn;
+    Button setBtn,cancelBtn,blueBtn,redBtn,purpleBtn,greenBtn,yellowBtn;
 
     static ColorCustomDialog newInstance() {
         return new ColorCustomDialog();
@@ -38,6 +38,18 @@ public class ColorCustomDialog extends DialogFragment {
          blueBtn = (Button)v.findViewById(R.id.btn_blue);
         blueBtn.setOnClickListener(blueBtnListener);
 
+        redBtn = (Button)v.findViewById(R.id.btn_red);
+        redBtn.setOnClickListener(redBtnListener);
+
+        purpleBtn = (Button)v.findViewById(R.id.btn_purple);
+        purpleBtn.setOnClickListener(purpleBtnListener);
+
+        greenBtn = (Button)v.findViewById(R.id.btn_green);
+        greenBtn.setOnClickListener(greenBtnListener);
+
+        yellowBtn = (Button)v.findViewById(R.id.btn_yellow);
+        yellowBtn.setOnClickListener(yellowBtnListener);
+
 
         return v;
     }
@@ -48,10 +60,60 @@ public class ColorCustomDialog extends DialogFragment {
         @Override
         public void onClick(View arg0) {
             // TODO Auto-generated method stub
-
-            System.out.println("btn text " + blueBtn.getText().toString());
+            btnName= blueBtn.getText().toString();
+            System.out.println("btn text " + blueBtn.getText().toString() + "" + btnName);
+         //   blueBtn.setTag(Integer.valueOf(20));
         }
     };
+
+
+    private Button.OnClickListener redBtnListener
+            = new Button.OnClickListener(){
+
+        @Override
+        public void onClick(View arg0) {
+            // TODO Auto-generated method stub
+            btnName= redBtn.getText().toString();
+            System.out.println("btn text " + redBtn.getText().toString()+" "+btnName);
+            //redBtn.setTag(Integer.valueOf(21));
+        }
+    };
+
+    private Button.OnClickListener purpleBtnListener
+            = new Button.OnClickListener(){
+
+        @Override
+        public void onClick(View arg0) {
+            // TODO Auto-generated method stub
+            btnName= purpleBtn.getText().toString();
+            System.out.println("btn text " + purpleBtn.getText().toString()+" "+btnName);
+           // purpleBtn.setTag(Integer.valueOf(22));
+        }
+    };
+
+    private Button.OnClickListener greenBtnListener
+            = new Button.OnClickListener(){
+
+        @Override
+        public void onClick(View arg0) {
+            // TODO Auto-generated method stub
+            btnName= greenBtn.getText().toString();
+            System.out.println("btn text " + greenBtn.getText().toString()+" "+btnName);
+           // greenBtn.setTag(Integer.valueOf(23));
+        }
+    };
+    private Button.OnClickListener yellowBtnListener
+            = new Button.OnClickListener(){
+
+        @Override
+        public void onClick(View arg0) {
+            // TODO Auto-generated method stub
+            btnName= yellowBtn.getText().toString();
+            System.out.println("btn text " + yellowBtn.getText().toString()+" "+btnName);
+            //yellowBtn.setTag(Integer.valueOf(24));
+        }
+    };
+
 
     private Button.OnClickListener setListener
             = new Button.OnClickListener(){
@@ -60,7 +122,8 @@ public class ColorCustomDialog extends DialogFragment {
         public void onClick(View arg0) {
             // TODO Auto-generated method stub
             EditDialogListener activity = (EditDialogListener) getActivity();
-            activity.updateResult(blueBtn.getText().toString());
+
+            activity.updateResult(btnName);
             dismiss();
 
         }
@@ -82,6 +145,17 @@ public class ColorCustomDialog extends DialogFragment {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

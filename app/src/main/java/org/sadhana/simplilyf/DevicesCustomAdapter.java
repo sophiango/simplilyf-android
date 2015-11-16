@@ -8,29 +8,26 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 /**
  * Created by Sadhana on 10/22/15.
  */
-public class MyCustomAdapter extends BaseAdapter{
-    private ArrayList mListItems;
-    private ArrayList mListItems2;
+public class DevicesCustomAdapter extends BaseAdapter{
+    private final String[] name;
+    private final Integer[] imgid;
     private LayoutInflater mLayoutInflater;
 
-
-    public MyCustomAdapter(Context context, ArrayList arrayList,ArrayList arrayList2){
-
-        mListItems = arrayList;
-        mListItems2=arrayList2;
+    public DevicesCustomAdapter(Context context, String[] itemname,Integer[] imgId){
+        System.out.println("In COnstructor");
+        this.name=itemname;
+        this.imgid=imgId;
         //get the layout inflater
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+
     @Override
     public int getCount() {
-        //getCount() represents how many items are in the list
-        return mListItems.size();
+        return name.length;
     }
 
     @Override
@@ -48,37 +45,38 @@ public class MyCustomAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-
+        System.out.println("view method");
         // create a ViewHolder reference
         ViewHolder holder;
 
         //check to see if the reused view is null or not, if is not null then reuse it
         if (view == null) {
             holder = new ViewHolder();
-
-            view = mLayoutInflater.inflate(R.layout.list_item, null);
+            System.out.println("layout id"+ R.layout.list_devices);
+            view = mLayoutInflater.inflate(R.layout.list_devices, null);
             holder.itemName = (TextView) view.findViewById(R.id.list_item_text_view);
             holder.image=(ImageView)view.findViewById(R.id.imgIcon);
-            holder.itemDesc=(TextView)view.findViewById(R.id.desc);
+
             // the setTag is used to store the data within this view
             view.setTag(holder);
+            System.out.println("holder value");
         } else {
             // the getTag returns the viewHolder object set as a tag to the view
             holder = (ViewHolder)view.getTag();
         }
 
         //get the string item from the position "position" from array list to put it on the TextView
-        String stringItem = mListItems.get(position).toString();
-        String stringdesc = mListItems2.get(position).toString();
-        if (stringItem != null) {
-            if (holder.itemName != null) {
-                //set the item name on the TextView
-                holder.itemName.setText(stringItem);
-                holder.itemDesc.setText((stringdesc)+" \u2109");
-                holder.image.setImageResource(R.mipmap.cupcake);
-            }
-        }
 
+        System.out.println("In Vie holder");
+
+
+                //set the item name on the TextView
+                holder.itemName.setText(name[position]);
+
+                holder.image.setImageResource(imgid[position]);
+
+
+        System.out.println("In Vie holder with details " );
         //this method must return the view corresponding to the data at the specified position.
         return view;
 
@@ -93,7 +91,8 @@ public class MyCustomAdapter extends BaseAdapter{
 
         protected TextView itemName;
         protected ImageView image;
-        protected TextView itemDesc;
+
+
 
     }
 }
