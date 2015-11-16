@@ -30,6 +30,8 @@ public class PhilipsdevicesActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(PhilipsdevicesActivity.this, "Row " + position + " clicked", Toast.LENGTH_SHORT).show();
                // new PhilipsDetailAsync().execute(position+1);
+                //// ListView Clicked item value
+               // String  itemValue    = (String) listView.getItemAtPosition(position);
                 String pos=Integer.toString(position+1);
                 Intent i = new Intent(PhilipsdevicesActivity.this, PhilipsDetailsActivity.class);
 
