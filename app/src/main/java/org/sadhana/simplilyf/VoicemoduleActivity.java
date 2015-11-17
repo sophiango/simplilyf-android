@@ -55,6 +55,8 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
     private final int REQ_CODE_SPEECH_INPUT_ASK_ROOM=105;
     private final int REQ_CODE_SPEECH_INPUT_CONFIRM_ROOM=107;
     private final int REQ_CODE_SPEECH_INPUT_SET_AWAY=108;
+    private final int REQ_CODE_SPEECH_INPUT_ASK_COLOR=109;
+    private final int REQ_CODE_SPEECH_INPUT_CONFIRM_COLOR=110;
     //variable for checking TTS engine data on user device
     private final int MY_DATA_CHECK_CODE = 0;
     private int mic_flag=0;
@@ -63,8 +65,12 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
     private String confirm_room="";
     private String temp_thermostat="";
     private TextToSpeech repeatTTS;
-    final String SERVER = "http://10.189.146.45:3000";
+    final String SERVER = "http://10.189.50.220:3000";
     private String current_device="";
+    private boolean set_all_flag=false;
+    private boolean change_color_flag=false;
+    private String light_switch="";
+    private String confirm_color="";
 
 
     @Override
@@ -148,6 +154,9 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                 if(input.equalsIgnoreCase("confirm_room")){
                     startActivityForResult(intent_new, REQ_CODE_SPEECH_INPUT_CONFIRM_ROOM);
                 }
+                if(input.equalsIgnoreCase("confirm_color")){
+                    startActivityForResult(intent_new, REQ_CODE_SPEECH_INPUT_CONFIRM_COLOR);
+                }
             } catch (ActivityNotFoundException a) {
                 Toast.makeText(getApplicationContext(),
                         getString(R.string.speech_not_supported),
@@ -170,6 +179,9 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
             }
             if (input.equalsIgnoreCase("ask_device")){
                 startActivityForResult(intent_final, REQ_CODE_SPEECH_INPUT_CHECK_DEVICE);
+            }
+            if (input.equalsIgnoreCase("ask_color")){
+                startActivityForResult(intent_final, REQ_CODE_SPEECH_INPUT_ASK_COLOR);
             }
         } catch (ActivityNotFoundException a) {
             Toast.makeText(getApplicationContext(),
@@ -204,40 +216,52 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                     String text_output=result.get(0);
                     if("yes".equalsIgnoreCase(text_output)){
                         repeatTTS.speak("Ok wait a moment", TextToSpeech.QUEUE_FLUSH, null);
-                        String recieved_key =check_in_database(user_speech);
+                        String received_key =check_in_database(user_speech);
                         HashMap<String, String> myHash = new HashMap<String, String>();
-                        if(recieved_key.equalsIgnoreCase("set_away")){
+                        System.out.println("RECEIVED KEY: " + received_key + " text output: " + user_speech);
+                        if(received_key.equalsIgnoreCase("set_away")){
                             //call the api of thermostat and light to turn off
-                            repeatTTS.speak("Okay set all the devices to away mode",TextToSpeech.QUEUE_FLUSH,myHash);
+                            System.out.println("CALL API TO TURN OFF THERMOSTATE AND LIGHT");
+                            repeatTTS.speak("Okay set all the devices to away mode",TextToSpeech.QUEUE_FLUSH,null);
 
                         }
-                        if(recieved_key.equalsIgnoreCase("set_home")){
+                        else if(received_key.equalsIgnoreCase("set_home")){
                             //call the api of thermostat and light to turn on
-                            repeatTTS.speak("Okay set all the devices to home mode",TextToSpeech.QUEUE_FLUSH,myHash);
+                            System.out.println("CALL API TO TURN ON THERMOSTATE AND LIGHT");
+                            repeatTTS.speak("Okay set all the devices to home mode",TextToSpeech.QUEUE_FLUSH,null);
                         }
-                        if(recieved_key.equalsIgnoreCase("turn_on")){
+                        else if(received_key.equalsIgnoreCase("turn_on")){
                             myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_device");
                             repeatTTS.speak("Do you want to turn on the thermostat or the light",TextToSpeech.QUEUE_FLUSH,myHash);
                         }
-                     if(recieved_key.equalsIgnoreCase("increase_temp")||recieved_key.equalsIgnoreCase("decrease_temp")){
+                        else if(received_key.equalsIgnoreCase("increase_temp")||received_key.equalsIgnoreCase("decrease_temp")){
                          current_device="thermostat";
                          myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
                          repeatTTS.speak("Which room do you want to set the thermostat to", TextToSpeech.QUEUE_FLUSH, myHash);
 
-                     }else if(recieved_key.equalsIgnoreCase("on_lights")){
-                            repeatTTS.speak("Turning on the lights",TextToSpeech.QUEUE_FLUSH,myHash);
-                         //call the light api to turn on lights
-                        }else if(recieved_key.equalsIgnoreCase("off_lights")){
-                            repeatTTS.speak("Turning off the lights",TextToSpeech.QUEUE_FLUSH,myHash);
+                        }else if(received_key.equalsIgnoreCase("on_lights")){
+                            light_switch = "on";
+                            current_device = "light";
+                            myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
+                            repeatTTS.speak("Which room you want to turn the light on",TextToSpeech.QUEUE_FLUSH,myHash);
+                            //call the light api to turn on lights
+                            System.out.println("CALL API TO TURN ON LIGHT");
+                        }else if(received_key.equalsIgnoreCase("off_lights")){
+                            light_switch = "off";
+                            current_device = "light";
+                            myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
+                            repeatTTS.speak("Which room you want to turn the light off",TextToSpeech.QUEUE_FLUSH,myHash);
+                            System.out.println("CALL API TO TURN OFF LIGHT");
                          //call the light api to turn off the lights
+                        }else if(received_key.equalsIgnoreCase("set_color")){
+                         current_device="light";
+                            change_color_flag = true;
+                         myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
+                         repeatTTS.speak("Which room do you want to change the light color in", TextToSpeech.QUEUE_FLUSH, myHash);
+                         System.out.println("CALL API TO CHANGE COLOR");
                         }else{
                         repeatTTS.speak("Sorry, did not get you.Please say again", TextToSpeech.QUEUE_FLUSH, null);
                         }
-
-                    }else if(recieved_key.equalsIgnoreCase("change_color")){
-                        current_device="light";
-                        myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
-                        repeatTTS.speak("Which room do you want to change the light color in", TextToSpeech.QUEUE_FLUSH, myHash);
                     }
                     else if("no".equalsIgnoreCase(text_output)){
                         repeatTTS.speak("Ok please say again what you want", TextToSpeech.QUEUE_FLUSH, null);
@@ -278,6 +302,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                             current_device="light";
                             repeatTTS.speak("Turning on the lights",TextToSpeech.QUEUE_FLUSH,myHash);
                             //call the light api to switch on
+                            System.out.println("CALL API TO TURN ON LIGHT");
                         }else{
                             myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_device");
                             repeatTTS.speak("Sorry, did not get you.Please say again", TextToSpeech.QUEUE_FLUSH, myHash);
@@ -312,15 +337,57 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                     String text_output=result.get(0);
                     HashMap<String, String> myHash = new HashMap<String, String>();
 
-                    if("yes".equalsIgnoreCase(text_output)||"yeah".equalsIgnoreCase(text_output)){
+                    if("yes".equalsIgnoreCase(text_output)||"yeah".equalsIgnoreCase(text_output)) {
                         myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_temp");
                         //check the database for keyword everything
-                        String recieved_key =check_in_database(user_speech);
-                        if(recieved_key.equalsIgnoreCase("set_all")){
-                            //call the all api to set temperature everything
+                        String received_key = check_in_database(confirm_room);
+                        System.out.println("user speech: " + confirm_room + " " + received_key);
+                        if (received_key.equalsIgnoreCase("set_all")) {
+                            if (current_device.equals("light")) {
+                                if (change_color_flag==true){
+                                    myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_color");
+                                    repeatTTS.speak("Which color you want to change to ", TextToSpeech.QUEUE_FLUSH, myHash);
+                                }
+                                else {
+                                    if (light_switch.equals("on")){
+                                        // CALL API TO TURN ON ALL LIGHTS
+                                        System.out.println("CALL API TO TURN ON LIGHT EVERY ROOM");
+                                        repeatTTS.speak("Turn on lights in all the rooms ", TextToSpeech.QUEUE_FLUSH, null);
+                                    } else {
+                                        // CALL API TO TURN OFF ALL LIGHTS
+                                        System.out.println("CALL API TO TURN OFF LIGHT EVERY ROOM");
+                                        repeatTTS.speak("Turn off lights in all the rooms ", TextToSpeech.QUEUE_FLUSH, null);
+                                    }
+                                }
+                            } else {
+                                //call the all api to set temperature everything
+                                System.out.println("CALL API TO CHANGE TEMP OF THERMO EVERY ROOM");
+                                myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_temp");
+                                repeatTTS.speak("what temperature you want to set all the rooms to", TextToSpeech.QUEUE_FLUSH, myHash);
+                            }
+                            set_all_flag = true;
+                        } else { // if not set all
+                            System.out.println("Current device: " + current_device);
+                        if (current_device.equals("light")) {
+                            System.out.println("Change color flag: " + change_color_flag);
+                            if (change_color_flag == true) {
+                                myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_color");
+                                repeatTTS.speak("Which color you want to change to ", TextToSpeech.QUEUE_FLUSH, myHash);
+                            } else {
+                                if (light_switch.equals("on")){
+                                    // CALL API TO TURN ON LIGHTS OF INDIVIDUAL ROOM
+                                    System.out.println("CALL API TO TURN ON LIGHT OF " + confirm_room);
+                                    repeatTTS.speak("Turning on the light of " + confirm_room, TextToSpeech.QUEUE_FLUSH, null);
+                                } else {
+                                    // CALL API TO TURN ON LIGHTS OF INDIVIDUAL ROOM
+                                    System.out.println("CALL API TO TURN ON LIGHT OF " + confirm_room);
+                                    repeatTTS.speak("Turning off the light of " + confirm_room, TextToSpeech.QUEUE_FLUSH, null);
+                                }
+                            }
+                        } else {
+                            repeatTTS.speak("Change the temperature of " + confirm_room + " current temperature is " +/*add the current temperature*/"what temperature you want to set", TextToSpeech.QUEUE_FLUSH, myHash);
                         }
-                        repeatTTS.speak("Turning on the thermostat,curent temperatur is"+/*add the current temperature*/"what temperature you want to set",TextToSpeech.QUEUE_FLUSH,myHash);
-
+                        }
                     }else if("no".equalsIgnoreCase(text_output)||"nope".equalsIgnoreCase(text_output)){
                         myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
                         repeatTTS.speak("Ok,please tell us again which room to set the thermostat temperature",TextToSpeech.QUEUE_FLUSH,myHash);
@@ -353,8 +420,15 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
 
                    if("yes".equalsIgnoreCase(text_output)||"yeah".equalsIgnoreCase(text_output)){
                        //send the text_output to the thermostat api
-                       new ChangeTempAsync().execute(confirm_room,temp_thermostat);
-                       repeatTTS.speak("Thankyou,set the temperature to"+temp_thermostat,TextToSpeech.QUEUE_FLUSH,null);
+                       if (set_all_flag){
+                           System.out.println("SET ALL THERMOSTAT " + set_all_flag);
+                           repeatTTS.speak("Thank you,set the temperature to " + temp_thermostat + " for all room", TextToSpeech.QUEUE_FLUSH, null);
+                            // API to change temperature of all thermostat
+                       } else {
+                           System.out.println("SET INDIVIDUAL THERMOSTAT " + set_all_flag);
+                           new ChangeTempAsync().execute(confirm_room, temp_thermostat);
+                           repeatTTS.speak("Thank you,set the temperature to " + temp_thermostat + " for " + confirm_room, TextToSpeech.QUEUE_FLUSH, null);
+                       }
 
                    }else if("no".equalsIgnoreCase(text_output)||"nope".equalsIgnoreCase(text_output)){
                        myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_temp");
@@ -366,6 +440,48 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                 }
                 break;
             }
+
+            case REQ_CODE_SPEECH_INPUT_ASK_COLOR:{ //ask color
+                if (resultCode == RESULT_OK && null != data) {
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    txtSpeechInput.setText(result.get(0));
+                    confirm_color=result.get(0);
+                    HashMap<String, String> myHash = new HashMap<String, String>();
+                    myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "confirm_color");
+                    repeatTTS.speak("Did you say " + confirm_color, TextToSpeech.QUEUE_FLUSH, myHash);
+                }
+                break;
+            }
+
+            case REQ_CODE_SPEECH_INPUT_CONFIRM_COLOR:{ //confirm color
+                if (resultCode == RESULT_OK && null != data) {
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    txtSpeechInput.setText(result.get(0));
+                    String text_output=result.get(0);
+                    HashMap<String, String> myHash = new HashMap<String, String>();
+
+                    if("yes".equalsIgnoreCase(text_output)||"yeah".equalsIgnoreCase(text_output)){
+                        if (set_all_flag==true){
+                            // CALL API TO CHANGE COLOR TO ALL ROOM
+                            repeatTTS.speak("Thank you,set the color to " + confirm_color + " in every room", TextToSpeech.QUEUE_FLUSH, null);
+                        } else {
+                            // CALL API TO CHANGE COLOR FOR CERTAIN ROOM
+                            repeatTTS.speak("Thank you,set the color to " + confirm_color + " in " + confirm_room, TextToSpeech.QUEUE_FLUSH, null);
+                        }
+
+                    }else if("no".equalsIgnoreCase(text_output)||"nope".equalsIgnoreCase(text_output)){
+                        myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_color");
+                        repeatTTS.speak("Ok,Please tell the color you want to set again",TextToSpeech.QUEUE_ADD,myHash);
+                    }else{
+                        myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "confirm_color");
+                        repeatTTS.speak("Sorry, did not get you.Please say again", TextToSpeech.QUEUE_FLUSH, myHash);
+                    }
+                }
+                break;
+            }
+
             case MY_DATA_CHECK_CODE: {
                 if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS)
                     repeatTTS = new TextToSpeech(this, this);
@@ -506,15 +622,15 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
     }
 
         private String check_in_database(String text_output) {
-            String recieved_key = null;
+            String received_key = null;
             try {
-                recieved_key= new VoiceAsyncTask().execute(text_output).get();
+                received_key= new VoiceAsyncTask().execute(text_output).get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-            return recieved_key;
+            return received_key;
         }
 
     @Override
@@ -556,7 +672,12 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
             System.out.print("ask the device thermostat or light bulb");
             call_new_intent("confirm_device");
         }
-
+        if(utteranceId.equalsIgnoreCase("ask_color")){
+            call_final_intent("ask_color");
+        }
+        if(utteranceId.equalsIgnoreCase("confirm_color")){
+            call_new_intent("confirm_color");
+        }
     }
 
 
