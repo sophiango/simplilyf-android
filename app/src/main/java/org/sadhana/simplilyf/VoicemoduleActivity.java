@@ -274,7 +274,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                             myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
                             repeatTTS.speak("Which room you want to turn the light on",TextToSpeech.QUEUE_FLUSH,myHash);
                             //call the light api to turn on lights
-                            if (roomLightLookup(confirm_room)!=null){
+                            if (roomLightLookup(confirm_room)==null){
                                 myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
                                 repeatTTS.speak("The room " + confirm_room + " is not a valid room. Please say a valid room",TextToSpeech.QUEUE_FLUSH,myHash);
                             } else {
@@ -287,7 +287,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                             myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
                             repeatTTS.speak("Which room you want to turn the light off",TextToSpeech.QUEUE_FLUSH,myHash);
                             System.out.println("CALL API TO TURN OFF LIGHT");
-                            if (roomLightLookup(confirm_room)!=null){
+                            if (roomLightLookup(confirm_room)==null){
                                 myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
                                 repeatTTS.speak("The room " + confirm_room + " is not a valid room. Please say a valid room",TextToSpeech.QUEUE_FLUSH,myHash);
                             } else {
@@ -298,7 +298,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                             change_color_flag = true;
                          myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
                          repeatTTS.speak("Which room do you want to change the light color in", TextToSpeech.QUEUE_FLUSH, myHash);
-                            if (roomLightLookup(confirm_room)!=null){
+                            if (roomLightLookup(confirm_room)==null){
                                 myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
                                 repeatTTS.speak("The room " + confirm_room + " is not a valid room. Please say a valid room",TextToSpeech.QUEUE_FLUSH,myHash);
                             } else {
@@ -348,7 +348,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                         }else if(confirm_device.equalsIgnoreCase("light")||confirm_device.equalsIgnoreCase("lights")||confirm_device.equalsIgnoreCase("the lights")||confirm_device.equalsIgnoreCase("the light")){
                             current_device="light";
                             repeatTTS.speak("Turning on the lights",TextToSpeech.QUEUE_FLUSH,myHash);
-                            if (roomLightLookup(confirm_room)!=null){
+                            if (roomLightLookup(confirm_room)==null){
                                 myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
                                 repeatTTS.speak("The room " + confirm_room + " is not a valid room. Please say a valid room",TextToSpeech.QUEUE_FLUSH,myHash);
                             } else {
