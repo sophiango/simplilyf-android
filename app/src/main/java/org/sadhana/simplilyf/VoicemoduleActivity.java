@@ -19,6 +19,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,6 +41,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 /* Created by Prajakta Naik */
+/* Authored by Prajakta Naik and Sophia Ngo */
 
 public class VoicemoduleActivity extends Activity implements OnClickListener, OnInitListener, TextToSpeech.OnUtteranceCompletedListener {
 
@@ -72,6 +75,26 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
     private String light_switch="";
     private String confirm_color="";
 
+    // GLOBAL VARIABLES FOR ONPOSTEXECUTE
+    private boolean is_all_change_affected = false;
+    private boolean is_single_change_affected = false;
+
+    static private HashMap<String,String> roomLightMap;
+    static{
+        roomLightMap = new HashMap<>();
+        roomLightMap.put("living room","1");
+        roomLightMap.put("bedroom","2");
+        roomLightMap.put("dining room","3");
+    }
+
+
+    private String roomLightLookup(String room){
+        if (roomLightMap.get(room)!=null){
+            return roomLightMap.get(room);
+        } else {
+            return null;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,14 +243,20 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                         HashMap<String, String> myHash = new HashMap<String, String>();
                         System.out.println("RECEIVED KEY: " + received_key + " text output: " + user_speech);
                         if(received_key.equalsIgnoreCase("set_away")){
-                            //call the api of thermostat and light to turn off
-                            System.out.println("CALL API TO TURN OFF THERMOSTATE AND LIGHT");
+                            //set away for all thermostat
+                            new AwayBtnAsync().execute("away");
+                            // turn off all lights
+                            new PhilipsAllLightOffAsync().execute();
+                            System.out.println("CALL API TO TURN OFF THERMOSTAT AND LIGHT");
                             repeatTTS.speak("Okay set all the devices to away mode",TextToSpeech.QUEUE_FLUSH,null);
 
                         }
                         else if(received_key.equalsIgnoreCase("set_home")){
-                            //call the api of thermostat and light to turn on
-                            System.out.println("CALL API TO TURN ON THERMOSTATE AND LIGHT");
+                            //set home for all thermostat
+                            new AwayBtnAsync().execute("home");
+                            // turn on all lights
+                            new PhilipsAllLightOnAsync().execute();
+                            System.out.println("CALL API TO TURN ON THERMOSTAT AND LIGHT");
                             repeatTTS.speak("Okay set all the devices to home mode",TextToSpeech.QUEUE_FLUSH,null);
                         }
                         else if(received_key.equalsIgnoreCase("turn_on")){
@@ -245,6 +274,12 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                             myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
                             repeatTTS.speak("Which room you want to turn the light on",TextToSpeech.QUEUE_FLUSH,myHash);
                             //call the light api to turn on lights
+                            if (roomLightLookup(confirm_room)!=null){
+                                myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
+                                repeatTTS.speak("The room " + confirm_room + " is not a valid room. Please say a valid room",TextToSpeech.QUEUE_FLUSH,myHash);
+                            } else {
+                                new PhilipsLightONAsync().execute(roomLightLookup(confirm_room));
+                            }
                             System.out.println("CALL API TO TURN ON LIGHT");
                         }else if(received_key.equalsIgnoreCase("off_lights")){
                             light_switch = "off";
@@ -252,13 +287,25 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                             myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
                             repeatTTS.speak("Which room you want to turn the light off",TextToSpeech.QUEUE_FLUSH,myHash);
                             System.out.println("CALL API TO TURN OFF LIGHT");
-                         //call the light api to turn off the lights
+                            if (roomLightLookup(confirm_room)!=null){
+                                myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
+                                repeatTTS.speak("The room " + confirm_room + " is not a valid room. Please say a valid room",TextToSpeech.QUEUE_FLUSH,myHash);
+                            } else {
+                                new PhilipsLightOFFAsync().execute(roomLightLookup(confirm_room));
+                            }
                         }else if(received_key.equalsIgnoreCase("set_color")){
                          current_device="light";
                             change_color_flag = true;
                          myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
                          repeatTTS.speak("Which room do you want to change the light color in", TextToSpeech.QUEUE_FLUSH, myHash);
-                         System.out.println("CALL API TO CHANGE COLOR");
+                            if (roomLightLookup(confirm_room)!=null){
+                                myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
+                                repeatTTS.speak("The room " + confirm_room + " is not a valid room. Please say a valid room",TextToSpeech.QUEUE_FLUSH,myHash);
+                            } else {
+                                new PhilipsColorChange().execute(roomLightLookup(confirm_room),confirm_color);
+                            }
+
+                            System.out.println("CALL API TO CHANGE COLOR");
                         }else{
                         repeatTTS.speak("Sorry, did not get you.Please say again", TextToSpeech.QUEUE_FLUSH, null);
                         }
@@ -301,7 +348,12 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                         }else if(confirm_device.equalsIgnoreCase("light")||confirm_device.equalsIgnoreCase("lights")||confirm_device.equalsIgnoreCase("the lights")||confirm_device.equalsIgnoreCase("the light")){
                             current_device="light";
                             repeatTTS.speak("Turning on the lights",TextToSpeech.QUEUE_FLUSH,myHash);
-                            //call the light api to switch on
+                            if (roomLightLookup(confirm_room)!=null){
+                                myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
+                                repeatTTS.speak("The room " + confirm_room + " is not a valid room. Please say a valid room",TextToSpeech.QUEUE_FLUSH,myHash);
+                            } else {
+                                new PhilipsLightONAsync().execute(roomLightLookup(confirm_room));
+                            }
                             System.out.println("CALL API TO TURN ON LIGHT");
                         }else{
                             myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_device");
@@ -351,16 +403,19 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                                 else {
                                     if (light_switch.equals("on")){
                                         // CALL API TO TURN ON ALL LIGHTS
+                                        new PhilipsAllLightOnAsync().execute();
                                         System.out.println("CALL API TO TURN ON LIGHT EVERY ROOM");
                                         repeatTTS.speak("Turn on lights in all the rooms ", TextToSpeech.QUEUE_FLUSH, null);
                                     } else {
                                         // CALL API TO TURN OFF ALL LIGHTS
+                                        new PhilipsAllLightOffAsync().execute();
                                         System.out.println("CALL API TO TURN OFF LIGHT EVERY ROOM");
                                         repeatTTS.speak("Turn off lights in all the rooms ", TextToSpeech.QUEUE_FLUSH, null);
                                     }
                                 }
                             } else {
                                 //call the all api to set temperature everything
+                                new ChangeTempAllThermoAsync().execute(temp_thermostat);
                                 System.out.println("CALL API TO CHANGE TEMP OF THERMO EVERY ROOM");
                                 myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_temp");
                                 repeatTTS.speak("what temperature you want to set all the rooms to", TextToSpeech.QUEUE_FLUSH, myHash);
@@ -375,11 +430,13 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                                 repeatTTS.speak("Which color you want to change to ", TextToSpeech.QUEUE_FLUSH, myHash);
                             } else {
                                 if (light_switch.equals("on")){
+                                    new PhilipsLightONAsync().execute(roomLightLookup(confirm_room));
                                     // CALL API TO TURN ON LIGHTS OF INDIVIDUAL ROOM
                                     System.out.println("CALL API TO TURN ON LIGHT OF " + confirm_room);
                                     repeatTTS.speak("Turning on the light of " + confirm_room, TextToSpeech.QUEUE_FLUSH, null);
                                 } else {
                                     // CALL API TO TURN ON LIGHTS OF INDIVIDUAL ROOM
+                                    new PhilipsLightOFFAsync().execute(roomLightLookup(confirm_room));
                                     System.out.println("CALL API TO TURN ON LIGHT OF " + confirm_room);
                                     repeatTTS.speak("Turning off the light of " + confirm_room, TextToSpeech.QUEUE_FLUSH, null);
                                 }
@@ -421,6 +478,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                    if("yes".equalsIgnoreCase(text_output)||"yeah".equalsIgnoreCase(text_output)){
                        //send the text_output to the thermostat api
                        if (set_all_flag){
+                           new ChangeTempAllThermoAsync().execute();
                            System.out.println("SET ALL THERMOSTAT " + set_all_flag);
                            repeatTTS.speak("Thank you,set the temperature to " + temp_thermostat + " for all room", TextToSpeech.QUEUE_FLUSH, null);
                             // API to change temperature of all thermostat
@@ -465,9 +523,11 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                     if("yes".equalsIgnoreCase(text_output)||"yeah".equalsIgnoreCase(text_output)){
                         if (set_all_flag==true){
                             // CALL API TO CHANGE COLOR TO ALL ROOM
+                            new PhilipsColorChangeAllRoom().execute();
                             repeatTTS.speak("Thank you,set the color to " + confirm_color + " in every room", TextToSpeech.QUEUE_FLUSH, null);
                         } else {
                             // CALL API TO CHANGE COLOR FOR CERTAIN ROOM
+                            new PhilipsColorChange().execute(roomLightLookup(confirm_room));
                             repeatTTS.speak("Thank you,set the color to " + confirm_color + " in " + confirm_room, TextToSpeech.QUEUE_FLUSH, null);
                         }
 
@@ -494,74 +554,6 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                 }
                 break;
             }
-        }
-    }
-
-    public class ChangeTempAsync extends AsyncTask<String,Void, String>{
-
-        @Override
-        protected String doInBackground(String... params) {
-            InputStream inputStream = null;
-            HttpURLConnection urlConnection = null;
-            StringBuilder reply = new StringBuilder();
-            ThermoList thermoList = null;
-            try {
-                System.out.println("ADD NEW THERMO ENDPOINT");
-                /* forming th java.net.URL object */
-                String changeTempUrl = SERVER + "/thermo";
-                URL url = new URL(changeTempUrl);
-                urlConnection = (HttpURLConnection) url.openConnection();
-                 /* optional request header */
-                //urlConnection.setRequestProperty("Content-Type", "application/json");
-
-                /* optional request header */
-                //urlConnection.setRequestProperty("Accept", "application/json");
-                urlConnection.setDoOutput(true); // accept request body
-                //urlConnection.setDoInput(true);
-                urlConnection.setChunkedStreamingMode(0);
-                urlConnection.setRequestMethod("PUT");
-                JSONObject jsonParam = new JSONObject();
-                jsonParam.put("thermo_name", params[0]);
-                jsonParam.put("updated_temp", params[1]);
-                System.out.println("before post " + jsonParam.toString());
-
-                // Set request header
-                urlConnection.setRequestProperty("Accept-Charset", "UTF-8");
-                urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-                urlConnection.setUseCaches(false);
-
-
-                //urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-                //urlConnection.setRequestProperty("Content-Length",Integer.toString(param.getBytes().length));
-
-                // write body
-                OutputStream wr= urlConnection.getOutputStream();
-                wr.write(jsonParam.toString().getBytes("UTF-8"));
-                int statusCode = urlConnection.getResponseCode();
-                wr.close();
-                System.out.println("status code " + statusCode);
-
-                InputStream in = urlConnection.getInputStream();
-                int chr;
-                while ((chr = in.read()) != -1) {
-                    reply.append((char) chr);
-                }
-                System.out.println("received: " + reply.toString());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            System.out.println("on post execute: " + s);
         }
     }
 
@@ -697,6 +689,489 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
         }
         System.out.println("result value" + result);
         return result;
+    }
+
+    public class AwayBtnAsync extends AsyncTask<String,Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            is_all_change_affected = false;
+            InputStream inputStream = null;
+            HttpURLConnection urlConnection = null;
+            StringBuilder reply = new StringBuilder();
+            //   String SERVER = "http://10.189.115.48:3000";
+            ThermoList thermoList = null;
+            try {
+                System.out.println("AWAY THERMO ENDPOINT");
+                /* forming th java.net.URL object */
+                String changeModeUrl = SERVER+"/thermo/mode";
+                URL url = new URL(changeModeUrl);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setDoOutput(true); // accept request body
+                urlConnection.setChunkedStreamingMode(0);
+                urlConnection.setRequestMethod("PUT");
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("thermo_mode", params[0]);
+                System.out.println("before post " + jsonParam.toString());
+
+                // Set request header
+                urlConnection.setRequestProperty("Accept-Charset", "UTF-8");
+                urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                urlConnection.setUseCaches(false);
+
+                // write body
+                OutputStream wr= urlConnection.getOutputStream();
+                wr.write(jsonParam.toString().getBytes("UTF-8"));
+                int statusCode = urlConnection.getResponseCode();
+                wr.close();
+                System.out.println("status code " + statusCode);
+
+                InputStream in = urlConnection.getInputStream();
+                int chr;
+                while ((chr = in.read()) != -1) {
+                    reply.append((char) chr);
+                }
+                System.out.println("received: " + reply.toString());
+                if(statusCode==200){
+                    System.out.println("mode changed");
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            is_all_change_affected = true;
+            System.out.println("on post execute: " + s);
+        }
+    }
+
+    public class PhilipsAllLightOffAsync extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            is_single_change_affected = false;
+            InputStream inputStream = null;
+            //int deviceNum=params[0];
+            String allLightOffEndpoint= SERVER+"/light/all/off";
+            HttpURLConnection urlConnection = null;
+            try {
+                System.out.println("endpoint value "+allLightOffEndpoint);
+                System.out.println("Off Philips endpoint");
+                /* forming th java.net.URL object */
+                URL url = new URL(allLightOffEndpoint);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                 /* optional request header */
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                /* optional request header */
+                urlConnection.setRequestProperty("Accept", "application/json");
+                /* for Get request */
+                urlConnection.setRequestMethod("POST");
+                //  List<NameValuePairs>
+                int statusCode = urlConnection.getResponseCode();
+                System.out.println("status code in off: " + statusCode);
+                /* 200 represents HTTP OK */
+                if (statusCode == 200) {
+                    return true;
+                }
+            } catch (Exception e) {
+                Log.d("error", e.toString());
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result==true){
+                is_all_change_affected = true;
+            }
+        }
+    }
+
+    public class PhilipsAllLightOnAsync extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            InputStream inputStream = null;
+            String allLightOnEndpoint= SERVER+"/light/all/on";
+            HttpURLConnection urlConnection = null;
+            try {
+                System.out.println("endpoint value "+allLightOnEndpoint);
+                System.out.println("Off Philips endpoint");
+                /* forming th java.net.URL object */
+                URL url = new URL(allLightOnEndpoint);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                 /* optional request header */
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                /* optional request header */
+                urlConnection.setRequestProperty("Accept", "application/json");
+                /* for Get request */
+                urlConnection.setRequestMethod("POST");
+                //  List<NameValuePairs>
+                int statusCode = urlConnection.getResponseCode();
+                System.out.println("status code in off: " + statusCode);
+                /* 200 represents HTTP OK */
+                if (statusCode == 200) {
+                    return true;
+                }
+            } catch (Exception e) {
+                Log.d("error", e.toString());
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result==true){
+                is_single_change_affected = true;
+            }
+        }
+    }
+
+    public class PhilipsLightOFFAsync extends AsyncTask<String, Void, PhilipsData> {
+
+        @Override
+        protected PhilipsData doInBackground(String... params) {
+            is_single_change_affected = false;
+            InputStream inputStream = null;
+            //int deviceNum=params[0];
+            String deviceNum= SERVER+"/light/off/"+params[0];
+            HttpURLConnection urlConnection = null;
+            Integer result = 0;
+            PhilipsData msg=new PhilipsData();
+            try {
+                System.out.println("endpoint value "+deviceNum);
+                System.out.println("Off Philips endpoint");
+                /* forming th java.net.URL object */
+                URL url = new URL(deviceNum);
+                urlConnection = (HttpURLConnection) url.openConnection();
+
+                 /* optional request header */
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                /* optional request header */
+                urlConnection.setRequestProperty("Accept", "application/json");
+
+                /* for Get request */
+                urlConnection.setRequestMethod("POST");
+                //  List<NameValuePairs>
+                int statusCode = urlConnection.getResponseCode();
+                System.out.println("status code in off: " + statusCode);
+                /* 200 represents HTTP OK */
+                if (statusCode == 200) {
+                    inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                    String response = convertInputStreamToString(inputStream);
+                    msg = new Gson().fromJson(response, PhilipsData.class);
+                    //   parseResult(response);
+                    System.out.println("Philips response....in off " +msg.getName()+" "+ msg.getState().getOn());
+                    result = 1; // Successful
+                } else {
+                    result = 0; //"Failed to fetch data!";
+                }
+            } catch (Exception e) {
+                Log.d("error", e.toString());
+            }
+            return msg;
+        }
+
+        @Override
+        protected void onPostExecute(PhilipsData result) {
+            System.out.println("RESULT: " + result);
+            System.out.println("value of light status out of loop  "+result.getState().getOn());
+            if(result.getState().getOn()==false){
+                System.out.println("value of light status now  "+result.getState().getOn());
+                is_single_change_affected = true;
+            }
+        }
+    }
+
+    public class PhilipsLightONAsync extends AsyncTask<String, Void, PhilipsData> {
+
+        @Override
+        protected PhilipsData doInBackground(String... params) {
+            is_single_change_affected = false;
+            InputStream inputStream = null;
+            //int deviceNum=params[0];
+            String endpoint= SERVER+"/light/on/"+params[0];
+            HttpURLConnection urlConnection = null;
+            Integer result = 0;
+            PhilipsData msg=new PhilipsData();
+            try {
+                System.out.println("endpoint value "+endpoint);
+                System.out.println("On Philips endpoint");
+                /* forming th java.net.URL object */
+                URL url = new URL(endpoint);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                 /* optional request header */
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                /* optional request header */
+                urlConnection.setRequestProperty("Accept", "application/json");
+                /* for Get request */
+                urlConnection.setRequestMethod("POST");
+                //  List<NameValuePairs>
+                int statusCode = urlConnection.getResponseCode();
+                System.out.println("status code in on: " + statusCode);
+                /* 200 represents HTTP OK */
+                if (statusCode == 200) {
+                    inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                    String response = convertInputStreamToString(inputStream);
+                    msg = new Gson().fromJson(response, PhilipsData.class);
+                    //   parseResult(response);
+                    System.out.println("Philips response....in on " +msg.getName()+" "+ msg.getState().getOn());
+                    result = 1; // Successful
+                } else {
+                    result = 0; //"Failed to fetch data!";
+                }
+            } catch (Exception e) {
+                Log.d("error", e.toString());
+            }
+            return msg;
+        }
+
+        @Override
+        protected void onPostExecute(PhilipsData result) {
+            System.out.println("RESULT: " + result);
+            // System.out.println("value of light status"+result.getState().getOn());
+            if(result.getState().getOn()==true){
+                is_single_change_affected = true;
+            }
+        }
+    }
+
+    public class PhilipsColorChange extends AsyncTask<String, Void, PhilipsData> {
+
+        @Override
+        protected PhilipsData doInBackground(String... params) {
+            is_single_change_affected = false;
+            InputStream inputStream = null;
+            //int deviceNum=params[0];
+            String endpoint= SERVER+"/color/"+params[0]+"/"+params[1];
+            HttpURLConnection urlConnection = null;
+            Integer result = 0;
+            PhilipsData msg=new PhilipsData();
+            try {
+                System.out.println("endpoint value "+endpoint);
+                System.out.println("color change Philips endpoint");
+                /* forming th java.net.URL object */
+                URL url = new URL(endpoint);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                 /* optional request header */
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                /* optional request header */
+                urlConnection.setRequestProperty("Accept", "application/json");
+                /* for Get request */
+                urlConnection.setRequestMethod("POST");
+                //  List<NameValuePairs>
+                int statusCode = urlConnection.getResponseCode();
+                System.out.println("status code in change: " + statusCode);
+                /* 200 represents HTTP OK */
+                if (statusCode == 200) {
+                    inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                    String response = convertInputStreamToString(inputStream);
+                    msg = new Gson().fromJson(response, PhilipsData.class);
+                    //   parseResult(response);
+                    System.out.println("Philips response....in on " +msg.getName()+" "+ msg.getState().getOn());
+                    result = 1; // Successful
+                } else {
+                    result = 0; //"Failed to fetch data!";
+                }
+            } catch (Exception e) {
+                Log.d("error", e.toString());
+            }
+            return msg;
+        }
+
+        @Override
+        protected void onPostExecute(PhilipsData result) {
+            System.out.println("RESULT: " + result);
+            if (result!=null){
+                is_single_change_affected = true;
+            }
+        }
+
+    }
+
+    public class PhilipsColorChangeAllRoom extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            is_all_change_affected = false;
+            InputStream inputStream = null;
+            //int deviceNum=params[0];
+            String endpoint= SERVER+"/all/color/"+params[0];
+            HttpURLConnection urlConnection = null;
+            Integer result = 0;
+            PhilipsData msg=new PhilipsData();
+            try {
+                System.out.println("endpoint value "+endpoint);
+                System.out.println("color change Philips endpoint");
+                /* forming th java.net.URL object */
+                URL url = new URL(endpoint);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                 /* optional request header */
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                /* optional request header */
+                urlConnection.setRequestProperty("Accept", "application/json");
+                /* for Get request */
+                urlConnection.setRequestMethod("POST");
+                //  List<NameValuePairs>
+                int statusCode = urlConnection.getResponseCode();
+                System.out.println("status code in change: " + statusCode);
+                /* 200 represents HTTP OK */
+                if (statusCode == 200) {
+                    return true;
+                }
+            } catch (Exception e) {
+                Log.d("error", e.toString());
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            System.out.println("RESULT: " + result);
+            if (result!=null){
+                is_all_change_affected = true;
+            }
+        }
+
+    }
+
+    public class ChangeTempAsync extends AsyncTask<String,Void, String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+            InputStream inputStream = null;
+            HttpURLConnection urlConnection = null;
+            String response = null;
+            StringBuilder reply = new StringBuilder();
+            try {
+                System.out.println("CHANGE TEMP ENDPOINT");
+                /* forming th java.net.URL object */
+                String changeTempUrl = SERVER + "/thermo";
+                URL url = new URL(changeTempUrl);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setDoOutput(true); // accept request body
+                urlConnection.setChunkedStreamingMode(0);
+                urlConnection.setRequestMethod("PUT");
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("thermo_name", params[0]);
+                jsonParam.put("updated_temp", params[1]);
+                System.out.println("before post " + jsonParam.toString());
+
+                // Set request header
+                urlConnection.setRequestProperty("Accept-Charset", "UTF-8");
+                urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                urlConnection.setUseCaches(false);
+
+                // write body
+                OutputStream wr= urlConnection.getOutputStream();
+                wr.write(jsonParam.toString().getBytes("UTF-8"));
+                int statusCode = urlConnection.getResponseCode();
+                wr.close();
+                System.out.println("status code " + statusCode);
+
+                InputStream in = urlConnection.getInputStream();
+                int chr;
+                while ((chr = in.read()) != -1) {
+                    reply.append((char) chr);
+                }
+                System.out.println("received: " + reply.toString());
+                if(statusCode==200){
+                    System.out.println("mode changed");
+                } else {
+                    System.out.println("something wrong");
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            System.out.println("on post execute: " + s);
+        }
+    }
+
+    public class ChangeTempAllThermoAsync extends AsyncTask<String,Void, String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+            InputStream inputStream = null;
+            HttpURLConnection urlConnection = null;
+            StringBuilder reply = new StringBuilder();
+            try {
+                System.out.println("ADD NEW THERMO ENDPOINT");
+                /* forming th java.net.URL object */
+                String changeTempUrl = SERVER + "/thermo/all";
+                URL url = new URL(changeTempUrl);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                 /* optional request header */
+                //urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                /* optional request header */
+                //urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.setDoOutput(true); // accept request body
+                //urlConnection.setDoInput(true);
+                urlConnection.setChunkedStreamingMode(0);
+                urlConnection.setRequestMethod("PUT");
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("updated_temp", params[0]);
+                System.out.println("before post " + jsonParam.toString());
+
+                // Set request header
+                urlConnection.setRequestProperty("Accept-Charset", "UTF-8");
+                urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                urlConnection.setUseCaches(false);
+
+
+                //urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+                //urlConnection.setRequestProperty("Content-Length",Integer.toString(param.getBytes().length));
+
+                // write body
+                OutputStream wr= urlConnection.getOutputStream();
+                wr.write(jsonParam.toString().getBytes("UTF-8"));
+                int statusCode = urlConnection.getResponseCode();
+                wr.close();
+                System.out.println("status code " + statusCode);
+
+                InputStream in = urlConnection.getInputStream();
+                int chr;
+                while ((chr = in.read()) != -1) {
+                    reply.append((char) chr);
+                }
+                System.out.println("received: " + reply.toString());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            System.out.println("on post execute: " + s);
+        }
     }
 
 }
