@@ -12,18 +12,29 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class PhilipsdevicesActivity extends ActionBarActivity {
 
 
     private ListView myList;
+    private LightList receivedLightList = null;
+    private List<LightList.QuickLightData> lightList = new ArrayList<LightList.QuickLightData>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_philipsdevices);
-
+        Intent i = getIntent();
+        Bundle receivedBundle = i.getExtras();
+        if (receivedBundle != null){
+            receivedLightList = (LightList) receivedBundle.getSerializable("lights");
+            lightList = receivedLightList.getLightList();
+            for (int j = 0; j < lightList.size(); j++) {
+                System.out.println("light: " + lightList.get(j).getName());
+            }
+        }
         myList = (ListView) findViewById(R.id.list);
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -42,16 +53,19 @@ public class PhilipsdevicesActivity extends ActionBarActivity {
         });
         FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
         final ArrayList list = new ArrayList<>();
-        for (int i = 1; i < 4; i++) {
-            list.add("Hue Light " + i);
+        for (int a = 1; a < lightList.size(); a++) {
+//            list.add("Hue Light " + i);
+            list.add(lightList.get(a).getName());
         }
         final ArrayList statelist = new ArrayList<>();
-        for (int i = 1; i < 4; i++) {
-            statelist.add("ON");
+        for (int b = 1; b < lightList.size(); b++) {
+//            statelist.add("ON");
+            statelist.add(lightList.get(b).getOn());
         }
         final ArrayList colorlist = new ArrayList<>();
-        for (int i = 1; i < 4; i++) {
-            colorlist.add("Red");
+        for (int c = 1; c < lightList.size(); c++) {
+//            colorlist.add("Red");
+            colorlist.add(lightList.get(c).getHue());
         }
       final PhilipsCustomAdapter adapter = new PhilipsCustomAdapter(PhilipsdevicesActivity.this, list,statelist,colorlist);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
