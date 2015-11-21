@@ -25,7 +25,7 @@ import org.sadhana.simplilyf.LightList.QuickLightData;
 
 public class AddNewDevice extends AppCompatActivity {
 
-    final String SERVER = "http://172.16.1.9:3000";
+    final String SERVER = new Config().getIP_ADDRESS();
     EditText inputUsername, inputEmail, inputPW;
     List<NestData> allThermoData = new ArrayList<NestData>();
     Spinner vendorSelected;

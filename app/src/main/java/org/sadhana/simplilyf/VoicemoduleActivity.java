@@ -68,7 +68,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
     private String confirm_room="";
     private String temp_thermostat="";
     private TextToSpeech repeatTTS;
-    final String SERVER = "http://10.189.50.220:3000";
+    final String SERVER = new Config().getIP_ADDRESS();
     private String current_device="";
     private boolean set_all_flag=false;
     private boolean change_color_flag=false;

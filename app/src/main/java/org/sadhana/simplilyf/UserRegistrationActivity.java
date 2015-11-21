@@ -32,7 +32,7 @@ public class UserRegistrationActivity extends ActionBarActivity {
     private String inputUsername = null;
     private String inputPW = null;
 
-    final String SERVER = "http://10.189.50.220:3000";
+    final String SERVER = new Config().getIP_ADDRESS();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
