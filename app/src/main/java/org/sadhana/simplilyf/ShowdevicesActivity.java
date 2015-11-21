@@ -11,6 +11,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 
 public class ShowdevicesActivity extends ActionBarActivity {
 
@@ -33,7 +35,13 @@ public class ShowdevicesActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showdevices);
-
+        String jsonMyObject=null;
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            jsonMyObject = extras.getString("devicesList");
+        }
+        DeviceList deviceObj = new Gson().fromJson(jsonMyObject, DeviceList.class);
+        System.out.println("device object  "+deviceObj.getLights()+"get userName  "+deviceObj.getUsername()+"get userEmail "+deviceObj.getEmail());
         list=(ListView)findViewById(R.id.deviceList);
         DevicesCustomAdapter adapter=new DevicesCustomAdapter(ShowdevicesActivity.this,devicename,imgid);
 

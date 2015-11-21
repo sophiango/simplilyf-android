@@ -46,9 +46,9 @@ public class LoginActivity extends Activity implements
         ConnectionCallbacks, OnConnectionFailedListener {
 
     // endpoints
-    final String SERVER = "http://10.189.16.104:3000";
+    final String SERVER = "http://10.189.50.220:3000";
 
-
+    public DeviceList   devicesList;
     private Button mLoginBtn;
     private EditText mUserName;
     private EditText mPassword;
@@ -420,6 +420,7 @@ public class LoginActivity extends Activity implements
             HttpURLConnection urlConnection = null;
             Integer result = 0;
             String output = null;
+            User msg = new User();
             StringBuilder reply = new StringBuilder();
             User user = null;
             try {
@@ -447,30 +448,35 @@ public class LoginActivity extends Activity implements
                 urlConnection.setUseCaches(false);
 
                 // write body
-                OutputStream wr= urlConnection.getOutputStream();
+                OutputStream wr = urlConnection.getOutputStream();
                 wr.write(jsonParam.toString().getBytes("UTF-8"));
                 int statusCode = urlConnection.getResponseCode();
                 wr.close();
                 System.out.println("status code " + statusCode);
-
-                inputStream = new BufferedInputStream(urlConnection.getInputStream());
-                String response = convertInputStreamToString(inputStream);
-                user = new Gson().fromJson(response, User.class);
-                //StringBuffer sb = new StringBuffer();
-
-                urlConnection.disconnect();
+                if (statusCode == 200) {
+                    inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                    String response = convertInputStreamToString(inputStream);
+                    msg = new Gson().fromJson(response, User.class);
+                    //   parseResult(response);
+                    System.out.println("Philips response...." + msg.getLights() + " ");
+                    result = 1; // Successful
+                } else {
+                    result = 0; //"Failed to fetch data!";
+                }
             } catch (Exception e) {
                 Log.d("error", e.toString());
             }
-            return user;
+            return msg;
         }
 
         @Override
         protected void onPostExecute(User result) {
-            System.out.println("RESULT: " + result);
+            System.out.println("RESULT:in post execute in LoginActivity " + result);
             if (result!=null) {
                 Intent i = new Intent(LoginActivity.this, ShowdevicesActivity.class);
-                startActivity(i);
+                devicesList=new DeviceList(result.getEmail(),result.getUserId(),result.getUsername(),result.getLights(),result.getThermos());
+               i.putExtra("devicesList", new Gson().toJson(result));
+                       startActivity(i);
             } else {
                 Toast.makeText(LoginActivity.this,"Invalid login",Toast.LENGTH_LONG).show();
             }
