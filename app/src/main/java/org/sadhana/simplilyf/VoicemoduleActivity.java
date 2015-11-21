@@ -68,7 +68,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
     private String confirm_room="";
     private String temp_thermostat="";
     private TextToSpeech repeatTTS;
-    final String SERVER = "http://10.189.146.107:3000";
+    final String SERVER = "http://10.189.50.220:3000";
     private String current_device="";
     private boolean set_all_flag=false;
     private boolean change_color_flag=false;
@@ -391,12 +391,9 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
 
                     if("yes".equalsIgnoreCase(text_output)||"yeah".equalsIgnoreCase(text_output)) {
 
-                        if (roomLightLookup(confirm_room) == null) {
-                            myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
-                            repeatTTS.speak(confirm_room + " is invalid. Please say a valid room", TextToSpeech.QUEUE_FLUSH, myHash);
-                        }else{
                         //check the database for keyword everything
-                            myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_temp");
+                        myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_temp");
+
                         String received_key = check_in_database(confirm_room);
                         System.out.println("user speech: " + confirm_room + " " + received_key);
                         if (received_key.equalsIgnoreCase("set_all")) {
@@ -425,31 +422,35 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                                 repeatTTS.speak("what temperature you want to set all the rooms to", TextToSpeech.QUEUE_FLUSH, myHash);
                             }
                             set_all_flag = true;
-                        } else { // if not set all
-                            System.out.println("Current device: " + current_device);
-                            if (current_device.equals("light")) {
-                                System.out.println("Change color flag: " + change_color_flag);
-                                if (change_color_flag == true) {
-                                    myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_color");
-                                    repeatTTS.speak("Which color you want to change to ", TextToSpeech.QUEUE_FLUSH, myHash);
-                                } else {
-                                    if (light_switch.equals("on")) {
-                                        new PhilipsLightONAsync().execute(roomLightLookup(confirm_room));
-                                        // CALL API TO TURN ON LIGHTS OF INDIVIDUAL ROOM
-                                        System.out.println("CALL API TO TURN ON LIGHT OF " + confirm_room);
-                                        repeatTTS.speak("Turning on the light of " + confirm_room, TextToSpeech.QUEUE_FLUSH, null);
+                        } else { // for individual room
+                            if (roomLightLookup(confirm_room) == null) {
+                                myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
+                                repeatTTS.speak(confirm_room + " is invalid. Please say a valid room", TextToSpeech.QUEUE_FLUSH, myHash);
+                            }else {
+                                System.out.println("Current device: " + current_device);
+                                if (current_device.equals("light")) {
+                                    System.out.println("Change color flag: " + change_color_flag);
+                                    if (change_color_flag == true) {
+                                        myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_color");
+                                        repeatTTS.speak("Which color you want to change to ", TextToSpeech.QUEUE_FLUSH, myHash);
                                     } else {
-                                        // CALL API TO TURN ON LIGHTS OF INDIVIDUAL ROOM
-                                        new PhilipsLightOFFAsync().execute(roomLightLookup(confirm_room));
-                                        System.out.println("CALL API TO TURN ON LIGHT OF " + confirm_room);
-                                        repeatTTS.speak("Turning off the light of " + confirm_room, TextToSpeech.QUEUE_FLUSH, null);
+                                        if (light_switch.equals("on")) {
+                                            new PhilipsLightONAsync().execute(roomLightLookup(confirm_room));
+                                            // CALL API TO TURN ON LIGHTS OF INDIVIDUAL ROOM
+                                            System.out.println("CALL API TO TURN ON LIGHT OF " + confirm_room);
+                                            repeatTTS.speak("Turning on the light of " + confirm_room, TextToSpeech.QUEUE_FLUSH, null);
+                                        } else {
+                                            // CALL API TO TURN ON LIGHTS OF INDIVIDUAL ROOM
+                                            new PhilipsLightOFFAsync().execute(roomLightLookup(confirm_room));
+                                            System.out.println("CALL API TO TURN ON LIGHT OF " + confirm_room);
+                                            repeatTTS.speak("Turning off the light of " + confirm_room, TextToSpeech.QUEUE_FLUSH, null);
+                                        }
                                     }
+                                } else {
+                                    repeatTTS.speak("Change the temperature of " + confirm_room + " current temperature is " +/*add the current temperature*/"what temperature you want to set", TextToSpeech.QUEUE_FLUSH, myHash);
                                 }
-                            } else {
-                                repeatTTS.speak("Change the temperature of " + confirm_room + " current temperature is " +/*add the current temperature*/"what temperature you want to set", TextToSpeech.QUEUE_FLUSH, myHash);
                             }
                         }
-                    }
                     }else if("no".equalsIgnoreCase(text_output)||"nope".equalsIgnoreCase(text_output)){
                         myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
                         repeatTTS.speak("Ok,please tell us again which room to set the thermostat temperature",TextToSpeech.QUEUE_FLUSH,myHash);
@@ -486,6 +487,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                            new ChangeTempAllThermoAsync().execute();
                            System.out.println("SET ALL THERMOSTAT " + set_all_flag);
                            repeatTTS.speak("Thank you,set the temperature to " + temp_thermostat + " for all room", TextToSpeech.QUEUE_FLUSH, null);
+                           set_all_flag = false;
                             // API to change temperature of all thermostat
                        } else {
                            System.out.println("SET INDIVIDUAL THERMOSTAT " + set_all_flag);
@@ -530,10 +532,13 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                             // CALL API TO CHANGE COLOR TO ALL ROOM
                             new PhilipsColorChangeAllRoom().execute(confirm_color);
                             repeatTTS.speak("Thank you,set the color to " + confirm_color + " in every room", TextToSpeech.QUEUE_FLUSH, null);
+                            set_all_flag = false;
+                            change_color_flag = false;
                         } else {
                             // CALL API TO CHANGE COLOR FOR CERTAIN ROOM
                             new PhilipsColorChange().execute(roomLightLookup(confirm_room),confirm_color);
                             repeatTTS.speak("Thank you,set the color to " + confirm_color + " in " + confirm_room, TextToSpeech.QUEUE_FLUSH, null);
+                            change_color_flag = false;
                         }
 
                     }else if("no".equalsIgnoreCase(text_output)||"nope".equalsIgnoreCase(text_output)){
@@ -810,7 +815,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
             HttpURLConnection urlConnection = null;
             try {
                 System.out.println("endpoint value "+allLightOnEndpoint);
-                System.out.println("Off Philips endpoint");
+                System.out.println("On Philips endpoint");
                 /* forming th java.net.URL object */
                 URL url = new URL(allLightOnEndpoint);
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -958,7 +963,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
             is_single_change_affected = false;
             InputStream inputStream = null;
             //int deviceNum=params[0];
-            String endpoint= SERVER+"/color/"+params[0]+"/"+params[1];
+            String endpoint= SERVER+"/light/color/"+params[0]+"/"+params[1];
             HttpURLConnection urlConnection = null;
             Integer result = 0;
             PhilipsData msg=new PhilipsData();
@@ -1011,7 +1016,7 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
             is_all_change_affected = false;
             InputStream inputStream = null;
             //int deviceNum=params[0];
-            String endpoint= SERVER+"/all/color/"+params[0];
+            String endpoint= SERVER+"/light/all/color/"+params[0];
             HttpURLConnection urlConnection = null;
             Integer result = 0;
             PhilipsData msg=new PhilipsData();
