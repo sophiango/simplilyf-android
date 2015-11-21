@@ -81,15 +81,17 @@
 
     </LinearLayout>
 
-    <TextView android:id="@+id/link_forgotDetails"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="@string/forgotLink"
 
-        android:gravity="center"
-        android:textSize="16dip"
-        android:textColor="#1E90FF"/>
+
+    <!--<TextView android:id="@+id/link_forgotDetails"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="24dp"-->
+        <!--android:text="@string/forgotLink"-->
+
+        <!--android:gravity="center"-->
+        <!--android:textSize="16dip"-->
+        <!--android:textColor="#1E90FF"/>-->
 
     <TextView android:id="@+id/link_register"
         android:layout_width="fill_parent"
@@ -147,6 +149,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"/>
+
+    <LinearLayout
+        android:id="@+id/linlaHeaderProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="Loading data..." />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_sign_out"

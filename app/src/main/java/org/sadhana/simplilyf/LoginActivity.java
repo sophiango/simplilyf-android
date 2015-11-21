@@ -53,7 +53,7 @@ public class LoginActivity extends Activity implements
     private EditText mUserName;
     private EditText mPassword;
     private TextView mRegisterlink;
-    private TextView mForgotLink;
+
     private static final int RC_SIGN_IN = 0;
     // Logcat tag
     private static final String TAG = "MainActivity";
@@ -78,7 +78,7 @@ public class LoginActivity extends Activity implements
     private Button btnSignOut, btnRevokeAccess;
     private ImageView imgProfilePic;
     private TextView txtName, txtEmail;
-    private LinearLayout llProfileLayout;
+    private LinearLayout llProfileLayout,linlaHeaderProgress;
     private LinearLayout emailLayout;
     private LinearLayout pwdLayout;
     private LinearLayout btnLayout;
@@ -93,7 +93,7 @@ public class LoginActivity extends Activity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mLoginBtn = (Button) findViewById(R.id.btn_login);
-
+        linlaHeaderProgress = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -130,7 +130,7 @@ public class LoginActivity extends Activity implements
         pwdLayout = (LinearLayout) findViewById(R.id.pwdLayout);
 
         btnLayout = (LinearLayout) findViewById(R.id.btnLayout);
-        mForgotLink = (TextView) findViewById(R.id.link_forgotDetails);
+
         btnMydevices = (Button) findViewById(R.id.myDevices);
         btnMydevices.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -268,7 +268,7 @@ public class LoginActivity extends Activity implements
             pwdLayout.setVisibility(View.GONE);
 
             mRegisterlink.setVisibility(View.GONE);
-            mForgotLink.setVisibility(View.GONE);
+
             btnLayout.setVisibility(View.GONE);
 
         } else {
@@ -281,7 +281,7 @@ public class LoginActivity extends Activity implements
             pwdLayout.setVisibility(View.VISIBLE);
 
             mRegisterlink.setVisibility(View.VISIBLE);
-            mForgotLink.setVisibility(View.VISIBLE);
+
             btnLayout.setVisibility(View.VISIBLE);
         }
     }
@@ -472,15 +472,22 @@ public class LoginActivity extends Activity implements
         }
 
         @Override
+        protected void onPreExecute() {
+            // SHOW THE SPINNER WHILE LOADING FEEDS
+            linlaHeaderProgress.setVisibility(View.VISIBLE);
+        }
+        @Override
         protected void onPostExecute(User result) {
             System.out.println("RESULT:in post execute in LoginActivity " + result);
             if (result!=null) {
                 Intent i = new Intent(LoginActivity.this, ShowdevicesActivity.class);
                 devicesList=new DeviceList(result.getEmail(),result.getUserId(),result.getUsername(),result.getLights(),result.getThermos());
                i.putExtra("devicesList", new Gson().toJson(result));
+                linlaHeaderProgress.setVisibility(View.GONE);
                        startActivity(i);
             } else {
                 Toast.makeText(LoginActivity.this,"Invalid login",Toast.LENGTH_LONG).show();
+                linlaHeaderProgress.setVisibility(View.GONE);
             }
         }
     }
