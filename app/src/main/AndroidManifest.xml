@@ -15,7 +15,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/home_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <meta-data
@@ -37,27 +37,27 @@
         </activity>
         <activity
             android:name=".ShowdevicesActivity"
-            android:label="@string/title_activity_showdevices" >
+            android:label="Devices" >
         </activity>
         <activity
             android:name=".NestdevicesActivity"
-            android:label="@string/title_activity_nest" >
+            android:label="Nest Devices" >
         </activity>
         <activity
             android:name=".PhilipsdevicesActivity"
-            android:label="@string/title_activity_philips" >
+            android:label="Philips Devices" >
         </activity>
         <activity
             android:name=".VoicemoduleActivity"
-            android:label="@string/title_activity_voicemodule" >
+            android:label="Voice" >
         </activity>
         <activity
             android:name=".NestLivingrmActivity"
-            android:label="@string/title_activity_nest_livingrm" >
+            android:label="Nest" >
         </activity>
         <activity
             android:name=".UserRegistrationActivity"
-            android:label="@string/title_activity_user_registration" >
+            android:label="Use Registration" >
         </activity>
         <activity
             android:name=".UserProfileActivity"
@@ -65,13 +65,13 @@
         </activity>
         <activity
             android:name=".AddNewDevice"
-            android:label="@string/title_activity_add_new_device"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:label="Add New Device"
+           >
         </activity>
         <activity
             android:name=".PhilipsDetailsActivity"
-            android:label="PhilipsDetails"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:label="Philips"
+            >
         </activity>
     </application>
 

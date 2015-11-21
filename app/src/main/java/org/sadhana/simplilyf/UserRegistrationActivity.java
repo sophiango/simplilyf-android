@@ -24,15 +24,15 @@ public class UserRegistrationActivity extends ActionBarActivity {
     private EditText mFullName;
     private EditText mEmail;
     private EditText mUsrName;
-    private EditText mPwd;
+    private EditText mPwd,mConfirmPwd;
     private Button mRegister;
+
 
     private String inputFullName = null;
     private String inputEmail = null;
     private String inputUsername = null;
     private String inputPW = null;
-
-    final String SERVER = new Config().getIP_ADDRESS();
+   final String SERVER = new Config().getIP_ADDRESS();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,7 @@ public class UserRegistrationActivity extends ActionBarActivity {
         mEmail = (EditText) findViewById(R.id.reg_email);
         mUsrName = (EditText) findViewById(R.id.user_name);
         mPwd = (EditText) findViewById(R.id.reg_password);
+        mConfirmPwd=(EditText)findViewById(R.id.confirm_password);
         mRegister = (Button) findViewById(R.id.btnRegister);
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +54,9 @@ public class UserRegistrationActivity extends ActionBarActivity {
                 inputPW = mPwd.getText().toString();
                 //System.out.println("Clicked register!!!!");
                 //System.out.println("input: " + inputUsername + inputPW + inputEmail + inputFullName);
-                new PostUserInfoAsync().execute(inputUsername, inputPW, inputEmail, inputFullName);
+                if(validate()) {
+                    new PostUserInfoAsync().execute(inputUsername, inputPW, inputEmail, inputFullName);
+                }
             }
         });
     }
@@ -161,5 +164,49 @@ public class UserRegistrationActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean validate() {
+        boolean valid = true;
+
+        String email = mEmail.getText().toString();
+        String password = mPwd.getText().toString();
+        String confirmPwd=mConfirmPwd.getText().toString();
+        String userName=mUsrName.getText().toString();
+        String fullName=mFullName.getText().toString();
+
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            mEmail.setError("enter a valid email address");
+            valid = false;
+        } else {
+            mEmail.setError(null);
+        }
+
+        if (password.isEmpty() || password.length() < 3 || password.length() > 10) {
+            mPwd.setError("between 3 and 10 alphanumeric characters");
+            valid = false;
+        } else {
+            mPwd.setError(null);
+        }
+        if (confirmPwd.isEmpty() || !password.equals(confirmPwd)) {
+            mConfirmPwd.setError("Re-check your password");
+            valid = false;
+        } else {
+            mConfirmPwd.setError(null);
+        }
+        if (userName.isEmpty() ) {
+            mUsrName.setError("Username shouldn't be empty");
+            valid = false;
+        } else {
+            mUsrName.setError(null);
+        }
+
+        if (fullName.isEmpty() ) {
+            mFullName.setError("FullName shouldn't be empty");
+            valid = false;
+        } else {
+            mFullName.setError(null);
+        }
+        return valid;
     }
 }

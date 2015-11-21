@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.sadhana.simplilyf.LightList.QuickLightData;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,8 +21,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.sadhana.simplilyf.LightList.QuickLightData;
 
 public class AddNewDevice extends AppCompatActivity {
 
@@ -48,7 +47,7 @@ public class AddNewDevice extends AppCompatActivity {
                 String inputPwText = inputPW.getText().toString();
                 String vendor = vendorSelected.getSelectedItem().toString();
 //                new NestLoginAsync().execute("qwerty", "sophia2901@gmail.com", "Cmpe@295","nest");
-                if (vendor.equals("nest")){
+                if (vendor.equals("nest") || vendor.equals("Nest")){
                     new NestLoginAsync().execute(inputUsernameText, inputEmailText, inputPwText,vendor);
                 } else {
                     new PhilipsLoginAsync().execute(inputUsernameText, inputEmailText, inputPwText);
@@ -193,9 +192,10 @@ public class AddNewDevice extends AppCompatActivity {
                     }
                     System.out.print("light status: " + light_status);
                     String light_hue = jsonObject.getString("hue");
-                    // HAVE A NEW METHOD TO CONVERT THE HUE TO COLOR AND CALL IT HERE SO THAT YOU SET THE COLOR HERE. SEE BELOW and uncomment the code below
-//                    String light_hue = convertHueToColor(jsonObject.getString("hue"));
-                    QuickLightData lightData = new LightList().new QuickLightData(light_name,light_status,light_hue);
+
+                 String color = convertHueToColor(jsonObject.getString("hue"));
+                    convertHueToColor(light_hue);
+                    QuickLightData lightData = new LightList().new QuickLightData(light_name,light_status,color);
                     allLightData.add(lightData);
 
                 }
@@ -214,6 +214,28 @@ public class AddNewDevice extends AppCompatActivity {
 
         public String convertHueToColor(String hue){
             String color = null;
+            int hue_Num=Integer.parseInt(hue);
+            switch (hue_Num) {
+                case 0:
+                    color = "red";
+                    break;
+                case 17000:
+                    color="yellow";
+                    break;
+                case 25500:
+                    color = "green";
+                    break;
+
+                case 46920:
+                    color = "blue";
+                    break;
+                case 48000:
+                    color = "purple";
+                    break;
+
+                default:
+                    color = "white";
+            }
             return color;
         }
 

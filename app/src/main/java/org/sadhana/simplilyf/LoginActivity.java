@@ -99,7 +99,9 @@ public class LoginActivity extends Activity implements
             @Override
             public void onClick(View v) {
                 userEmail = mUserName.getText().toString();
-                new PostUserInfoAsync().execute(userEmail, mPassword.getText().toString());
+                if(validate()) {
+                    new PostUserInfoAsync().execute(userEmail, mPassword.getText().toString());
+                }
             }
         });
 
@@ -497,6 +499,30 @@ public class LoginActivity extends Activity implements
         }
         System.out.println("result value" + result);
         return result;
+    }
+
+    public boolean validate() {
+        boolean valid = true;
+
+
+        String password = mPassword.getText().toString();
+
+
+        if (userEmail.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
+            mUserName.setError("enter a valid email address");
+            valid = false;
+        } else {
+            mUserName.setError(null);
+        }
+
+        if (password.isEmpty() ) {
+            mPassword.setError("Please enter a password");
+            valid = false;
+        } else {
+            mPassword.setError(null);
+        }
+
+        return valid;
     }
 
 }
