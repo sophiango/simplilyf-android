@@ -23,7 +23,7 @@ import java.util.List;
 
 public class AddNewDevice extends AppCompatActivity {
 
-    final String SERVER = "http://10.189.16.104:3000";
+    final String SERVER = "http://10.189.50.220:3000";
     EditText inputFullname, inputEmail, inputPW;
     List<NestData> allThermoData = new ArrayList<NestData>();
     Spinner vendorSelected;

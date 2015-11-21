@@ -25,7 +25,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCustomDialog.EditDialogListener{
 
-    final String SERVER = "http://10.189.16.104:3000/light/";
+    final String SERVER = "http://10.189.50.220:3000/light/";
     private EditText mlightStatus;
   //  private Button mOnButton;
    // private Button mOffButton;
@@ -366,7 +366,7 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
         protected Void doInBackground(String... params) {
             InputStream inputStream = null;
             //int deviceNum=params[0];
-            String endpoint= SERVER+"change/"+params[0]+"/"+params[1];
+            String endpoint= SERVER+"color/"+params[0]+"/"+params[1];
             HttpURLConnection urlConnection = null;
             Integer result = 0;
             PhilipsData msg=new PhilipsData();

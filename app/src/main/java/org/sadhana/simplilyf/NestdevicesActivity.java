@@ -27,7 +27,7 @@ import java.util.List;
 
 public class NestdevicesActivity extends AppCompatActivity {
 
-    final String SERVER = "http://10.189.16.104:3000";
+    final String SERVER = "http://10.189.50.220:3000";
     private ListView myList;
     List<NestData> listThermo = new ArrayList<NestData>();
     ThermoList receivedThermoList = null;
