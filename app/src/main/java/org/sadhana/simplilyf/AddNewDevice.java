@@ -21,9 +21,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sadhana.simplilyf.LightList.QuickLightData;
+
 public class AddNewDevice extends AppCompatActivity {
 
-    final String SERVER = "http://10.189.50.220:3000";
+    final String SERVER = "http://172.16.1.9:3000";
     EditText inputFullname, inputEmail, inputPW;
     List<NestData> allThermoData = new ArrayList<NestData>();
     Spinner vendorSelected;
@@ -46,7 +48,12 @@ public class AddNewDevice extends AppCompatActivity {
                 String inputPwText = inputPW.getText().toString();
                 String vendor = vendorSelected.getSelectedItem().toString();
 //                new NestLoginAsync().execute("qwerty", "sophia2901@gmail.com", "Cmpe@295","nest");
-                new NestLoginAsync().execute(inputFullnameText, inputEmailText, inputPwText,vendor);
+                if (vendor.equals("nest")){
+                    new NestLoginAsync().execute(inputFullnameText, inputEmailText, inputPwText,vendor);
+                } else {
+                    new PhilipsLoginAsync().execute();
+                }
+
             }
         });
     }
@@ -64,23 +71,9 @@ public class AddNewDevice extends AppCompatActivity {
                 String register_endpoint = SERVER + "/thermo/new";
                 URL url = new URL(register_endpoint);
                 urlConnection = (HttpURLConnection) url.openConnection();
-                 /* optional request header */
-                //urlConnection.setRequestProperty("Content-Type", "application/json");
-
-                /* optional request header */
-                //urlConnection.setRequestProperty("Accept", "application/json");
-                urlConnection.setDoOutput(true); // accept request body
-                //urlConnection.setDoInput(true);
+                urlConnection.setDoOutput(true);
                 urlConnection.setChunkedStreamingMode(0);
                 urlConnection.setRequestMethod("POST");
-
-                /* for Get request */
-                //  List<NameValuePairs>
-                //you need to encode ONLY the values of the parameters
-//                String param="username" + URLEncoder.encode(params[0],"UTF-8")+
-//                "&password="+URLEncoder.encode(params[1],"UTF-8")+
-//                "&email="+URLEncoder.encode(params[2],"UTF-8")+
-//                "&fullname="+URLEncoder.encode(params[3],"UTF-8");
 
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("fullname", params[0]);
@@ -93,11 +86,6 @@ public class AddNewDevice extends AppCompatActivity {
                 urlConnection.setRequestProperty("Accept-Charset", "UTF-8");
                 urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                 urlConnection.setUseCaches(false);
-
-
-                //urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-                //urlConnection.setRequestProperty("Content-Length",Integer.toString(param.getBytes().length));
-
                 // write body
                 OutputStream wr= urlConnection.getOutputStream();
                 wr.write(jsonParam.toString().getBytes("UTF-8"));
@@ -106,7 +94,6 @@ public class AddNewDevice extends AppCompatActivity {
                 System.out.println("status code " + statusCode);
 
                 InputStream in = urlConnection.getInputStream();
-                //StringBuffer sb = new StringBuffer();
                 int chr;
                 while ((chr = in.read()) != -1) {
                     reply.append((char) chr);
@@ -124,27 +111,6 @@ public class AddNewDevice extends AppCompatActivity {
                     NestData nestData = new NestData(thermo_name, target_temperature, target_temperature_high, target_temperature_low, target_temperature_mode, thermo_mode);
                     allThermoData.add(nestData);
                 }
-
-
-//                for(int i=0;i<thermoArray.length();i++){
-//                    JSONObject eachNestJson = thermoArray.getJSONObject(i);
-//                    NestData nestData = new Gson().fromJson(eachNestJson.toString(), NestData.class);
-//                    allThermoData.add(nestData);
-//                    System.out.println("nest data: " + nestData.getName() + " " + nestData.getTargetTemperature());
-//                }
-
-//                NestData nestData = new NestData();
-//
-                //String [] perThermoData = reply.toString().split("/");
-                //System.out.println("size: " + perThermoData.length);
-
-//                for (int i = 0; i < perThermoData.length; i++){
-//                    NestData nestData = new Gson().fromJson(perThermoData[i], NestData.class);
-//                    System.out.println("nest: " + nestData.getCurrentTemperature() + nestData.getTargetTemperature() );
-//                    allThermoData.add(nestData);
-////                    System.out.println("nest data: " + nestData + " size: " + allThermoData.size());
-//                }
-                //System.out.println("nest data: " + allThermoData.get(0).getTargetTemperature());
                 thermoList = new ThermoList(allThermoData);
 
                 System.out.println("Value of response...." + allThermoData.get(0).getName() + "," + allThermoData.get(1).getName());
@@ -163,20 +129,73 @@ public class AddNewDevice extends AppCompatActivity {
             if (result==null) {
                 Toast.makeText(AddNewDevice.this, "Unable to register the user", Toast.LENGTH_LONG).show();
             } else {
-                //System.out.println("ON POST EXECUTE: " + result + " any result? " + result.get(0));
                 Toast.makeText(AddNewDevice.this, "Successful login", Toast.LENGTH_LONG).show();
                 Intent i = new Intent(AddNewDevice.this, NestdevicesActivity.class);
-                //Bundle bundle = new Bundle();
-                //bundle.putSerializable("ThermoList", (Serializable) result);
                 i.putExtra("thermo", result);
-            //   System.out.println("sending data" + result.getThermoList().get(0).getName()+ result.getThermoList().get(0).getCurrentTemperature());
-                //System.out.println("BUNDLE: " + bundle);
-                //i.putExtra("thermo",new Gson().toJson(result));
                 startActivity(i);
             }
         }
 
     }
 
+    private class PhilipsLoginAsync extends AsyncTask<String, Void, LightList> {
+        @Override
+        protected LightList doInBackground(String... params) {
+            InputStream inputStream = null;
+            HttpURLConnection urlConnection = null;
+            StringBuilder reply = new StringBuilder();
+            LightList lightList = null;
+            List<LightList.QuickLightData> allLightData = new ArrayList<LightList.QuickLightData>();
+
+            try {
+                System.out.println("ADD NEW THERMO ENDPOINT");
+                /* forming th java.net.URL object */
+                String getAllLight = SERVER + "/light/getall";
+                URL url = new URL(getAllLight);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setUseCaches(false);
+                InputStream in = urlConnection.getInputStream();
+                int chr;
+                while ((chr = in.read()) != -1) {
+                    reply.append((char) chr);
+                }
+                JSONArray lightArray = new JSONArray(reply.toString());
+                for(int i=0;i<lightArray.length();i++) {
+                    JSONObject jsonObject = lightArray.getJSONObject(i);
+                    String light_name = jsonObject.getString("name");
+                    String light_status = jsonObject.getString("status");
+                    String light_hue = jsonObject.getString("hue");
+
+                    QuickLightData lightData = new LightList().new QuickLightData(light_name,light_status,light_hue);
+                    allLightData.add(lightData);
+
+                }
+                lightList = new LightList(allLightData);
+
+                System.out.println("Value of response...." + allThermoData.get(0).getName() + "," + allThermoData.get(1).getName());
+                /* 200 represents HTTP OK */
+
+                urlConnection.disconnect();
+            } catch (Exception e) {
+                Log.d("error", e.toString());
+            }
+            return lightList;
+        }
+
+        @Override
+        protected void onPostExecute(LightList result) {
+            System.out.println("RESULT: " + result.getlightList().get(0).getOn());
+//            if (result==null) {
+//                Toast.makeText(AddNewDevice.this, "Unable to register the user", Toast.LENGTH_LONG).show();
+//            } else {
+//                Toast.makeText(AddNewDevice.this, "Successful login", Toast.LENGTH_LONG).show();
+//                Intent i = new Intent(AddNewDevice.this, NestdevicesActivity.class);
+//                i.putExtra("thermo", result);
+//                startActivity(i);
+//            }
+        }
+
+    }
 
 }
