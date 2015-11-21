@@ -24,7 +24,7 @@ import java.util.List;
 
 public class AddNewDevice extends AppCompatActivity {
 
-    final String SERVER = "http://192.168.1.8:3000";
+    final String SERVER = new Config().getIP_ADDRESS();
     EditText inputUsername, inputEmail, inputPW;
     List<NestData> allThermoData = new ArrayList<NestData>();
     Spinner vendorSelected;

@@ -46,7 +46,7 @@ public class LoginActivity extends Activity implements
         ConnectionCallbacks, OnConnectionFailedListener {
 
     // endpoints
-    final String SERVER = "http://192.168.1.8:3000";
+    final String SERVER = new Config().getIP_ADDRESS();
 
     public DeviceList   devicesList;
     private Button mLoginBtn;

@@ -26,7 +26,7 @@ public class TempUpdateDialog extends DialogFragment implements DialogInterface.
 
     private double targetTemperature = 0.0;
     private boolean hasChanged = false;
-    final String SERVER = "http://10.189.50.220:3000";
+    final String SERVER = new Config().getIP_ADDRESS();
     private String roomName = "";
     private Button allThermos;
 
