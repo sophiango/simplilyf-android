@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -30,9 +31,13 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
   //  private Button mOnButton;
    // private Button mOffButton;
     private String position;
+    private String lampName;
+    private String lampColor;
+    private String lampStatus;
     private Button mChangeColor;
     private ImageView mSwitch;
     private ImageView mLight;
+
     String result;
 
     @Override
@@ -44,26 +49,31 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
         mLight=(ImageView)findViewById(R.id.image_lamp);
         Intent intent=getIntent();
        position=  intent.getStringExtra("position Value");
+        lampColor=intent.getStringExtra("lampColor");
+        lampName=intent.getStringExtra("lampName");
+        lampStatus=intent.getStringExtra("lampStatus");
         System.out.println("value from intent  " + position);
-        new PhilipsDetailAsync().execute(position);
-
+        System.out.println("color "+lampColor);
+        System.out.println("name " + lampName);
+        System.out.println("status " + lampStatus);
+      //  new PhilipsDetailAsync().execute(position);
+        displayDetails();
       //  mOnButton=(Button)findViewById(R.id.turnon);
         //mOffButton=(Button)findViewById(R.id.turnoff);
         mChangeColor=(Button)findViewById(R.id.chngebtn);
-
         mChangeColor.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
 
-                DialogFragment dialogFragment = ColorCustomDialog.newInstance();
-                dialogFragment.show(getFragmentManager(), "editMainDialog");
-                //setting custom layout to dialog
-//                dialog.setContentView(R.layout.colorchange_dialog);
-//                dialog.setTitle("Custom Dialog");
-//
-//
-//                dialog.show();
+               // if(tagValue==1 && tagValue==2)
+                if(lampStatus.equals("OFF")){
+                    Toast.makeText(PhilipsDetailsActivity.this, "Please Turn ON Light First!", Toast.LENGTH_LONG).show();
+                }
+                if(lampStatus.equals("ON")) {
+                    DialogFragment dialogFragment = ColorCustomDialog.newInstance();
+                    dialogFragment.show(getFragmentManager(), "editMainDialog");
+                }
             }
         });
 
@@ -76,73 +86,17 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
                 if(tagValue==1){
                     //button on
                     System.out.println("get tag"+ mSwitch.getTag()+"Button On");
+                    lampStatus="ON";
                     new PhilipsLightONAsync().execute(position);
                 }
                 if(tagValue==2){
                     //button off
                     System.out.println("get tag"+ mSwitch.getTag()+"Button Off");
+                    lampStatus="OFF";
                     new PhilipsLightOFFAsync().execute(position);
                 }
             }
         });
-
-
-//        mOnButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                System.out.println("button clicked");
-//                System.out.println("value of editetxt   "+mlightStatus.getText().toString());
-//                String lightStatus=mlightStatus.getText().toString();
-//                System.out.println("light status "+lightStatus);
-//                if(lightStatus.equals("true")) {
-//                    System.out.println("light is true");
-//                    //hit the endpoint
-//                    Toast.makeText(PhilipsDetailsActivity.this, "Light is already ON!", Toast.LENGTH_LONG).show();
-//
-//                }
-//
-//                else {
-//                    System.out.println("light is false");
-//                 //   new PhilipsLightONAsync().execute(position);
-//                }
-//
-//            }
-//        });
-//
-//        mOffButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                System.out.println("button clicked");
-//                System.out.println("value of editetxt   "+mlightStatus.getText().toString());
-//                String lightStatus=mlightStatus.getText().toString();
-//                System.out.println("light status "+lightStatus);
-//                if(lightStatus.equals("true")) {
-//                    System.out.println("light is true");
-//                    //hit the endpoint
-//                 //   new PhilipsLightOFFAsync().execute(position);
-//
-//                } else {
-//                    System.out.println("light is false");
-//
-//                    Toast.makeText(PhilipsDetailsActivity.this, "Light is already OFF!", Toast.LENGTH_LONG).show();
-//                }
-//
-//            }
-//        });
-
-//        mChangeColor.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String lightStatus=mlightStatus.getText().toString();
-//                if(lightStatus.equals("false")){
-//                    Toast.makeText(PhilipsDetailsActivity.this,"Cannot change color when light is OFF",Toast.LENGTH_LONG).show();
-//                }else{
-//                    // hit change endpoint
-//                 //   new PhilipsColorChange().execute(position);
-//                }
-//            }
-//        });
-
     }
 
     @Override
@@ -166,7 +120,39 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
 
         return super.onOptionsItemSelected(item);
     }
+    public void displayDetails(){
+        // checking lamp status
+        if(lampStatus.equals("ON")){
+            mSwitch.setImageResource(R.mipmap.button_off);
+            playSound();
+            mSwitch.setTag(Integer.valueOf(2));
+            // set lamp color accordingly
+            if(lampColor.equals("red")){
+                System.out.println("in red " );
+                mLight.setImageResource(R.drawable.red);
+            }
 
+            if(lampColor.equals("blue")){
+                mLight.setImageResource(R.drawable.blue);
+            }
+            if(lampColor.equals("green")){
+                mLight.setImageResource(R.drawable.green);
+            }
+            if(lampColor.equals("purple")){
+                mLight.setImageResource(R.drawable.purple);
+            }
+            if(lampColor.equals("yellow")){
+                mLight.setImageResource(R.drawable.bulbon);
+            }
+
+        }
+        else if(lampStatus.equals("OFF")){
+            mLight.setImageResource(R.drawable.bulboff);
+            mSwitch.setImageResource(R.mipmap.button_on);
+            mSwitch.setTag(Integer.valueOf(1));
+            playSound();
+        }
+    }
     public class PhilipsDetailAsync extends AsyncTask<String, Void, PhilipsData> {
 
         @Override
@@ -408,15 +394,6 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
         @Override
         protected void onPostExecute(Void result) {
             System.out.println("RESULT: " + result);
-//            // System.out.println("value of light status"+result.getState().getOn());
-//            if(result.getState().getOn()==true){
-//                mlightStatus.setText("true");
-//            }
-//            else
-//                mlightStatus.setText("false");
-
-          //  Toast.makeText(PhilipsDetailsActivity.this,"Color Changed Successfully..!",Toast.LENGTH_LONG).show();
-
 
         }
     }

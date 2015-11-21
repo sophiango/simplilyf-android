@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,11 +32,15 @@ public class PhilipsdevicesActivity extends ActionBarActivity {
     private LightList receivedLightList = null;
     private ImageView onAllLights,offAllLights;
     private List<LightList.QuickLightData> lightList = new ArrayList<LightList.QuickLightData>();
+    private LinearLayout mLayout;
     public String userEmail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_philipsdevices);
+        mLayout=(LinearLayout)findViewById(R.id.layout);
+        onAllLights=(ImageView)findViewById(R.id.onAllBtn);
+        offAllLights=(ImageView)findViewById(R.id.offAllBtn);
         final ArrayList list = new ArrayList<>();
         final ArrayList statelist = new ArrayList<>();
         final ArrayList colorlist = new ArrayList<>();
@@ -47,6 +52,7 @@ public class PhilipsdevicesActivity extends ActionBarActivity {
                 lightList = receivedLightList.getLightList();
                 for (int j = 0; j < lightList.size(); j++) {
                     System.out.println("light: " + lightList.get(j).getName());
+
                 }
 
                 for (int a = 0; a < lightList.size(); a++) {
@@ -63,15 +69,18 @@ public class PhilipsdevicesActivity extends ActionBarActivity {
 //            colorlist.add("Red");
                     colorlist.add(lightList.get(c).getHue());
                 }
+
             }
+//            onAllLights.setVisibility(View.VISIBLE);
+//           mLayout.setVisibility(View.VISIBLE);
+//           offAllLights.setVisibility(View.VISIBLE);
         }
         Bundle b = getIntent().getExtras();
         if(b!=null) {
             userEmail = b.getString("userEmail");
         }
         myList = (ListView) findViewById(R.id.list);
-        onAllLights=(ImageView)findViewById(R.id.onAllBtn);
-        offAllLights=(ImageView)findViewById(R.id.offAllBtn);
+
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -83,6 +92,12 @@ public class PhilipsdevicesActivity extends ActionBarActivity {
                 Intent i = new Intent(PhilipsdevicesActivity.this, PhilipsDetailsActivity.class);
 
                 i.putExtra("position Value",pos);
+                i.putExtra("lampName",receivedLightList.getlightList().get(position).getName());
+                i.putExtra("lampColor",receivedLightList.getlightList().get(position).getHue());
+                i.putExtra("lampStatus",receivedLightList.getlightList().get(position).getOn());
+//                System.out.println("lamp name   " + receivedLightList.getlightList().get(position).getName());
+//                System.out.println("lamp color   " + receivedLightList.getlightList().get(position).getOn());
+//                System.out.println("lamp status   "+receivedLightList.getlightList().get(position).getHue());
                 System.out.print("Starting Intent");
                 startActivity(i);
             }

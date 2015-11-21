@@ -77,11 +77,14 @@
         android:layout_marginTop="40dp"/>
 
     <LinearLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/list"
         android:weightSum="2"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+
+        >
         <!--<Button android:text="Away"-->
 
         <!--android:layout_width="wrap_content"-->
@@ -94,7 +97,9 @@
             android:id="@+id/offAllBtn"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
-            android:src="@mipmap/running1"/>
+            android:src="@mipmap/running1"
+
+            />
 
         <!--<ImageButton android:id="@+id/homeBtn"-->
         <!--android:layout_width="wrap_content"-->
@@ -108,7 +113,9 @@
             android:id="@+id/onAllBtn"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:src="@mipmap/home"/>
+            android:src="@mipmap/home"
+
+            />
 
 
     </LinearLayout>
