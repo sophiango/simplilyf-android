@@ -27,7 +27,7 @@ import java.util.List;
 
 public class NestdevicesActivity extends AppCompatActivity {
 
-    final String SERVER = "http://192.168.1.8:3000";
+    final String SERVER = "http://10.189.16.104:3000";
     private ListView myList;
     List<NestData> listThermo = new ArrayList<NestData>();
     ThermoList receivedThermoList = null;
@@ -66,8 +66,12 @@ public class NestdevicesActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(NestdevicesActivity.this, "Row " + position + " clicked", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(NestdevicesActivity.this, NestLivingrmActivity.class);
-                i.putExtra("TEMP",listThermo.get(position).getCurrentTemp());
+                i.putExtra("TEMP",listThermo.get(position).getTarget_temperature());
                 i.putExtra("DEVICENAME",listThermo.get(position).getName());
+                i.putExtra("HIGH_TEMP",listThermo.get(position).getTarget_temperature_high());
+                i.putExtra("LOW_TEMP",listThermo.get(position).getTarget_temperature_low());
+                i.putExtra("TEMP_MODE",listThermo.get(position).getTarget_temperature_mode());
+                i.putExtra("THERMO_MODE",listThermo.get(position).getMode());
              //   System.out.print("Starting Intent" + receivedThermoList.getThermoList().get(position).getCurrentTemperature());
                 startActivity(i);
             }
@@ -77,7 +81,7 @@ public class NestdevicesActivity extends AppCompatActivity {
         final ArrayList list2 = new ArrayList<>();
         for (int k = 0; k < listThermo.size(); k++) {
             list.add(listThermo.get(k).getName());
-            list2.add(listThermo.get(k).getCurrentTemp());
+            list2.add(listThermo.get(k).getTarget_temperature());
         }
         final MyCustomAdapter adapter = new MyCustomAdapter(NestdevicesActivity.this, list,list2);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +90,7 @@ public class NestdevicesActivity extends AppCompatActivity {
                 // list.add("New Item");
                 //adapter.notifyDataSetChanged();
                 Intent i = new Intent(NestdevicesActivity.this, AddNewDevice.class);
+
                 System.out.print("Starting Intent");
                 startActivity(i);
             }

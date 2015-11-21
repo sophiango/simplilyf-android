@@ -26,11 +26,15 @@ import java.net.URL;
 public class NestLivingrmActivity extends ActionBarActivity implements TempUpdateDialog.OnCompleteListener {
 
 
-   final String SERVER = "http://172.16.1.9:3000";
+   final String SERVER = "http://10.189.16.104:3000";
     private EditText mTempValue;
     private Button mUpdate;
     private Double res_temp;
     private String devicename;
+    private Double target_temperature_high;
+    private Double target_temperature_low;
+    private String target_temperature_mode;
+    private String mode;
     private EditText mUpdateTempValue;
 //    private Button mAwayBtn;
 //    private Button mCoolBtn;
@@ -44,8 +48,13 @@ public class NestLivingrmActivity extends ActionBarActivity implements TempUpdat
 //        mTempValue=(EditText)findViewById(R.id.temp_value);
 //        mUpdateTempValue=(EditText)findViewById(R.id.updateTempValue);
         Intent i=getIntent();
-         res_temp=i.getDoubleExtra("TEMP", 0.0);
-         devicename=i.getStringExtra("DEVICENAME");
+        res_temp=i.getDoubleExtra("TEMP", 0.0);
+        devicename=i.getStringExtra("DEVICENAME");
+        target_temperature_high = i.getDoubleExtra("HIGH_TEMP",0.0);
+        target_temperature_low = i.getDoubleExtra("LOW_TEMP",0.0);
+        target_temperature_mode = i.getStringExtra("TEMP_MODE");;
+        mode = i.getStringExtra("THERMO_MODE");;
+
         System.out.println("res received" + res_temp);
 //        mTempValue.setText(res_temp.toString());
 //        mAwayBtn=(Button)findViewById(R.id.awayBtn);
@@ -91,7 +100,7 @@ public class NestLivingrmActivity extends ActionBarActivity implements TempUpdat
             }
         });
 
-        nestData = new NestData(devicename,res_temp);
+        nestData = new NestData(devicename,res_temp,target_temperature_high,target_temperature_low,target_temperature_mode,mode);
 
     }
 

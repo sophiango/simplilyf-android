@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -22,9 +23,10 @@ import java.util.List;
 
 public class AddNewDevice extends AppCompatActivity {
 
-    final String SERVER = "http://172.16.1.9:3000";
+    final String SERVER = "http://10.189.16.104:3000";
     EditText inputFullname, inputEmail, inputPW;
     List<NestData> allThermoData = new ArrayList<NestData>();
+    Spinner vendorSelected;
 
 
     @Override
@@ -34,6 +36,7 @@ public class AddNewDevice extends AppCompatActivity {
         inputFullname = (EditText) findViewById(R.id.add_usrname);
         inputEmail = (EditText) findViewById(R.id.add_email);
         inputPW = (EditText) findViewById(R.id.input_password);
+        vendorSelected = (Spinner) findViewById(R.id.spinner1);
         Button addNewBtn = (Button) findViewById(R.id.btnAdd);
         addNewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,7 +44,9 @@ public class AddNewDevice extends AppCompatActivity {
                 String inputFullnameText = inputFullname.getText().toString();
                 String inputEmailText = inputEmail.getText().toString();
                 String inputPwText = inputPW.getText().toString();
-                new NestLoginAsync().execute("qwerty", "sophia2901@gmail.com", "Cmpe@295");
+                String vendor = vendorSelected.getSelectedItem().toString();
+//                new NestLoginAsync().execute("qwerty", "sophia2901@gmail.com", "Cmpe@295","nest");
+                new NestLoginAsync().execute(inputFullnameText, inputEmailText, inputPwText,vendor);
             }
         });
     }
@@ -81,6 +86,7 @@ public class AddNewDevice extends AppCompatActivity {
                 jsonParam.put("fullname", params[0]);
                 jsonParam.put("username", params[1]);
                 jsonParam.put("password", params[2]);
+                jsonParam.put("vendor", params[3]);
                 System.out.println("before post " + jsonParam.toString());
 
                 // Set request header
@@ -108,11 +114,14 @@ public class AddNewDevice extends AppCompatActivity {
                 JSONArray thermoArray = new JSONArray(reply.toString());
                 for(int i=0;i<thermoArray.length();i++) {
                     JSONObject jsonObject = thermoArray.getJSONObject(i);
-                    String thermo_name = jsonObject.getString("name");
-                    System.out.println("thermo name: " + thermo_name);
-                    Double current_temp = jsonObject.getDouble("current_temp");
-                    System.out.println("current temp: " + current_temp);
-                    NestData nestData = new NestData(thermo_name,current_temp);
+                    String thermo_name = jsonObject.getString("thermo_name");
+                    Double target_temperature = jsonObject.getDouble("target_temperature");
+                    Double target_temperature_high = jsonObject.getDouble("target_temperature_high");
+                    Double target_temperature_low = jsonObject.getDouble("target_temperature_low");
+                    String target_temperature_mode = jsonObject.getString("target_temperature_mode");
+                    String thermo_mode = jsonObject.getString("thermo_mode");
+
+                    NestData nestData = new NestData(thermo_name, target_temperature, target_temperature_high, target_temperature_low, target_temperature_mode, thermo_mode);
                     allThermoData.add(nestData);
                 }
 

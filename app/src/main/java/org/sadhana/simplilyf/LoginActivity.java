@@ -29,9 +29,11 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,7 +46,7 @@ public class LoginActivity extends Activity implements
         ConnectionCallbacks, OnConnectionFailedListener {
 
     // endpoints
-    final String SERVER = "http://172.16.1.9:3000";
+    final String SERVER = "http://10.189.16.104:3000";
 
 
     private Button mLoginBtn;
@@ -410,15 +412,16 @@ public class LoginActivity extends Activity implements
         }
     }
 
-    private class PostUserInfoAsync extends AsyncTask<String, Void, String> {
+    private class PostUserInfoAsync extends AsyncTask<String, Void, User> {
 
         @Override
-        protected String doInBackground(String... params) {
+        protected User doInBackground(String... params) {
             InputStream inputStream = null;
             HttpURLConnection urlConnection = null;
             Integer result = 0;
             String output = null;
             StringBuilder reply = new StringBuilder();
+            User user = null;
             try {
                 System.out.println("LOGIN ENDPOINT");
                 /* forming th java.net.URL object */
@@ -450,44 +453,22 @@ public class LoginActivity extends Activity implements
                 wr.close();
                 System.out.println("status code " + statusCode);
 
-
-                //STATUS CODE checking
-
-                //if (statusCode == 200) {
-                //inputStream = new BufferedInputStream(urlConnection.getInputStream());
-                //response = convertInputStreamToString(inputStream);
-                    //   parseResult(response);
-
-//                BufferedReader br = new BufferedReader(new InputStreamReader(
-//                        (urlConnection.getInputStream())));
-//                System.out.println("Output from Server .... \n");
-//                while ((output = br.readLine()) != null) {
-//                    System.out.println(output);
-//                }
-
-                InputStream in = urlConnection.getInputStream();
+                inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                String response = convertInputStreamToString(inputStream);
+                user = new Gson().fromJson(response, User.class);
                 //StringBuffer sb = new StringBuffer();
-                int chr;
-                while ((chr = in.read()) != -1) {
-                   reply.append((char) chr);
-                }
-                System.out.println("Value of response...." + reply.toString());
-                    //result = 1; // Successful
-//                } else {
-//                    result = 0; //"Failed to fetch data!";
-//                }
-                in.close();
+
                 urlConnection.disconnect();
             } catch (Exception e) {
                 Log.d("error", e.toString());
             }
-            return reply.toString();
+            return user;
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(User result) {
             System.out.println("RESULT: " + result);
-            if (result!=null && result.equals(userEmail)) {
+            if (result!=null) {
                 Intent i = new Intent(LoginActivity.this, ShowdevicesActivity.class);
                 startActivity(i);
             } else {

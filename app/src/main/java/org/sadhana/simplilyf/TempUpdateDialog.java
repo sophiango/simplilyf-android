@@ -26,7 +26,7 @@ public class TempUpdateDialog extends DialogFragment implements DialogInterface.
 
     private double targetTemperature = 0.0;
     private boolean hasChanged = false;
-    final String SERVER = "http://172.16.1.9:3000";
+    final String SERVER = "http://10.189.16.104:3000";
     private String roomName = "";
     private Button allThermos;
 
@@ -209,8 +209,8 @@ public class TempUpdateDialog extends DialogFragment implements DialogInterface.
 
         @Override
         protected void onPostExecute(Double temp) {
-            NestLivingrmActivity.nestData.setCurrentTemp(temp);
-            System.out.println("CURRENT: " + NestLivingrmActivity.nestData.getCurrentTemp());
+            NestLivingrmActivity.nestData.setTarget_temperature(temp);
+            System.out.println("CURRENT: " + NestLivingrmActivity.nestData.getTarget_temperature());
         }
     }
 
