@@ -40,7 +40,7 @@ public class ShowdevicesActivity extends ActionBarActivity {
         if (extras != null) {
             jsonMyObject = extras.getString("devicesList");
         }
-        DeviceList deviceObj = new Gson().fromJson(jsonMyObject, DeviceList.class);
+        final DeviceList deviceObj = new Gson().fromJson(jsonMyObject, DeviceList.class);
         System.out.println("device object  "+deviceObj.getLights()+"get userName  "+deviceObj.getUsername()+"get userEmail "+deviceObj.getEmail());
         list=(ListView)findViewById(R.id.deviceList);
         DevicesCustomAdapter adapter=new DevicesCustomAdapter(ShowdevicesActivity.this,devicename,imgid);
@@ -60,6 +60,9 @@ public class ShowdevicesActivity extends ActionBarActivity {
                 }
                 if(position==1){
                     Intent i = new Intent(ShowdevicesActivity.this, PhilipsdevicesActivity.class);
+                    if(deviceObj!=null) {
+                        i.putExtra("userEmail", deviceObj.getEmail());
+                    }
                     startActivity(i);
                 }
                 //  String pos = Integer.toString(position + 1);
