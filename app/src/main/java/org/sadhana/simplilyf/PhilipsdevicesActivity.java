@@ -53,17 +53,17 @@ public class PhilipsdevicesActivity extends ActionBarActivity {
         });
         FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
         final ArrayList list = new ArrayList<>();
-        for (int a = 1; a < lightList.size(); a++) {
+        for (int a = 0; a < lightList.size(); a++) {
 //            list.add("Hue Light " + i);
             list.add(lightList.get(a).getName());
         }
         final ArrayList statelist = new ArrayList<>();
-        for (int b = 1; b < lightList.size(); b++) {
+        for (int b = 0; b < lightList.size(); b++) {
 //            statelist.add("ON");
             statelist.add(lightList.get(b).getOn());
         }
         final ArrayList colorlist = new ArrayList<>();
-        for (int c = 1; c < lightList.size(); c++) {
+        for (int c = 0; c < lightList.size(); c++) {
 //            colorlist.add("Red");
             colorlist.add(lightList.get(c).getHue());
         }

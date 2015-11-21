@@ -184,8 +184,17 @@ public class AddNewDevice extends AppCompatActivity {
                 for(int i=0;i<lightArray.length();i++) {
                     JSONObject jsonObject = lightArray.getJSONObject(i);
                     String light_name = jsonObject.getString("name");
-                    String light_status = jsonObject.getString("status");
+                    Boolean is_on = jsonObject.getBoolean("status");
+                    String light_status;
+                    if (is_on == true){
+                        light_status="ON";
+                    } else {
+                        light_status="OFF";
+                    }
+                    System.out.print("light status: " + light_status);
                     String light_hue = jsonObject.getString("hue");
+                    // HAVE A NEW METHOD TO CONVERT THE HUE TO COLOR AND CALL IT HERE SO THAT YOU SET THE COLOR HERE. SEE BELOW and uncomment the code below
+//                    String light_hue = convertHueToColor(jsonObject.getString("hue"));
                     QuickLightData lightData = new LightList().new QuickLightData(light_name,light_status,light_hue);
                     allLightData.add(lightData);
 
@@ -201,6 +210,11 @@ public class AddNewDevice extends AppCompatActivity {
                 Log.d("error", e.toString());
             }
             return lightList;
+        }
+
+        public String convertHueToColor(String hue){
+            String color = null;
+            return color;
         }
 
         @Override
