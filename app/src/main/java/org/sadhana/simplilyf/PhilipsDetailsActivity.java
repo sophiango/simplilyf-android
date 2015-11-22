@@ -345,8 +345,27 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
             System.out.println("RESULT: " + result);
             // System.out.println("value of light status"+result.getState().getOn());
             if(result.getState().getOn()==true){
+
                 System.out.println("value of light status now  "+result.getState().getOn());
-                mLight.setImageResource(R.drawable.bulbon);
+                // here should reset back to original color
+                if(  result.getState().getHue()==0){
+                    System.out.println("in red " );
+                    mLight.setImageResource(R.drawable.red);
+                }
+
+                if(result.getState().getHue()==46920){
+                    mLight.setImageResource(R.drawable.blue);
+                }
+                if(result.getState().getHue()==25500){
+                    mLight.setImageResource(R.drawable.green);
+                }
+                if(result.getState().getHue()==48000){
+                    mLight.setImageResource(R.drawable.purple);
+                }
+                if(  result.getState().getHue()==17000){
+                    mLight.setImageResource(R.drawable.bulbon);
+                }
+               // mLight.setImageResource(R.drawable.bulbon);
                 mSwitch.setImageResource(R.mipmap.button_off);
                 playSound();
                 mSwitch.setTag(Integer.valueOf(2));
@@ -464,7 +483,32 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
             mLight.setImageResource(R.drawable.bulbon);
         }
 
+    }
 
+    public String convertHueToColor(String hue){
+        String color = null;
+        int hue_Num=Integer.parseInt(hue);
+        switch (hue_Num) {
+            case 0:
+                color = "red";
+                break;
+            case 17000:
+                color="yellow";
+                break;
+            case 25500:
+                color = "green";
+                break;
 
+            case 46920:
+                color = "blue";
+                break;
+            case 48000:
+                color = "purple";
+                break;
+
+            default:
+                color = "white";
+        }
+        return color;
     }
 }
