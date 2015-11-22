@@ -32,7 +32,8 @@ public class NestdevicesActivity extends AppCompatActivity {
     final String SERVER = new Config().getIP_ADDRESS();
     private ListView myList;
     List<NestData> listThermo = new ArrayList<NestData>();
-    ThermoList receivedThermoList = null;
+    private List<NestData> loginList = new ArrayList<NestData>();
+    ThermoList receivedThermoList = null, loginReceivedList=null;;
     private ImageView mAwayBtn;
     private ImageView mHomeBtn;
 
@@ -73,12 +74,23 @@ public class NestdevicesActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(NestdevicesActivity.this, "Row " + position + " clicked", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(NestdevicesActivity.this, NestLivingrmActivity.class);
-                i.putExtra("TEMP",listThermo.get(position).getTarget_temperature());
-                i.putExtra("DEVICENAME",listThermo.get(position).getName());
-                i.putExtra("HIGH_TEMP",listThermo.get(position).getTarget_temperature_high());
-                i.putExtra("LOW_TEMP",listThermo.get(position).getTarget_temperature_low());
-                i.putExtra("TEMP_MODE",listThermo.get(position).getTarget_temperature_mode());
-                i.putExtra("THERMO_MODE",listThermo.get(position).getMode());
+                System.out.println("on login size  "+loginList.size() +" "+ listThermo.size());
+                if(listThermo.size()>0 && listThermo.get(position)!=null) {
+                    i.putExtra("TEMP", listThermo.get(position).getTarget_temperature());
+                    i.putExtra("DEVICENAME", listThermo.get(position).getName());
+                    i.putExtra("HIGH_TEMP", listThermo.get(position).getTarget_temperature_high());
+                    i.putExtra("LOW_TEMP", listThermo.get(position).getTarget_temperature_low());
+                    i.putExtra("TEMP_MODE", listThermo.get(position).getTarget_temperature_mode());
+                    i.putExtra("THERMO_MODE", listThermo.get(position).getMode());
+                }
+                if(loginList.size()>0  && loginList.get(position)!=null){
+                    i.putExtra("TEMP", loginList.get(position).getTarget_temperature());
+                    i.putExtra("DEVICENAME", loginList.get(position).getName());
+                    i.putExtra("HIGH_TEMP", loginList.get(position).getTarget_temperature_high());
+                    i.putExtra("LOW_TEMP", loginList.get(position).getTarget_temperature_low());
+                    i.putExtra("TEMP_MODE", loginList.get(position).getTarget_temperature_mode());
+                    i.putExtra("THERMO_MODE", loginList.get(position).getMode());
+                }
              //   System.out.print("Starting Intent" + receivedThermoList.getThermoList().get(position).getCurrentTemperature());
                 startActivity(i);
             }
@@ -272,27 +284,18 @@ public class NestdevicesActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ThermoList result) {
             if(result!=null){
-                listThermo = result.getThermoList();
-                myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        //Toast.makeText(NestdevicesActivity.this, "Row " + position + " clicked", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(NestdevicesActivity.this, NestLivingrmActivity.class);
-                        i.putExtra("TEMP",listThermo.get(position).getTarget_temperature());
-                        i.putExtra("DEVICENAME",listThermo.get(position).getName());
-                        i.putExtra("HIGH_TEMP",listThermo.get(position).getTarget_temperature_high());
-                        i.putExtra("LOW_TEMP",listThermo.get(position).getTarget_temperature_low());
-                        i.putExtra("TEMP_MODE",listThermo.get(position).getTarget_temperature_mode());
-                        i.putExtra("THERMO_MODE", listThermo.get(position).getMode());
-
-                    }
-                });
+                loginReceivedList = result;
+                loginList=result.getThermoList();
                 final ArrayList list = new ArrayList<>();
                 final ArrayList list2 = new ArrayList<>();
-                for (int k = 0; k < listThermo.size(); k++) {
-                    list.add(listThermo.get(k).getName());
-                    list2.add(listThermo.get(k).getTarget_temperature());
+
+                for (int k = 0; k < loginList.size(); k++) {
+                    list.add(loginList.get(k).getName());
+                    list2.add(loginList.get(k).getTarget_temperature());
                 }
+                System.out.println("on post size  "+list.size() + " "+list2.size());
+                System.out.println("on login size  "+loginList.size() +" "+ result.getThermoList().size());
+
                 final MyCustomAdapter adapter = new MyCustomAdapter(NestdevicesActivity.this, list,list2);
                 myList.setAdapter(adapter);
             }
