@@ -32,7 +32,7 @@ public class PhilipsdevicesActivity extends AppCompatActivity {
 
     final String SERVER = new Config().getIP_ADDRESS() + "/light";
     private ListView myList;
-    private LightList receivedLightList = null;
+    private LightList receivedLightList = null,loginReceivedList=null;
     private ImageView onAllLights,offAllLights;
     private List<LightList.QuickLightData> lightList = new ArrayList<LightList.QuickLightData>();
     private List<LightList.QuickLightData> loginList = new ArrayList<LightList.QuickLightData>();
@@ -91,8 +91,10 @@ public class PhilipsdevicesActivity extends AppCompatActivity {
 //           philips
 //        }
         DeviceList b=(DeviceList)getIntent().getSerializableExtra("deviceObject");
-        if(b.getLights()!=null){
-            new PhilipsLoginAsync().execute();
+        if(b!=null) {
+            if (b.getLights() != null) {
+                new PhilipsLoginAsync().execute();
+            }
         }
         myList = (ListView) findViewById(R.id.list);
 
@@ -107,9 +109,17 @@ public class PhilipsdevicesActivity extends AppCompatActivity {
                 Intent i = new Intent(PhilipsdevicesActivity.this, PhilipsDetailsActivity.class);
 
                 i.putExtra("position Value",pos);
-                i.putExtra("lampName",receivedLightList.getlightList().get(position).getName());
-                i.putExtra("lampColor",receivedLightList.getlightList().get(position).getHue());
-                i.putExtra("lampStatus",receivedLightList.getlightList().get(position).getOn());
+                if(receivedLightList!=null && receivedLightList.getLightList()!=null) {
+                    i.putExtra("lampName", receivedLightList.getlightList().get(position).getName());
+                    i.putExtra("lampColor", receivedLightList.getlightList().get(position).getHue());
+                    i.putExtra("lampStatus", receivedLightList.getlightList().get(position).getOn());
+                }
+                if(loginReceivedList!=null && loginReceivedList.getLightList()!=null){
+                    i.putExtra("lampName", loginReceivedList.getlightList().get(position).getName());
+                    i.putExtra("lampColor", loginReceivedList.getlightList().get(position).getHue());
+                    i.putExtra("lampStatus", loginReceivedList.getlightList().get(position).getOn());
+                }
+
 //                System.out.println("lamp name   " + receivedLightList.getlightList().get(position).getName());
 //                System.out.println("lamp color   " + receivedLightList.getlightList().get(position).getOn());
 //                System.out.println("lamp status   "+receivedLightList.getlightList().get(position).getHue());
@@ -385,7 +395,7 @@ public class PhilipsdevicesActivity extends AppCompatActivity {
             if(result!=null){
                 //result.getLightList();
                 loginList = result.getLightList();
-
+                loginReceivedList=result;
                 for (int a = 0; a < loginList.size(); a++) {
 //               list.add("Hue Light " + i);
                     list.add(loginList.get(a).getName());

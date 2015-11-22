@@ -136,7 +136,8 @@ public class UserRegistrationActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             System.out.println("RESULT: " + result);
             if (result!=null && result.equals("successful")) {
-                Intent i = new Intent(UserRegistrationActivity.this, ShowdevicesActivity.class);
+                Toast.makeText(UserRegistrationActivity.this,"Successfully Registered, Login Again and Continue",Toast.LENGTH_LONG).show();
+                Intent i = new Intent(UserRegistrationActivity.this, LoginActivity.class);
                 startActivity(i);
             } else {
                 Toast.makeText(UserRegistrationActivity.this,"Unable to register the user",Toast.LENGTH_LONG).show();
