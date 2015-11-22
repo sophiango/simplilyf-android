@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,12 +55,17 @@ public class NestdevicesActivity extends AppCompatActivity {
 //        }
         if (receivedBundle != null){
             receivedThermoList = (ThermoList) receivedBundle.getSerializable("thermo");
-            listThermo = receivedThermoList.getThermoList();
-            for (int j = 0; j < listThermo.size(); j++) {
-                System.out.println("thermo: " + listThermo.get(j).getName());
+            if (receivedThermoList!=null) {
+                listThermo = receivedThermoList.getThermoList();
+                for (int j = 0; j < listThermo.size(); j++) {
+                    System.out.println("thermo: " + listThermo.get(j).getName());
+                }
             }
         }
-
+        DeviceList b=(DeviceList)getIntent().getSerializableExtra("deviceObject");
+        if(b.getLights()!=null){
+            new NestGetDetailsAsync().execute();
+        }
 
         myList = (ListView) findViewById(R.id.list);
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -76,6 +83,9 @@ public class NestdevicesActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+
+
         FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
         final ArrayList list = new ArrayList<>();
         final ArrayList list2 = new ArrayList<>();
@@ -210,6 +220,84 @@ public class NestdevicesActivity extends AppCompatActivity {
             System.out.println("on post execute: " + s);
 
         }
+    }
+
+    private class NestGetDetailsAsync extends AsyncTask<Void, Void, ThermoList> {
+        @Override
+        protected ThermoList doInBackground(Void... params) {
+            InputStream inputStream = null;
+            HttpURLConnection urlConnection = null;
+            StringBuilder reply = new StringBuilder();
+            List<NestData> allThermoData = new ArrayList<>();
+            ThermoList thermoList = null;
+            try {
+                System.out.println("GET ALL NEST ENDPOINT");
+                /* forming th java.net.URL object */
+                String register_endpoint = SERVER + "/thermo/all";
+                URL url = new URL(register_endpoint);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                InputStream in = urlConnection.getInputStream();
+                int chr;
+                while ((chr = in.read()) != -1) {
+                    reply.append((char) chr);
+                }
+                JSONArray thermoArray = new JSONArray(reply.toString());
+                for(int i=0;i<thermoArray.length();i++) {
+                    JSONObject jsonObject = thermoArray.getJSONObject(i);
+                    String thermo_name = jsonObject.getString("thermo_name");
+                    Double target_temperature = jsonObject.getDouble("target_temperature");
+                    Double target_temperature_high = jsonObject.getDouble("target_temperature_high");
+                    Double target_temperature_low = jsonObject.getDouble("target_temperature_low");
+                    String target_temperature_mode = jsonObject.getString("target_temperature_mode");
+                    String thermo_mode = jsonObject.getString("thermo_mode");
+
+                    NestData nestData = new NestData(thermo_name, target_temperature, target_temperature_high, target_temperature_low, target_temperature_mode, thermo_mode);
+                    allThermoData.add(nestData);
+                }
+                thermoList = new ThermoList(allThermoData);
+
+                System.out.println("Value of response...." + allThermoData.get(0).getName() + "," + allThermoData.get(1).getName());
+                /* 200 represents HTTP OK */
+
+                urlConnection.disconnect();
+            } catch (Exception e) {
+                Log.d("error", e.toString());
+            }
+            return thermoList;
+        }
+
+
+
+        @Override
+        protected void onPostExecute(ThermoList result) {
+            if(result!=null){
+                listThermo = result.getThermoList();
+                myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        //Toast.makeText(NestdevicesActivity.this, "Row " + position + " clicked", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(NestdevicesActivity.this, NestLivingrmActivity.class);
+                        i.putExtra("TEMP",listThermo.get(position).getTarget_temperature());
+                        i.putExtra("DEVICENAME",listThermo.get(position).getName());
+                        i.putExtra("HIGH_TEMP",listThermo.get(position).getTarget_temperature_high());
+                        i.putExtra("LOW_TEMP",listThermo.get(position).getTarget_temperature_low());
+                        i.putExtra("TEMP_MODE",listThermo.get(position).getTarget_temperature_mode());
+                        i.putExtra("THERMO_MODE", listThermo.get(position).getMode());
+
+                    }
+                });
+                final ArrayList list = new ArrayList<>();
+                final ArrayList list2 = new ArrayList<>();
+                for (int k = 0; k < listThermo.size(); k++) {
+                    list.add(listThermo.get(k).getName());
+                    list2.add(listThermo.get(k).getTarget_temperature());
+                }
+                final MyCustomAdapter adapter = new MyCustomAdapter(NestdevicesActivity.this, list,list2);
+                myList.setAdapter(adapter);
+            }
+        }
+
     }
 
 }
