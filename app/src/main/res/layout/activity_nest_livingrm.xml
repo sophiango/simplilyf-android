@@ -13,34 +13,41 @@
             android:layout_height="364dp" />
     </FrameLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/container"
+        android:weightSum="2"
+        android:layout_marginTop="20dp">
+
+
+        <ImageView android:id="@+id/leaf_icon"
+            android:src="@mipmap/leaf"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
+
+        <ImageView android:id="@+id/fan_icon"
+            android:src="@mipmap/fan"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+        />
+
+        <ImageView android:id="@+id/heat_icon"
+            android:src="@mipmap/heat"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
 
 
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/container"-->
-        <!--android:weightSum="2"-->
-        <!--android:layout_marginTop="20dp">-->
-        <!--<Button android:text="Away"-->
 
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="103dp"-->
-            <!--android:id="@+id/awayBtn"-->
-            <!--android:layout_gravity="left|bottom"-->
-            <!--android:layout_weight="1"-->
-            <!--android:textSize="30sp"/>-->
-
-        <!--<Button android:id="@+id/coolBtn"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:text="Home"-->
-
-            <!--android:textSize="30sp"-->
-            <!--android:layout_gravity="center_horizontal|bottom"-->
-            <!--android:layout_weight="1" />-->
-
-
-    <!--</LinearLayout>-->
+    </LinearLayout>
 
 </RelativeLayout>

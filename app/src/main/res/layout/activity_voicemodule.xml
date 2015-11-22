@@ -34,10 +34,11 @@
 
         <ImageButton
             android:id="@+id/btnSpeak"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:src="@mipmap/microphone" />
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@mipmap/voice_icon"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:layout_width="wrap_content"
