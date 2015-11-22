@@ -88,8 +88,8 @@ public class NestLivingrmActivity extends AppCompatActivity implements TempUpdat
         });
         currentCircle.setTitleText(Double.toString(res_temp));
 
-        final CircleView targetCircle = (CircleView) findViewById(R.id.main_screen_target);
-        targetCircle.setTitleText(Double.toString(res_temp));
+//        final CircleView targetCircle = (CircleView) findViewById(R.id.main_screen_target);
+//        targetCircle.setTitleText(Double.toString(res_temp));
 
         android.support.design.widget.FloatingActionButton floatingActionButton = (android.support.design.widget.FloatingActionButton) findViewById(R.id.temp_update);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
