@@ -60,13 +60,17 @@ public class ShowdevicesActivity extends AppCompatActivity {
                 System.out.println("position " + position);
                 if(position==0){
                     Intent i = new Intent(ShowdevicesActivity.this, NestdevicesActivity.class);
+                    if(deviceObj!=null) {
+                        i.putExtra("userEmail", deviceObj.getEmail());
+                        i.putExtra("deviceObject",deviceObj);
+                    }
                     startActivity(i);
                 }
                 if(position==1){
                     Intent i = new Intent(ShowdevicesActivity.this, PhilipsdevicesActivity.class);
                     if(deviceObj!=null) {
                         i.putExtra("userEmail", deviceObj.getEmail());
-                       i.putExtra("deviceObject",deviceObj);
+                        i.putExtra("deviceObject",deviceObj);
                     }
                     startActivity(i);
                }
