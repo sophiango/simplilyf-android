@@ -4,7 +4,7 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +23,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 
-public class NestLivingrmActivity extends ActionBarActivity implements TempUpdateDialog.OnCompleteListener {
+public class NestLivingrmActivity extends AppCompatActivity implements TempUpdateDialog.OnCompleteListener {
 
 
    final String SERVER = new Config().getIP_ADDRESS();
