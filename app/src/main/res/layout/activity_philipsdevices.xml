@@ -83,16 +83,8 @@
         android:layout_below="@+id/list"
         android:weightSum="2"
         android:layout_marginTop="10dp"
+        android:visibility="gone">
 
-        >
-        <!--<Button android:text="Away"-->
-
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:id="@+id/awayBtn"-->
-        <!--android:layout_gravity="left|bottom"-->
-        <!--android:layout_weight="1"-->
-        <!--android:textSize="20sp"/>-->
         <ImageView
             android:id="@+id/offAllBtn"
             android:layout_width="wrap_content"
@@ -101,14 +93,6 @@
 
             />
 
-        <!--<ImageButton android:id="@+id/homeBtn"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:-->
-
-        <!--android:textSize="20sp"-->
-        <!--android:layout_gravity="center_horizontal|bottom"-->
-        <!--android:layout_weight="1" />-->
         <ImageView
             android:id="@+id/onAllBtn"
             android:layout_width="match_parent"

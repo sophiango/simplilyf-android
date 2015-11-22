@@ -48,7 +48,7 @@ public class AddNewDevice extends AppCompatActivity {
                 String vendor = vendorSelected.getSelectedItem().toString();
 //                new NestLoginAsync().execute("qwerty", "sophia2901@gmail.com", "Cmpe@295","nest");
                 if (vendor.equals("nest") || vendor.equals("Nest")){
-                    new NestLoginAsync().execute(inputUsernameText, inputEmailText, inputPwText,vendor);
+                    new NestLoginAsync().execute(inputUsernameText, inputEmailText, inputPwText,"nest");
                 } else {
                     new PhilipsLoginAsync().execute(inputUsernameText, inputEmailText, inputPwText);
                 }
@@ -193,10 +193,11 @@ public class AddNewDevice extends AppCompatActivity {
                     System.out.print("light status: " + light_status);
                     String light_hue = jsonObject.getString("hue");
 
-                 String color = convertHueToColor(jsonObject.getString("hue"));
-                    convertHueToColor(light_hue);
+                 String color = convertHueToColor(light_hue);
+               //     convertHueToColor(light_hue);
                     QuickLightData lightData = new LightList().new QuickLightData(light_name,light_status,color);
                     allLightData.add(lightData);
+                    System.out.println("");
 
                 }
                 System.out.println("length: " + allLightData.size());

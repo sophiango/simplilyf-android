@@ -1,12 +1,13 @@
 package org.sadhana.simplilyf;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Sadhana on 11/20/15.
  */
-public class DeviceList{
+public class DeviceList implements Serializable{
 
 
     public List<User.Light> getLights() {

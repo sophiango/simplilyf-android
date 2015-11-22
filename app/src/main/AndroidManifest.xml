@@ -37,7 +37,8 @@
         </activity>
         <activity
             android:name=".ShowdevicesActivity"
-            android:label="Devices" >
+            android:label="Devices"
+            android:parentActivityName="org.sadhana.simplilyf.LoginActivity">
         </activity>
         <activity
             android:name=".NestdevicesActivity"
@@ -45,7 +46,8 @@
         </activity>
         <activity
             android:name=".PhilipsdevicesActivity"
-            android:label="Philips Devices" >
+            android:label="Philips Devices"
+            android:parentActivityName="org.sadhana.simplilyf.ShowdevicesActivity">
         </activity>
         <activity
             android:name=".VoicemoduleActivity"
@@ -71,7 +73,7 @@
         <activity
             android:name=".PhilipsDetailsActivity"
             android:label="Philips"
-            >
+            android:parentActivityName="org.sadhana.simplilyf.PhilipsdevicesActivity">
         </activity>
     </application>
 

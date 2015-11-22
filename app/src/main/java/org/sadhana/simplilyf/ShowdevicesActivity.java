@@ -2,7 +2,9 @@ package org.sadhana.simplilyf;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +16,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 
-public class ShowdevicesActivity extends ActionBarActivity {
+public class ShowdevicesActivity extends AppCompatActivity {
 
     ListView list;
     String[] devicename ={
@@ -35,13 +37,15 @@ public class ShowdevicesActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showdevices);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         String jsonMyObject=null;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             jsonMyObject = extras.getString("devicesList");
         }
         final DeviceList deviceObj = new Gson().fromJson(jsonMyObject, DeviceList.class);
-        System.out.println("device object  "+deviceObj.getLights()+"get userName  "+deviceObj.getUsername()+"get userEmail "+deviceObj.getEmail());
+      //  System.out.println("device object  "+deviceObj.getLights()+"get userName  "+deviceObj.getUsername()+"get userEmail "+deviceObj.getEmail());
         list=(ListView)findViewById(R.id.deviceList);
         DevicesCustomAdapter adapter=new DevicesCustomAdapter(ShowdevicesActivity.this,devicename,imgid);
 
@@ -62,9 +66,10 @@ public class ShowdevicesActivity extends ActionBarActivity {
                     Intent i = new Intent(ShowdevicesActivity.this, PhilipsdevicesActivity.class);
                     if(deviceObj!=null) {
                         i.putExtra("userEmail", deviceObj.getEmail());
+                       i.putExtra("deviceObject",deviceObj);
                     }
                     startActivity(i);
-                }
+               }
                 //  String pos = Integer.toString(position + 1);
                 // Intent i = new Intent(PhilipsdevicesActivity.this, PhilipsDetailsActivity.class);
 
@@ -110,20 +115,29 @@ public class ShowdevicesActivity extends ActionBarActivity {
         return true;
     }
 
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-
 }

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -46,6 +48,10 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_philips_details);
       //  mlightStatus=(EditText)findViewById(R.id.lightStatus_value);
+        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setIcon(R.drawable.bulbon);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         mSwitch=(ImageView)findViewById(R.id.image_switch);
         mLight=(ImageView)findViewById(R.id.image_lamp);
         Intent intent=getIntent();
@@ -118,7 +124,10 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
         if (id == R.id.action_settings) {
             return true;
         }
-
+        if(id== android.R.id.home){
+            NavUtils.navigateUpFromSameTask(this);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
     public void displayDetails(){
@@ -232,7 +241,7 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
         protected PhilipsData doInBackground(String... params) {
             InputStream inputStream = null;
             //int deviceNum=params[0];
-            String deviceNum= SERVER+"off/"+params[0];
+            String deviceNum= SERVER+"/off/"+params[0];
             HttpURLConnection urlConnection = null;
             Integer result = 0;
             PhilipsData msg=new PhilipsData();
@@ -292,7 +301,7 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
         protected PhilipsData doInBackground(String... params) {
             InputStream inputStream = null;
             //int deviceNum=params[0];
-            String endpoint= SERVER+"on/"+params[0];
+            String endpoint= SERVER+"/on/"+params[0];
             HttpURLConnection urlConnection = null;
             Integer result = 0;
             PhilipsData msg=new PhilipsData();

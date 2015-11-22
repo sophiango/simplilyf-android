@@ -99,9 +99,9 @@ public class LoginActivity extends Activity implements
             @Override
             public void onClick(View v) {
                 userEmail = mUserName.getText().toString();
-                if(validate()) {
+               // if(validate()) {
                     new PostUserInfoAsync().execute(userEmail, mPassword.getText().toString());
-                }
+                //}
             }
         });
 

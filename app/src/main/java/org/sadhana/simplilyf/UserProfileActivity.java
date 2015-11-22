@@ -1,15 +1,15 @@
 package org.sadhana.simplilyf;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class UserProfileActivity extends ActionBarActivity {
+public class UserProfileActivity extends AppCompatActivity {
 
     private TextView profileInfo;
     private Button btnMydevices;

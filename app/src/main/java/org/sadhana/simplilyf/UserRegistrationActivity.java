@@ -3,7 +3,7 @@ package org.sadhana.simplilyf;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,13 +13,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONObject;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class UserRegistrationActivity extends ActionBarActivity {
+public class UserRegistrationActivity extends AppCompatActivity {
 
     private EditText mFullName;
     private EditText mEmail;
