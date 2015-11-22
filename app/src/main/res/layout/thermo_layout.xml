@@ -9,10 +9,8 @@
         android:id="@+id/temperatureLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:orientation="vertical"
-
-        android:paddingTop="60dp">
+        android:paddingTop="30dp">
 
         <!--<TextView-->
             <!--android:id="@+id/main_time_textView"-->
@@ -29,16 +27,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="right"
-            android:paddingRight="16dp">
+            android:gravity="center"
+            android:paddingRight="16dp"
+            android:weightSum="1">
 
             <org.sadhana.simplilyf.CircleView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/main_screen_current"
-                android:layout_width="225dp"
-                android:layout_height="225dp"
+                android:layout_width="200dp"
+                android:layout_height="300dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
                 app:fillColor="@color/white"
                 app:fillRadius="1"
                 app:subtitleColor="@color/black"
@@ -46,22 +44,23 @@
                 app:subtitleText="CURRENT"
                 app:titleColor="@color/black"
                 app:titleSize="91dp"
-                app:titleText="16.0" />
+                app:titleText="16.0"
+                android:layout_weight="0.89" />
 
-            <org.sadhana.simplilyf.CircleView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/main_screen_target"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                app:fillColor="@color/white"
-                app:fillRadius="1"
-                app:subtitleColor="@color/black"
-                app:subtitleSize="12dp"
-                app:subtitleText="TARGET"
-                app:titleColor="#000000"
-                app:titleSize="32dp"
-                app:titleText="16.0" />
+            <!--<org.sadhana.simplilyf.CircleView xmlns:app="http://schemas.android.com/apk/res-auto"-->
+                <!--android:id="@+id/main_screen_target"-->
+                <!--android:layout_width="96dp"-->
+                <!--android:layout_height="96dp"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--app:fillColor="@color/white"-->
+                <!--app:fillRadius="1"-->
+                <!--app:subtitleColor="@color/black"-->
+                <!--app:subtitleSize="12dp"-->
+                <!--app:subtitleText="TARGET"-->
+                <!--app:titleColor="#000000"-->
+                <!--app:titleSize="32dp"-->
+                <!--app:titleText="16.0" />-->
 
         </LinearLayout>
     </LinearLayout>
@@ -70,7 +69,7 @@
         android:id="@+id/temp_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="295dp"
+        android:layout_marginTop="240dp"
         android:layout_gravity="right"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"

@@ -87,12 +87,11 @@
 
     <ImageButton
         android:id="@+id/micBtn"
-        android:layout_width="93dp"
-        android:layout_height="106dp"
-        android:background="@mipmap/microphone"
-        android:layout_centerHorizontal="true"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@mipmap/voice_icon"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/textView" />
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
