@@ -216,29 +216,22 @@ public class AddNewDevice extends AppCompatActivity {
             return lightList;
         }
 
-        public String convertHueToColor(String hue){
+        public String convertHueToColor(String hue) {
             String color = null;
-            int hue_Num=Integer.parseInt(hue);
-            switch (hue_Num) {
-                case 0:
-                    color = "red";
-                    break;
-                case 17000:
-                    color="yellow";
-                    break;
-                case 25500:
-                    color = "green";
-                    break;
+            int hue_Num = Integer.parseInt(hue);
 
-                case 46920:
-                    color = "blue";
-                    break;
-                case 48000:
-                    color = "purple";
-                    break;
-
-                default:
-                    color = "white";
+            if (isBetween(hue_Num, 0, 11000) || isBetween(hue_Num, 65000, 67000)) {
+                color = "red";
+            } else if (isBetween(hue_Num, 11000, 25000)) {
+                color = "yellow";
+            } else if (isBetween(hue_Num, 25100, 31000)) {
+                color = "green";
+            } else if (isBetween(hue_Num, 45000, 47000)) {
+                color = "blue";
+            } else if (isBetween(hue_Num, 48000, 50000)) {
+                color = "purple";
+            } else {
+                color = "white";
             }
             return color;
         }
@@ -256,6 +249,10 @@ public class AddNewDevice extends AppCompatActivity {
             }
         }
 
+    }
+
+    public static boolean isBetween(int x,int lower,int upper){
+        return lower<=x && x<=upper;
     }
 
 }
