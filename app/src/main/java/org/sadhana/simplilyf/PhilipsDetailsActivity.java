@@ -277,22 +277,38 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
 
                 System.out.println("value of light status now  "+result.getState().getOn());
                 // here should reset back to original color
-                if(  result.getState().getHue()==0){
-                    System.out.println("in red " );
+//                if(  result.getState().getHue()==0){
+//                    System.out.println("in red " );
+//                    mLight.setImageResource(R.drawable.red);
+//                }
+//
+//                if(result.getState().getHue()==46920){
+//                    mLight.setImageResource(R.drawable.blue);
+//                }
+//                if(result.getState().getHue()==25500){
+//                    mLight.setImageResource(R.drawable.green);
+//                }
+//                if(result.getState().getHue()==48000){
+//                    mLight.setImageResource(R.drawable.purple);
+//                }
+//                if(  result.getState().getHue()==17000){
+//                    mLight.setImageResource(R.drawable.bulbon);
+//                }
+
+                if(isBetween(result.getState().getHue(),0,11000) || isBetween(result.getState().getHue(),65000,67000)){
                     mLight.setImageResource(R.drawable.red);
                 }
-
-                if(result.getState().getHue()==46920){
-                    mLight.setImageResource(R.drawable.blue);
+                else if(isBetween(result.getState().getHue(),11000,25000)){
+                    mLight.setImageResource(R.drawable.bulbon);
                 }
-                if(result.getState().getHue()==25500){
+                else if(isBetween(result.getState().getHue(),25100,31000)){
                     mLight.setImageResource(R.drawable.green);
                 }
-                if(result.getState().getHue()==48000){
-                    mLight.setImageResource(R.drawable.purple);
+                else if(isBetween(result.getState().getHue(),45000,47000)){
+                    mLight.setImageResource(R.drawable.blue);
                 }
-                if(  result.getState().getHue()==17000){
-                    mLight.setImageResource(R.drawable.bulbon);
+                else if(isBetween(result.getState().getHue(),48000,50000)){
+                    mLight.setImageResource(R.drawable.purple);
                 }
                // mLight.setImageResource(R.drawable.bulbon);
                 mSwitch.setImageResource(R.mipmap.button_off);
@@ -417,27 +433,50 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
     public String convertHueToColor(String hue){
         String color = null;
         int hue_Num=Integer.parseInt(hue);
-        switch (hue_Num) {
-            case 0:
-                color = "red";
-                break;
-            case 17000:
-                color="yellow";
-                break;
-            case 25500:
-                color = "green";
-                break;
+//        switch (hue_Num) {
+//            case isBe:
+//                color = "red";
+//                break;
+//            case 17000:
+//                color="yellow";
+//                break;
+//            case 25500:
+//                color = "green";
+//                break;
+//
+//            case 46920:
+//                color = "blue";
+//                break;
+//            case 48000:
+//                color = "purple";
+//                break;
+//
+//            default:
+//                color = "white";
+//        }
 
-            case 46920:
-                color = "blue";
-                break;
-            case 48000:
-                color = "purple";
-                break;
-
-            default:
-                color = "white";
+        if(isBetween(hue_Num,0,11000) || isBetween(hue_Num,65000,67000)){
+            color="red";
+        }
+        else if(isBetween(hue_Num,11000,25000)){
+            color="yellow";
+        }
+        else if(isBetween(hue_Num,25100,31000)){
+            color="green";
+        }
+        else if(isBetween(hue_Num,45000,47000)){
+            color="blue";
+        }
+        else if(isBetween(hue_Num,48000,50000)){
+            color="purple";
+        }
+        else{
+            color="white";
         }
         return color;
+    }
+
+    public static boolean isBetween(int x,int lower,int upper){
+        return lower<=x && x<=upper;
     }
 }
