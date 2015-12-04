@@ -7,16 +7,23 @@ android:fillViewport="true">
     android:layout_width="match_parent"
     android:layout_height="wrap_content" android:background="#fff">
 
-
-    <TextView android:text="@string/title_name" android:layout_width="300dp"
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#DC2525"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_weight="0.30" />
+        android:src="@mipmap/logo"
+        android:layout_gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+    <!--<TextView android:text="@string/title_name" android:layout_width="300dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="#DC2525"-->
+        <!--android:textStyle="bold"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:layout_marginBottom="20dp"-->
+        <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+        <!--android:layout_weight="0.30" />-->
 
     <!-- Registration Form -->
     <LinearLayout
@@ -81,13 +88,15 @@ android:fillViewport="true">
             android:layout_height="wrap_content"
             android:password="true"
             android:singleLine="true"
-            android:layout_marginTop="5dip"/>
+            android:layout_marginTop="5dip"
+            android:layout_marginBottom="30dp"/>
         <!-- Register Button -->
         <Button android:id="@+id/btnRegister"
-            android:layout_width="fill_parent"
+            android:background="@drawable/btn_red"
+            style="@style/ButtonText"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-            android:text="Register New Account"/>
+            android:text="Register"/>
         <!-- Link to Login Screen -->
         <TextView android:id="@+id/link_to_login"
             android:layout_width="match_parent"

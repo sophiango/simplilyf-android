@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -27,6 +28,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
     private EditText mUsrName;
     private EditText mPwd,mConfirmPwd;
     private Button mRegister;
+    private TextView alreadyLogin;
 
 
     private String inputFullName = null;
@@ -46,6 +48,14 @@ public class UserRegistrationActivity extends AppCompatActivity {
         mPwd = (EditText) findViewById(R.id.reg_password);
         mConfirmPwd=(EditText)findViewById(R.id.confirm_password);
         mRegister = (Button) findViewById(R.id.btnRegister);
+        alreadyLogin = (TextView) findViewById(R.id.link_to_login);
+        alreadyLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(UserRegistrationActivity.this,LoginActivity.class);
+                startActivity(i);
+            }
+        });
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -133,6 +133,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:background="@drawable/btn_red"
+                style="@style/ButtonText"
                 android:text="Add "
                 android:layout_gravity="center_horizontal"/>
 

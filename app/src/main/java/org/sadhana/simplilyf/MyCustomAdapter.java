@@ -75,7 +75,7 @@ public class MyCustomAdapter extends BaseAdapter{
                 //set the item name on the TextView
                 holder.itemName.setText(stringItem);
                 holder.itemDesc.setText((stringdesc)+" \u2109");
-                holder.image.setImageResource(R.mipmap.cupcake);
+                holder.image.setImageResource(R.mipmap.thermo);
             }
         }
 

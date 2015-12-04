@@ -131,8 +131,8 @@ public class NestdevicesActivity extends AppCompatActivity {
         // a view to represent an item in that data set.
         myList.setAdapter(adapter);
 
-        mAwayBtn=(ImageView)findViewById(R.id.awayBtn);
-        mHomeBtn=(ImageView)findViewById(R.id.homeBtn);
+        mAwayBtn=(ImageView)findViewById(R.id.offAllBtn);
+        mHomeBtn=(ImageView)findViewById(R.id.onAllBtn);
 
 
 

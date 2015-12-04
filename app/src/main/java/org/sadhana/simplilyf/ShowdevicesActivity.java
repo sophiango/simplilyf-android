@@ -26,8 +26,8 @@ public class ShowdevicesActivity extends AppCompatActivity {
     };
 
     Integer[] imgid={
-            R.mipmap.thermometer,
-            R.mipmap.bulb
+            R.mipmap.thermo,
+            R.mipmap.common_bulb
 
     };
     private ImageButton mNestBtn;

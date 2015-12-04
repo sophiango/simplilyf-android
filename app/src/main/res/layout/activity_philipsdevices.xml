@@ -89,17 +89,15 @@
             android:id="@+id/offAllBtn"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
-            android:src="@mipmap/running1"
-
-            />
+            android:layout_weight="1"
+            android:src="@mipmap/away"/>
 
         <ImageView
             android:id="@+id/onAllBtn"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="100dp"
-            android:src="@mipmap/home"
-
-            />
+            android:layout_weight="1"
+            android:src="@mipmap/green"/>
 
 
     </LinearLayout>

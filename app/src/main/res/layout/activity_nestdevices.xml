@@ -41,24 +41,19 @@
             <!--android:layout_weight="1"-->
             <!--android:textSize="20sp"/>-->
         <ImageView
-            android:id="@+id/awayBtn"
+            android:id="@+id/offAllBtn"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
-            android:src="@mipmap/running1"/>
+            android:layout_weight="1"
+            android:src="@mipmap/away"/>
 
-        <!--<ImageButton android:id="@+id/homeBtn"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:-->
-
-            <!--android:textSize="20sp"-->
-            <!--android:layout_gravity="center_horizontal|bottom"-->
-            <!--android:layout_weight="1" />-->
         <ImageView
-            android:id="@+id/homeBtn"
-            android:layout_width="match_parent"
+            android:id="@+id/onAllBtn"
+            android:layout_width="wrap_content"
             android:layout_height="100dp"
-            android:src="@mipmap/home"/>
+            android:layout_weight="1"
+            android:src="@mipmap/green"/>
+
 
 
     </LinearLayout>
