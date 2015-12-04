@@ -482,7 +482,7 @@ public class LoginActivity extends Activity implements
             if (result!=null) {
                 Intent i = new Intent(LoginActivity.this, ShowdevicesActivity.class);
                 devicesList=new DeviceList(result.getEmail(),result.getUserId(),result.getUsername(),result.getLights(),result.getThermos());
-               i.putExtra("devicesList", new Gson().toJson(result));
+               i.putExtra("devicesList", new Gson().toJson(devicesList));
                 linlaHeaderProgress.setVisibility(View.GONE);
                        startActivity(i);
             } else {

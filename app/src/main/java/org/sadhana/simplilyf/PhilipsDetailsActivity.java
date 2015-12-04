@@ -29,7 +29,7 @@ import java.net.URL;
 public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCustomDialog.EditDialogListener{
 
 
-    final String SERVER = new Config().getIP_ADDRESS() + "/light";
+    final String SERVER = new Config().getPHILIPS_IP_ADDRESS() + "/light";
     private EditText mlightStatus;
   //  private Button mOnButton;
    // private Button mOffButton;
@@ -163,77 +163,6 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
             playSound();
         }
     }
-    public class PhilipsDetailAsync extends AsyncTask<String, Void, PhilipsData> {
-
-        @Override
-        protected PhilipsData doInBackground(String... params) {
-            InputStream inputStream = null;
-            //int deviceNum=params[0];
-            String deviceNum= SERVER+"getlight/"+params[0];
-            HttpURLConnection urlConnection = null;
-            Integer result = 0;
-            PhilipsData msg=new PhilipsData();
-            try {
-                System.out.println("endpoint value "+deviceNum);
-                System.out.println("Philips endpoint");
-                /* forming th java.net.URL object */
-                URL url = new URL(deviceNum);
-                urlConnection = (HttpURLConnection) url.openConnection();
-
-                 /* optional request header */
-                urlConnection.setRequestProperty("Content-Type", "application/json");
-
-                /* optional request header */
-                urlConnection.setRequestProperty("Accept", "application/json");
-
-                /* for Get request */
-                urlConnection.setRequestMethod("GET");
-                //  List<NameValuePairs>
-                int statusCode = urlConnection.getResponseCode();
-                System.out.println("status code: " + statusCode);
-                /* 200 represents HTTP OK */
-                if (statusCode == 200) {
-                    inputStream = new BufferedInputStream(urlConnection.getInputStream());
-                    String response = convertInputStreamToString(inputStream);
-                     msg = new Gson().fromJson(response, PhilipsData.class);
-                    //   parseResult(response);
-                    System.out.println("Philips response...." +msg.getName()+" "+ msg.getState().getOn());
-                    result = 1; // Successful
-                } else {
-                    result = 0; //"Failed to fetch data!";
-                }
-            } catch (Exception e) {
-                Log.d("error", e.toString());
-            }
-            return msg;
-        }
-
-        @Override
-        protected void onPostExecute(PhilipsData result) {
-            System.out.println("RESULT: " + result);
-           // System.out.println("value of light status"+result.getState().getOn());
-            if(result.getState().getOn()==true){
-//                mlightStatus.setText("true");
-                mLight.setImageResource(R.drawable.bulbon);
-                mSwitch.setImageResource(R.mipmap.button_off);
-                playSound();
-                mSwitch.setTag(Integer.valueOf(2));
-              //  mSwitch.setTag(R.mipmap.button_off);
-             //   System.out.println("set tag" + mSwitch.getTag(1));
-
-            }
-            else {
-                //   mlightStatus.setText("false");
-
-                mLight.setImageResource(R.drawable.bulboff);
-                mSwitch.setImageResource(R.mipmap.button_on);
-                mSwitch.setTag(Integer.valueOf(1));
-                playSound();
-            }
-
-
-        }
-    }
 
     public class PhilipsLightOFFAsync extends AsyncTask<String, Void, PhilipsData> {
 
@@ -362,7 +291,7 @@ public class PhilipsDetailsActivity extends AppCompatActivity implements ColorCu
         protected Void doInBackground(String... params) {
             InputStream inputStream = null;
             //int deviceNum=params[0];
-            String endpoint= SERVER+"color/"+params[0]+"/"+params[1];
+            String endpoint= SERVER+"/color/"+params[0]+"/"+params[1];
             HttpURLConnection urlConnection = null;
             Integer result = 0;
             PhilipsData msg=new PhilipsData();

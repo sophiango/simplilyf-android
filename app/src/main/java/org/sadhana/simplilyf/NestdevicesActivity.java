@@ -36,6 +36,7 @@ public class NestdevicesActivity extends AppCompatActivity {
     ThermoList receivedThermoList = null, loginReceivedList=null;;
     private ImageView mAwayBtn;
     private ImageView mHomeBtn;
+    private DeviceList deviceList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +64,9 @@ public class NestdevicesActivity extends AppCompatActivity {
                 }
             }
         }
-        DeviceList b=(DeviceList)getIntent().getSerializableExtra("deviceObject");
-        if(b.getLights()!=null){
-            new NestGetDetailsAsync().execute();
+        deviceList=(DeviceList)getIntent().getSerializableExtra("deviceObject");
+        if(deviceList!=null && deviceList.getThermos()!=null && deviceList.getThermos().size()>0){
+            new NestGetDetailsAsync().execute(); // GET /thermo/all
         }
 
         myList = (ListView) findViewById(R.id.list);
@@ -112,7 +113,9 @@ public class NestdevicesActivity extends AppCompatActivity {
                 // list.add("New Item");
                 //adapter.notifyDataSetChanged();
                 Intent i = new Intent(NestdevicesActivity.this, AddNewDevice.class);
-
+                if (deviceList.getEmail()!=null){
+                    i.putExtra("userEmail",deviceList.getEmail());
+                }
                 System.out.print("Starting Intent");
                 startActivity(i);
             }

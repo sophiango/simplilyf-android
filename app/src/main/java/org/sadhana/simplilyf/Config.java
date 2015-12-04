@@ -8,10 +8,15 @@ package org.sadhana.simplilyf;
         return IP_ADDRESS;
     }
 
-    /* Comment out the one you are not using */
+    public String getPHILIPS_IP_ADDRESS() {
+        return PHILIPS_IP_ADDRESS;
+    }
 
-    final String IP_ADDRESS = "http://172.16.1.9:3000";
-//    final String IP_ADDRESS = "http://10.0.0.9:3000";
+    /* Comment out the one you are not using */
+    final String PHILIPS_IP_ADDRESS = "http://10.189.114.6:3000";
+//    final String IP_ADDRESS = "http://52.8.12.57:3000"; // Cloud server
+    final String IP_ADDRESS = "http://10.189.50.220:3000";
+//    final String IP_ADDRESS = "http://172.16.1.9:3000";
 //    final String IP_ADDRESS = "http://192.168.1.9:3000";
 
 }

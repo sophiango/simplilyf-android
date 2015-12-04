@@ -82,7 +82,7 @@ public class PhilipsCustomAdapter extends BaseAdapter{
                 holder.itemName.setText(stringItem);
                 holder.itemColor.setText(stringColor);
                 holder.itemState.setText(stringState);
-                holder.image.setImageResource(R.mipmap.cupcake);
+                holder.image.setImageResource(R.mipmap.common_bulb);
             }
         }
 

@@ -3,6 +3,7 @@ package org.sadhana.simplilyf;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import java.util.Map;
 /**
  * Created by sophiango on 11/20/15.
  */
-public class User {
+public class User implements Serializable{
 
     @JsonProperty("_id")
     private String Id;
@@ -81,7 +82,7 @@ public class User {
         return additionalProperties;
     }
 
-    public class Thermo {
+    public class Thermo implements Serializable{
 
         @JsonProperty("thermo_name")
         private String thermoName;
@@ -109,7 +110,7 @@ public class User {
         }
     }
 
-    public class Light {
+    public class Light implements Serializable{
 
         @JsonProperty("light_name")
         private String lightName;

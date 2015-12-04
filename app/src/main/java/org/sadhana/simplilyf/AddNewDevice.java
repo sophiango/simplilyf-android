@@ -28,7 +28,7 @@ public class AddNewDevice extends AppCompatActivity {
     EditText inputUsername, inputEmail, inputPW;
     List<NestData> allThermoData = new ArrayList<NestData>();
     Spinner vendorSelected;
-
+    String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,7 @@ public class AddNewDevice extends AppCompatActivity {
         inputEmail = (EditText) findViewById(R.id.add_email);
         inputPW = (EditText) findViewById(R.id.input_password);
         vendorSelected = (Spinner) findViewById(R.id.spinner1);
+        userEmail = getIntent().getExtras().getString("userEmail");
         Button addNewBtn = (Button) findViewById(R.id.btnAdd);
         addNewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +49,7 @@ public class AddNewDevice extends AppCompatActivity {
                 String vendor = vendorSelected.getSelectedItem().toString();
 //                new NestLoginAsync().execute("qwerty", "sophia2901@gmail.com", "Cmpe@295","nest");
                 if (vendor.equals("nest") || vendor.equals("Nest")){
-                    new NestLoginAsync().execute(inputUsernameText, inputEmailText, inputPwText,"nest");
+                    new NestLoginAsync().execute(userEmail,inputUsernameText, inputEmailText, inputPwText);
                 } else {
                     new PhilipsLoginAsync().execute(inputUsernameText, inputEmailText, inputPwText);
                 }
@@ -75,10 +76,10 @@ public class AddNewDevice extends AppCompatActivity {
                 urlConnection.setRequestMethod("POST");
 
                 JSONObject jsonParam = new JSONObject();
-                jsonParam.put("fullname", params[0]);
-                jsonParam.put("username", params[1]);
-                jsonParam.put("password", params[2]);
-                jsonParam.put("vendor", params[3]);
+                jsonParam.put("email", params[0]);
+                jsonParam.put("fullname", params[1]);
+                jsonParam.put("username", params[2]);
+                jsonParam.put("password", params[3]);
                 System.out.println("before post " + jsonParam.toString());
 
                 // Set request header

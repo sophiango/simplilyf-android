@@ -30,7 +30,7 @@ import java.util.List;
 
 public class PhilipsdevicesActivity extends AppCompatActivity {
 
-    final String SERVER = new Config().getIP_ADDRESS() + "/light";
+    final String SERVER = new Config().getPHILIPS_IP_ADDRESS() + "/light";
     private ListView myList;
     private LightList receivedLightList = null,loginReceivedList=null;
     private ImageView onAllLights,offAllLights;
