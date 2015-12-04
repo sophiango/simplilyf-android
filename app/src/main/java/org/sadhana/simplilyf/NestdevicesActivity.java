@@ -55,6 +55,7 @@ public class NestdevicesActivity extends AppCompatActivity {
 //            NestData receivedNestData = new Gson().fromJson(receivedJsonObject,NestData.class);
 //            System.out.println("Received data: " + receivedNestData.getName());
 //        }
+        // add new
         if (receivedBundle != null){
             receivedThermoList = (ThermoList) receivedBundle.getSerializable("thermo");
             if (receivedThermoList!=null) {
@@ -64,6 +65,7 @@ public class NestdevicesActivity extends AppCompatActivity {
                 }
             }
         }
+        // login
         deviceList=(DeviceList)getIntent().getSerializableExtra("deviceObject");
 //        System.out.println("user email"+ deviceList.getEmail());
         if (deviceList!=null) {

@@ -58,6 +58,7 @@ public class PhilipsdevicesActivity extends AppCompatActivity {
         Intent i = getIntent();
         Bundle receivedBundle = i.getExtras();
         System.out.println("Bundle: " + receivedBundle);
+        // register
         if (receivedBundle != null){
             System.out.println("Received bundle?");
             receivedLightList = (LightList) receivedBundle.getSerializable("lights");
@@ -115,8 +116,13 @@ public class PhilipsdevicesActivity extends AppCompatActivity {
 //            userEmail = b.getString("userEmail");
 //           philips
 //        }
+
+
         deviceList=(DeviceList)getIntent().getSerializableExtra("deviceObject");
+        String email=getIntent().getStringExtra("userEmail");
+        System.out.println("device email  "+email);
         if(deviceList!=null){
+            System.out.println("device list  "+deviceList.getEmail());
             new PhilipsLoginAsync().execute(deviceList.getEmail());
         }
 
@@ -358,6 +364,7 @@ public class PhilipsdevicesActivity extends AppCompatActivity {
 //            InputStream inputStream = null;
 //            HttpURLConnection urlConnection = null;
 //            StringBuilder reply = new StringBuilder();
+
             LightList lightList = null;
             List<LightList.QuickLightData> allLightData = new ArrayList<LightList.QuickLightData>();
 //

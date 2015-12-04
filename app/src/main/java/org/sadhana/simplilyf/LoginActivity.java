@@ -185,7 +185,7 @@ public class LoginActivity extends Activity {
                     msg = new Gson().fromJson(response, User.class);
                     System.out.println("Response: " + response + msg.getEmail());
                     //   parseResult(response);
-                    System.out.println("Philips response...." + msg.getLights() + " ");
+                    System.out.println("response...." + msg.getLights() + " ");
                     result = 1; // Successful
                 } else {
                     result = 0; //"Failed to fetch data!";
