@@ -13,10 +13,11 @@
             android:textColor="#DC2525"
             android:textStyle="bold"
             android:gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_weight="0.30" />
+            android:layout_weight="0.30"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"/>
 
 
         <!-- Add device Form -->
@@ -31,7 +32,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
 
                 <TextView android:text="@string/username"
                     android:textStyle="bold"
@@ -49,7 +51,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
 
             <TextView android:text="Email:"
                 android:textStyle="bold"
@@ -67,9 +70,9 @@
 
             <!-- Password Label -->
             <LinearLayout  android:id="@+id/pwdLayout"
-
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
 
                 <TextView android:text="@string/pwd"
                     android:textStyle="bold"
@@ -89,9 +92,9 @@
 
             <!-- Device Name -->
             <LinearLayout  android:id="@+id/deviceLayout"
-
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
 
                 <TextView android:text="Device Name:"
                     android:textStyle="bold"
@@ -115,6 +118,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="50dp"
                 >
             <TextView android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -132,11 +136,12 @@
             <Button android:id="@+id/btnAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="80dp"
                 android:background="@drawable/btn_red"
                 style="@style/ButtonText"
                 android:text="Add "
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal"
+                />
 
 
 
