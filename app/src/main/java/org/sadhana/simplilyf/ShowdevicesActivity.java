@@ -45,7 +45,7 @@ public class ShowdevicesActivity extends AppCompatActivity {
             jsonMyObject = extras.getString("devicesList");
         }
         final DeviceList deviceObj = new Gson().fromJson(jsonMyObject, DeviceList.class);
-      //  System.out.println("device object  "+deviceObj.getLights()+"get userName  "+deviceObj.getUsername()+"get userEmail "+deviceObj.getEmail());
+        System.out.println("device object  "+deviceObj.getLights()+"get userName  "+deviceObj.getUsername()+"get userEmail "+deviceObj.getEmail());
         list=(ListView)findViewById(R.id.deviceList);
         DevicesCustomAdapter adapter=new DevicesCustomAdapter(ShowdevicesActivity.this,devicename,imgid);
 

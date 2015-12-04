@@ -459,6 +459,7 @@ public class LoginActivity extends Activity implements
                     inputStream = new BufferedInputStream(urlConnection.getInputStream());
                     String response = convertInputStreamToString(inputStream);
                     msg = new Gson().fromJson(response, User.class);
+                    System.out.println("Response: " + response + msg.getEmail());
                     //   parseResult(response);
                     System.out.println("Philips response...." + msg.getLights() + " ");
                     result = 1; // Successful
@@ -481,6 +482,7 @@ public class LoginActivity extends Activity implements
             System.out.println("RESULT:in post execute in LoginActivity " + result);
             if (result!=null) {
                 Intent i = new Intent(LoginActivity.this, ShowdevicesActivity.class);
+                System.out.println("User: " + result + ' ' + result.getEmail());
                 devicesList=new DeviceList(result.getEmail(),result.getUserId(),result.getUsername(),result.getLights(),result.getThermos());
                i.putExtra("devicesList", new Gson().toJson(devicesList));
                 linlaHeaderProgress.setVisibility(View.GONE);

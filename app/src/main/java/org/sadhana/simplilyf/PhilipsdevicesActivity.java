@@ -25,6 +25,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -42,6 +44,7 @@ public class PhilipsdevicesActivity extends AppCompatActivity {
     final ArrayList list = new ArrayList<>();
     final ArrayList statelist = new ArrayList<>();
     final ArrayList colorlist = new ArrayList<>();
+    private DeviceList deviceList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,29 +58,52 @@ public class PhilipsdevicesActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         Bundle receivedBundle = i.getExtras();
+        System.out.println("Bundle: " + receivedBundle);
         if (receivedBundle != null){
+            System.out.println("Received bundle?");
             receivedLightList = (LightList) receivedBundle.getSerializable("lights");
             if(receivedLightList!=null) {
                 lightList = receivedLightList.getLightList();
-                for (int j = 0; j < lightList.size(); j++) {
-                    System.out.println("light: " + lightList.get(j).getName());
-
-                }
-
+//                for (int j = 0; j < lightList.size(); j++) {
+//                    System.out.println("light: " + lightList.get(j).getName());
+//
+//                }
+                System.out.println("Inside light on create " + lightList.get(0).getName());
+                List<LightList.QuickLightData> unsortedList = new ArrayList<LightList.QuickLightData>();
                 for (int a = 0; a < lightList.size(); a++) {
-//               list.add("Hue Light " + i);
-                    list.add(lightList.get(a).getName());
+                    LightList.QuickLightData light = new LightList.QuickLightData();
+                    light.setName(lightList.get(a).getName());
+                    light.setOn(lightList.get(a).getOn());
+                    light.setHue(lightList.get(a).getHue());
+                    unsortedList.add(light);
+//                    list.add(lightList.get(a).getName());
+//                    statelist.add(lightList.get(a).getOn());
+//                    colorlist.add(lightList.get(a).getHue());
+
+                }
+                Collections.sort(unsortedList, new Comparator<LightList.QuickLightData>() {
+                    @Override
+                    public int compare(LightList.QuickLightData lhs, LightList.QuickLightData rhs) {
+                        return lhs.getName().compareTo(rhs.getName());
+                    }
+                });
+
+                for (LightList.QuickLightData q : unsortedList){
+                    System.out.println("sort?: " + q.getName());
+                    list.add(q.getName());
+                    statelist.add(q.getOn());
+                    colorlist.add(q.getHue());
                 }
 
-                for (int b = 0; b < lightList.size(); b++) {
-//            statelist.add("ON");
-                    statelist.add(lightList.get(b).getOn());
-                }
-
-                for (int c = 0; c < lightList.size(); c++) {
-//            colorlist.add("Red");
-                    colorlist.add(lightList.get(c).getHue());
-                }
+//                for (int b = 0; b < lightList.size(); b++) {
+////            statelist.add("ON");
+//                    statelist.add(lightList.get(b).getOn());
+//                }
+//
+//                for (int c = 0; c < lightList.size(); c++) {
+////            colorlist.add("Red");
+//                    colorlist.add(lightList.get(c).getHue());
+//                }
 
             }
             mLayout.setVisibility(View.VISIBLE);
@@ -90,12 +116,11 @@ public class PhilipsdevicesActivity extends AppCompatActivity {
 //            userEmail = b.getString("userEmail");
 //           philips
 //        }
-        DeviceList b=(DeviceList)getIntent().getSerializableExtra("deviceObject");
-        if(b!=null) {
-            if (b.getLights() != null) {
-                new PhilipsLoginAsync().execute();
-            }
+        deviceList=(DeviceList)getIntent().getSerializableExtra("deviceObject");
+        if(deviceList!=null){
+            new PhilipsLoginAsync().execute(deviceList.getEmail());
         }
+
         myList = (ListView) findViewById(R.id.list);
 
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -328,25 +353,52 @@ public class PhilipsdevicesActivity extends AppCompatActivity {
     }
 
     //get all
-    private class PhilipsLoginAsync extends AsyncTask<Void, Void, LightList> {
+    private class PhilipsLoginAsync extends AsyncTask<String, Void, LightList> {
         @Override
-        protected LightList doInBackground(Void... params) {
+        protected LightList doInBackground(String... params) {
+//            InputStream inputStream = null;
+//            HttpURLConnection urlConnection = null;
+//            StringBuilder reply = new StringBuilder();
+            LightList lightList = null;
+            List<LightList.QuickLightData> allLightData = new ArrayList<LightList.QuickLightData>();
+//
+//            try {
+//                System.out.println("ADD NEW THERMO ENDPOINT");
+//                /* forming th java.net.URL object */
+//                String register_endpoint = SERVER + "/getall";
+//                URL url = new URL(register_endpoint);
+//                urlConnection = (HttpURLConnection) url.openConnection();
+//              //  urlConnection.setDoOutput(true);
+//                urlConnection.setChunkedStreamingMode(0);
+//                urlConnection.setRequestMethod("GET");
             InputStream inputStream = null;
             HttpURLConnection urlConnection = null;
             StringBuilder reply = new StringBuilder();
-            LightList lightList = null;
-            List<LightList.QuickLightData> allLightData = new ArrayList<LightList.QuickLightData>();
-
+            ThermoList thermoList = null;
             try {
-                System.out.println("ADD NEW THERMO ENDPOINT");
+                System.out.println("GET ALL LIGHT ENDPOINT");
                 /* forming th java.net.URL object */
                 String register_endpoint = SERVER + "/getall";
                 URL url = new URL(register_endpoint);
                 urlConnection = (HttpURLConnection) url.openConnection();
-              //  urlConnection.setDoOutput(true);
+                urlConnection.setDoOutput(true);
                 urlConnection.setChunkedStreamingMode(0);
-                urlConnection.setRequestMethod("GET");
+                urlConnection.setRequestMethod("POST");
 
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("email", params[0]);
+                System.out.println("before post " + jsonParam.toString());
+
+                // Set request header
+                urlConnection.setRequestProperty("Accept-Charset", "UTF-8");
+                urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                urlConnection.setUseCaches(false);
+                // write body
+                OutputStream wr= urlConnection.getOutputStream();
+                wr.write(jsonParam.toString().getBytes("UTF-8"));
+                int statusCode = urlConnection.getResponseCode();
+                wr.close();
+                System.out.println("status code " + statusCode);
 
                 InputStream in = urlConnection.getInputStream();
                 int chr;
@@ -370,7 +422,7 @@ public class PhilipsdevicesActivity extends AppCompatActivity {
 
                     String color = convertHueToColor(light_hue);
                     //     convertHueToColor(light_hue);
-                    LightList.QuickLightData lightData = new LightList().new QuickLightData(light_name,light_status,color);
+                    LightList.QuickLightData lightData = new LightList.QuickLightData(light_name,light_status,color);
                     allLightData.add(lightData);
                     System.out.println("");
 
@@ -396,23 +448,47 @@ public class PhilipsdevicesActivity extends AppCompatActivity {
                 //result.getLightList();
                 loginList = result.getLightList();
                 loginReceivedList=result;
+                System.out.println("Inside light on post execute");
+                List<LightList.QuickLightData> unsortedList = new ArrayList<LightList.QuickLightData>();
                 for (int a = 0; a < loginList.size(); a++) {
-//               list.add("Hue Light " + i);
-                    list.add(loginList.get(a).getName());
-                    System.out.println(loginList.get(a).getName());
+                    LightList.QuickLightData light = new LightList.QuickLightData();
+                    light.setName(loginList.get(a).getName());
+                    light.setOn(loginList.get(a).getOn());
+                    light.setHue(loginList.get(a).getHue());
+                    unsortedList.add(light);
+//                    list.add(lightList.get(a).getName());
+//                    statelist.add(lightList.get(a).getOn());
+//                    colorlist.add(lightList.get(a).getHue());
+
+                }
+                Collections.sort(unsortedList, new Comparator<LightList.QuickLightData>() {
+                    @Override
+                    public int compare(LightList.QuickLightData lhs, LightList.QuickLightData rhs) {
+                        return lhs.getName().compareTo(rhs.getName());
+                    }
+                });
+
+                for (LightList.QuickLightData q : unsortedList){
+                    System.out.println("sort2?: " + q.getName());
+                    list.add(q.getName());
+                    statelist.add(q.getOn());
+                    colorlist.add(q.getHue());
                 }
 
-                for (int b = 0; b < loginList.size(); b++) {
 
-                    statelist.add(loginList.get(b).getOn());
-                    System.out.println(loginList.get(b).getOn());
-                }
 
-                for (int c = 0; c < loginList.size(); c++) {
 
-                    colorlist.add(loginList.get(c).getHue());
-                    System.out.println(loginList.get(c).getHue());
-                }
+//                for (int b = 0; b < loginList.size(); b++) {
+//
+//                    statelist.add(loginList.get(b).getOn());
+//                    System.out.println(loginList.get(b).getOn());
+//                }
+//
+//                for (int c = 0; c < loginList.size(); c++) {
+//
+//                    colorlist.add(loginList.get(c).getHue());
+//                    System.out.println(loginList.get(c).getHue());
+//                }
 
                 final PhilipsCustomAdapter adapter = new PhilipsCustomAdapter(PhilipsdevicesActivity.this, list,statelist,colorlist);
                 myList.setAdapter(adapter);

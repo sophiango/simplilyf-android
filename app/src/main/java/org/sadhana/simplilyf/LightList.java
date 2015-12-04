@@ -34,7 +34,7 @@ public class LightList implements Serializable {
         this.lightList = lightList;
     }
     
-    public class QuickLightData implements Serializable{
+    public static class QuickLightData implements Serializable{
         private String name;
         private String on;
         private String hue;

@@ -38,7 +38,9 @@ public class AddNewDevice extends AppCompatActivity {
         inputEmail = (EditText) findViewById(R.id.add_email);
         inputPW = (EditText) findViewById(R.id.input_password);
         vendorSelected = (Spinner) findViewById(R.id.spinner1);
-        userEmail = getIntent().getExtras().getString("userEmail");
+        if (getIntent().getExtras()!=null) {
+            userEmail = getIntent().getExtras().getString("userEmail");
+        }
         Button addNewBtn = (Button) findViewById(R.id.btnAdd);
         addNewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +150,7 @@ public class AddNewDevice extends AppCompatActivity {
             List<LightList.QuickLightData> allLightData = new ArrayList<LightList.QuickLightData>();
 
             try {
-                System.out.println("ADD NEW THERMO ENDPOINT");
+                System.out.println("ADD NEW LIGHT ENDPOINT");
                 /* forming th java.net.URL object */
                 String register_endpoint = SERVER + "/light/new";
                 URL url = new URL(register_endpoint);
@@ -196,9 +198,9 @@ public class AddNewDevice extends AppCompatActivity {
 
                  String color = convertHueToColor(light_hue);
                //     convertHueToColor(light_hue);
-                    QuickLightData lightData = new LightList().new QuickLightData(light_name,light_status,color);
+                    QuickLightData lightData = new LightList.QuickLightData(light_name,light_status,color);
                     allLightData.add(lightData);
-                    System.out.println("");
+                    System.out.println("light data: " + lightData);
 
                 }
                 System.out.println("length: " + allLightData.size());
@@ -249,6 +251,7 @@ public class AddNewDevice extends AppCompatActivity {
                 Toast.makeText(AddNewDevice.this, "Philips authorization successfully", Toast.LENGTH_LONG).show();
                 Intent i = new Intent(AddNewDevice.this, PhilipsdevicesActivity.class);
                 i.putExtra("lights", result);
+                System.out.println("on post light: " + result.getlightList().get(0).getName());
                 startActivity(i);
             }
         }

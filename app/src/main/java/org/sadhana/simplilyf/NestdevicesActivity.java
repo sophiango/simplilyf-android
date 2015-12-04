@@ -65,9 +65,14 @@ public class NestdevicesActivity extends AppCompatActivity {
             }
         }
         deviceList=(DeviceList)getIntent().getSerializableExtra("deviceObject");
-        if(deviceList!=null && deviceList.getThermos()!=null && deviceList.getThermos().size()>0){
-            new NestGetDetailsAsync().execute(); // GET /thermo/all
+//        System.out.println("user email"+ deviceList.getEmail());
+        if (deviceList!=null) {
+            new NestGetDetailsAsync().execute(deviceList.getEmail()); // GET /thermo/all
         }
+//        if(deviceList!=null && deviceList.getThermos()!=null && deviceList.getThermos().size()>0){
+//            System.out.println("user email"+ deviceList.getEmail());
+//            new NestGetDetailsAsync().execute(deviceList.getEmail()); // GET /thermo/all
+//        }
 
         myList = (ListView) findViewById(R.id.list);
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -237,21 +242,60 @@ public class NestdevicesActivity extends AppCompatActivity {
         }
     }
 
-    private class NestGetDetailsAsync extends AsyncTask<Void, Void, ThermoList> {
+    private class NestGetDetailsAsync extends AsyncTask<String, Void, ThermoList> {
         @Override
-        protected ThermoList doInBackground(Void... params) {
+        protected ThermoList doInBackground(String... params) {
+//            InputStream inputStream = null;
+//            HttpURLConnection urlConnection = null;
+//            StringBuilder reply = new StringBuilder();
+            List<NestData> allThermoData = new ArrayList<>();
+//            ThermoList thermoList = null;
+//            try {
+//                System.out.println("GET ALL NEST ENDPOINT");
+//                /* forming th java.net.URL object */
+//                String register_endpoint = SERVER + "/thermo/all";
+//                URL url = new URL(register_endpoint);
+//                urlConnection = (HttpURLConnection) url.openConnection();
+//                urlConnection.setDoOutput(true);
+//                urlConnection.setChunkedStreamingMode(0);
+//                urlConnection.setRequestMethod("POST");
+//                // Set request header
+//                urlConnection.setRequestProperty("Accept-Charset", "UTF-8");
+//                urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+//                urlConnection.setUseCaches(false);
+//                JSONObject jsonParam = new JSONObject();
+//                jsonParam.put("email", params[0]);
+//                System.out.println("before post " + jsonParam.toString());
             InputStream inputStream = null;
             HttpURLConnection urlConnection = null;
             StringBuilder reply = new StringBuilder();
-            List<NestData> allThermoData = new ArrayList<>();
             ThermoList thermoList = null;
             try {
-                System.out.println("GET ALL NEST ENDPOINT");
+                System.out.println("ADD NEW THERMO ENDPOINT");
                 /* forming th java.net.URL object */
                 String register_endpoint = SERVER + "/thermo/all";
                 URL url = new URL(register_endpoint);
                 urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
+                urlConnection.setDoOutput(true);
+                urlConnection.setChunkedStreamingMode(0);
+                urlConnection.setRequestMethod("POST");
+
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("email", params[0]);
+                System.out.println("before post " + jsonParam.toString());
+
+                // Set request header
+                urlConnection.setRequestProperty("Accept-Charset", "UTF-8");
+                urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                urlConnection.setUseCaches(false);
+                // write body
+                OutputStream wr= urlConnection.getOutputStream();
+                wr.write(jsonParam.toString().getBytes("UTF-8"));
+                int statusCode = urlConnection.getResponseCode();
+                wr.close();
+                System.out.println("status code " + statusCode);
+
+
                 InputStream in = urlConnection.getInputStream();
                 int chr;
                 while ((chr = in.read()) != -1) {
