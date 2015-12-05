@@ -447,13 +447,14 @@ public class VoicemoduleActivity extends Activity implements OnClickListener, On
                                         }
                                     }
                                 } else {
-                                    repeatTTS.speak("Change the temperature of " + confirm_room + " current temperature is " +/*add the current temperature*/"what temperature you want to set", TextToSpeech.QUEUE_FLUSH, myHash);
+                                    repeatTTS.speak("Change the temperature of " + confirm_room + " what temperature you want to set", TextToSpeech.QUEUE_FLUSH, myHash);
                                 }
                             }
                         }
                     }else if("no".equalsIgnoreCase(text_output)||"nope".equalsIgnoreCase(text_output)){
                         myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
-                        repeatTTS.speak("Ok,please tell us again which room to set the thermostat temperature",TextToSpeech.QUEUE_FLUSH,myHash);
+                        repeatTTS.speak("Ok,please tell us again which room", TextToSpeech.QUEUE_FLUSH, myHash);
+
                     }else{
                         myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "ask_room");
                         repeatTTS.speak("Sorry, did not get you.Please say again", TextToSpeech.QUEUE_FLUSH, myHash);
